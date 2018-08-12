@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import application from '../redux/application';
+
 import '../styles/index.scss';
 import 'wired-elements';
 
+const mapState = (state) => {
+  return {
+    application: state.application,
+  }
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    updatePage: (newPage) => dispatch(application.updatePage(newPage)),
+  };
+};
 
 class BaseComponent extends Component {
 
@@ -11,6 +26,7 @@ class BaseComponent extends Component {
    */
   navigateTo(page) {
     console.log('BaseComponent::', page)
+    this.props.updatePage(page);
     // TODO
   }
 
@@ -30,4 +46,4 @@ class BaseComponent extends Component {
   }
 }
 
-export default BaseComponent;
+export default connect(mapState, mapDispatch)(BaseComponent);
