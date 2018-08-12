@@ -2,22 +2,21 @@ import React from 'react';
 
 import BaseComponent from '../BaseComponent';
 import '../../styles/home.scss';
-
 class Home extends BaseComponent {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       name: '',
     }
   }
-  
+
   /**
    * Handles name change
    * @private
    * @param {Event} e 
    */
   _handleNameChange(e) {
-    this.setState({ name: e.target.value});
+    this.setState({ name: e.target.value });
   }
 
   render() {
@@ -27,21 +26,21 @@ class Home extends BaseComponent {
         <div className='navbar'>
           <h2>Labowlet</h2>
         </div>
-        <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name"/>
+        <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
 
-      <div className='button-group'>
-        <button
-          className={`generic-button create-btn ${buttonClass}`} 
-          onClick={() => this.navigateTo('CREATE')}
-        >
-          <p>Create</p>
-        </button>
-        <button 
-          className={`generic-button join-btn ${buttonClass}`}
-          onClick={() => this.navigateTo('JOIN')}
-        >
-          <p>Join</p>
-        </button>
+        <div className='button-group'>
+          <button
+            className={`generic-button create-btn ${buttonClass}`}
+            onClick={() => this.navigateTo('CREATE')}
+          >
+            <p>Create</p>
+          </button>
+          <button
+            className={`generic-button join-btn ${buttonClass}`}
+            onClick={() => this.navigateTo('JOIN')}
+          >
+            <p>Join</p>
+          </button>
         </div>
       </div>
     );
