@@ -3,8 +3,8 @@ import React from 'react';
 import BaseComponent from '../BaseComponent';
 import '../../styles/home.scss';
 class Home extends BaseComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import application from '../redux/application';
+import application from '../redux/application/actionDispatchers';
 
 import '../styles/index.scss';
 import 'wired-elements';
@@ -12,11 +12,9 @@ const mapState = (state) => {
   }
 };
 
-const mapDispatch = (dispatch) => {
-  return {
+const mapDispatch = (dispatch) => ({
     updatePage: (newPage) => dispatch(application.updatePage(newPage)),
-  };
-};
+});
 
 class BaseComponent extends Component {
 

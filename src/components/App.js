@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 import HomePage from './visual/Home';
+import BaseComponent from './BaseComponent';
 
-class App extends Component {
+class App extends BaseComponent {
 
   switchPages() {
-    
+
   }
   render() {
     return (

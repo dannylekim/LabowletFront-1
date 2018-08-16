@@ -1,4 +1,4 @@
-import * as actions from './actions';
+import actions from './actions';
 
 const updatePage = (newPage) => {
   return (dispatch) => dispatch(actions.updatePage(newPage));
