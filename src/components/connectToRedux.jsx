@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import allActions from '../redux/actionDispatchers';
+import store from '../redux/configureStore';
 
 /**
  * HoC that wraps Application actions + whatever actions you need.
@@ -34,7 +35,7 @@ export default function (ComposedComponent, connectObject) {
    * Iterate through passed actions and map the action to Component to be returned
    * @return Object with at LEAST the applicaiton actions
    */
-  const actionCreators = () => {
+  const mapActions = () => {
     return Object.assign(
       (connectObject.actions || []).reduce((acc, item) => acc[item] = allActions[item], {}),
       ...allActions.applicationActions
@@ -45,7 +46,7 @@ export default function (ComposedComponent, connectObject) {
     constructor(props) {
       super(props)
       const { dispatch } = props
-      this.boundActionCreators = bindActionCreators(actionCreators, dispatch)
+      this.boundActionCreators = bindActionCreators(mapActions(), dispatch)
     }
     render() {
       return (
@@ -56,12 +57,12 @@ export default function (ComposedComponent, connectObject) {
       )
     }
   }
-  
+
   ReduxContainer.propTypes = {
     dispatch: PropTypes.func
   }
   ReduxContainer.defaultProps = {
     dispatch: () => { }
   }
-  return connect(mapStatetoProps)(ReduxContainer)
+  return connect(mapStatetoProps)(ReduxContainer);
 }
