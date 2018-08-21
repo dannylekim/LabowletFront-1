@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import HomePage from './visual/Home';
-import BaseComponent from './BaseComponent';
+import connectToRedux from './connectToRedux';
 
-class App extends BaseComponent {
+class App extends PureComponent {
+
 
   switchPages() {
 
@@ -11,10 +12,16 @@ class App extends BaseComponent {
   render() {
     return (
       <div>
-        <HomePage />
+        <HomePage {...this.props}/>
       </div>
     );
   }
 }
 
-export default App;
+const connectObject = {
+  states: [],
+  actions: [],
+}
+
+
+export default connectToRedux(App, connectObject);

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-import BaseComponent from '../BaseComponent';
+import connectToRedux from '../connectToRedux';
 import '../../styles/home.scss';
-class Home extends BaseComponent {
+class Home extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,4 +47,9 @@ class Home extends BaseComponent {
   }
 }
 
-export default Home;
+const connectObject = {
+  states: [],
+  actions: [],
+}
+
+export default connectToRedux(Home, connectObject);
