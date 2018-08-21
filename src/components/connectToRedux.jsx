@@ -3,8 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import allActions from '../redux/actionDispatchers';
-import store from '../redux/configureStore';
+import actionDispatchers from '../redux/actionDispatchers';
 
 /**
  * HoC that wraps Application actions + whatever actions you need.
@@ -37,8 +36,8 @@ export default function (ComposedComponent, connectObject) {
    */
   const mapActions = () => {
     return Object.assign(
-      (connectObject.actions || []).reduce((acc, item) => acc[item] = allActions[item], {}),
-      ...allActions.applicationActions
+      (connectObject.actions || []).reduce((acc, item) => acc[item] = actionDispatchers[item], {}),
+      ...actionDispatchers.applicationActions
     )
   };
 
