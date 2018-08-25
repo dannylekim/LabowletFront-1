@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import HomePage from './visual/Home';
-import connectToRedux from './connectToRedux';
+import connectToRedux from './ReduxConnector';
 
 import '../styles/index.scss';
 

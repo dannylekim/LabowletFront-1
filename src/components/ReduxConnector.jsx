@@ -32,7 +32,7 @@ export default function (ComposedComponent, connectObject) {
 
   /**
    * Iterate through passed actions and map the action to Component to be returned
-   * @return Object with at LEAST the applicaiton actions
+   * @return Object with at LEAST the application actions
    */
   const mapActions = () => {
     return Object.assign(

@@ -2,7 +2,7 @@ import React from 'react';
 
 //NOT WORKING, DON'T USE. 
 // as of v0.7.2, wiredjs doesnt support customization
-const WiredSlider = (porps) => {
+const WiredSlider = (props) => {
   return (
     <wired-slider 
       knobradius="10"
