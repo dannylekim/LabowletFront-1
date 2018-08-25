@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 
 import connectToRedux from '../connectToRedux';
 import '../../styles/home.scss';
+
 class Home extends PureComponent {
   constructor(props) {
     super(props);
