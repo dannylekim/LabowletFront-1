@@ -1,14 +1,18 @@
-
-// import chai from 'chai'
-// import chaiEnzyme from 'chai-enzyme'
-import Enzyme from 'enzyme';
+import enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import { JSDOM } from 'jsdom';
 
-process.env.BABEL_ENV = 'test';
-process.env.NODE_ENV = 'test';
-process.env.PUBLIC_URL = '';
+const dom = new JSDOM('<!doctype html><html><body></body></html>');
 
+global.document = dom.window.document;
+global.window = dom.window;
 
-Enzyme.configure({ adapter: new Adapter() });
+// Object.keys(window).forEach((key) => {
+//   if (!(key in global)) {
+//     global[key] = window[key];
+//   }
+// });
+
+enzyme.configure({ adapter: new Adapter() });
 
 //chai.use(chaiEnzyme()); // Note the invocation at the end
