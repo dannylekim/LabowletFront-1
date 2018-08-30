@@ -22,26 +22,29 @@ class Home extends PureComponent {
 
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
+    console.log(this.props)
+
     return (
       <div className="page home">
         <div className='navbar'>
           <h2>Labowlet</h2>
         </div>
-        <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
-
-        <div className='button-group'>
-          <button
-            className={`generic-button create-btn ${buttonClass}`}
-            onClick={() => this.navigateTo('CREATE')}
-          >
-            <p>Create</p>
-          </button>
-          <button
-            className={`generic-button join-btn ${buttonClass}`}
-            onClick={() => this.navigateTo('JOIN')}
-          >
-            <p>Join</p>
-          </button>
+        <div className="page-container">
+          <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
+          <div className='button-group'>
+            <button
+              className={`generic-button create-btn ${buttonClass}`}
+              onClick={() => this.props.updatePage('CREATE')}
+            >
+              <p>Create</p>
+            </button>
+            <button
+              className={`generic-button join-btn ${buttonClass}`}
+              onClick={() => this.props.updatePage('JOIN')}
+            >
+              <p>Join</p>
+            </button>
+          </div>
         </div>
       </div>
     );
