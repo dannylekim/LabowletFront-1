@@ -22,12 +22,9 @@ export default function (ComposedComponent, connectObject) {
     return (connectObject.states || []).reduce((acc, item) => {
       acc[item] = state[item];
       return acc;
-    },
-      {
-        //Default all components have to extend this
-        'application': state['application'],
-      }
-    );
+    },{
+        'application': state['application'],// Default all components have to extend this
+      });
   };
 
   /**
@@ -35,10 +32,10 @@ export default function (ComposedComponent, connectObject) {
    * @return Object with at LEAST the application actions
    */
   const mapActions = () => {
-    return Object.assign(
-      (connectObject.actions || []).reduce((acc, item) => acc[item] = actionDispatchers[item], {}),
-      ...actionDispatchers.applicationActions
-    )
+    return Object.assign((connectObject.actions || []).reduce((acc, item) => 
+      acc[item] = actionDispatchers[item], {}),
+      actionDispatchers.applicationActions,
+    );
   };
 
   class ReduxContainer extends React.PureComponent {
