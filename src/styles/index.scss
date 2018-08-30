@@ -10,7 +10,7 @@ body {
 }
 
 .navbar {
-  position: fixed;
+  position: relative;
   width: 100%;
   background-color: $background-color-primary;
   text-align: center;
@@ -18,6 +18,13 @@ body {
   h2 {
     font-family: "Showcard Gothic";
   }
+}
+
+.page-container {
+  padding: 20px 10px;
+  height: 90vh;
+  background-color: red;
+  position: relative;
 }
 
 .page {
