@@ -20,6 +20,7 @@ class CreatePage extends PureComponent {
     super();
     this.state = {
       name: '',
+      numberOfWords: 3,
     }
   }
 
@@ -27,8 +28,8 @@ class CreatePage extends PureComponent {
     console.log(e);
   }
 
-  handleNumberWords(value) {
-    console.log(value);
+  handleNumberWords(numberOfWords) {
+    this.setState({ numberOfWords });
   }
 
   handleTime(value) {
@@ -72,7 +73,7 @@ class CreatePage extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: [],
+  actions: ['updateSetting'],
 }
 
 export default ReduxConnector(CreatePage, connectObject);

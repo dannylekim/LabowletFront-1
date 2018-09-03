@@ -22,8 +22,6 @@ class Home extends PureComponent {
 
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
-    console.log(this.props)
-
     return (
       <div className="page home">
         <div className='navbar'>
