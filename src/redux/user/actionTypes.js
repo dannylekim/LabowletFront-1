@@ -1,0 +1,7 @@
+const actionTypes = {
+  UPDATE_USER_NAME: 'UPDATE_USER_NAME',
+  UPDATE_USER_TEAM: 'UPDATE_USER_TEAM',
+  UPDATE_USER_WORDS: 'UPDATE_USER_WORDS',
+}
+
+export default actionTypes;
