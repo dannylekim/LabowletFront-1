@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 import actionDispatchers from '../redux/actionDispatchers';
 
 /**
- * HoC that wraps Application actions + whatever actions you need.
+ * HoC that wraps Component with any redux state and actions you need.
+ * This will save effort of adding redux to a selected components.
  * @param {ReactNode} ComposedComponent 
  * @param {Object} connectObject
  * @param {Object} connectObject.states - Array of states to map
@@ -32,12 +33,10 @@ export default function (ComposedComponent, connectObject) {
    * @return Object with at LEAST the application actions
    */
   const mapActions = () => {
-    console.log(connectObject);
-    console.log(connectObject.actions);
     return (connectObject.actions || []).reduce((acc, item) => {
       acc[item] = actionDispatchers[item]
       return acc;
-    }, actionDispatchers.applicationActions );
+    }, { updatePage: actionDispatchers.updatePage } );
   };
 
   class ReduxContainer extends React.PureComponent {
