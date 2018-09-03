@@ -32,10 +32,12 @@ export default function (ComposedComponent, connectObject) {
    * @return Object with at LEAST the application actions
    */
   const mapActions = () => {
-    return Object.assign((connectObject.actions || []).reduce((acc, item) => 
-      acc[item] = actionDispatchers[item], {}),
-      actionDispatchers.applicationActions,
-    );
+    console.log(connectObject);
+    console.log(connectObject.actions);
+    return (connectObject.actions || []).reduce((acc, item) => {
+      acc[item] = actionDispatchers[item]
+      return acc;
+    }, actionDispatchers.applicationActions );
   };
 
   class ReduxContainer extends React.PureComponent {
