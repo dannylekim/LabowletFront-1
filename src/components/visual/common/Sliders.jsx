@@ -23,10 +23,10 @@ const dotStyle = {
 const Sliders = (props) => {
   return (
     <Slider
-      min={2}
-      max={6}
-      defaultValue={3}
-      marks={1}
+      min={props.min}
+      max={props.max}
+      defaultValue={props.default}
+      // marks={1}
       dots
       onChange={(e) => props.handleChange(e)}
       handleStyle={handleStyle}
