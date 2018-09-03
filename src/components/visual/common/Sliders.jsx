@@ -10,7 +10,7 @@ const handleStyle = {
 const trackStyle = {
   backgroundColor: '#000000',
   border: '#000000',
-  transition: 'all 300ms cubic-bezier(0.42, -0.33, 0.5, 1.33) 0s',
+  transition: 'all 300ms cubic-bezier(0.42, -0.33, 0.63, 0.68) 0s',
 }
 
 const dotStyle = {
