@@ -4,40 +4,70 @@ import ReduxConnector from '../ReduxConnector';
 
 import Slider from './common/Sliders';
 import Switch from 'rc-switch';
+import InputNumber from 'rc-input-number';
+import Checkbox from 'rc-checkbox';
+import InputButton from './common/InputButton';
 
+import 'rc-input-number/assets/index.css';
 import 'rc-switch/assets/index.css';
+import 'rc-checkbox/assets/index.css';
 
 import '../../styles/create.scss';
 
 const RoundType = [
-  { round: 1, name: 'Round 1' },
-  { round: 2, name: 'Round 2' },
-  { round: 3, name: 'Round 3' },
+  { round: 1, name: 'DESCRIBE IT', value: false },
+  { round: 2, name: 'ONE WORD DESCRIPTION', value: false },
+  { round: 3, name: 'ACT IT OUT', value: false },
+  { round: 4, name: 'SOUND IT OUT', value: false },
 ]
 
 class CreatePage extends PureComponent {
   constructor() {
     super();
     this.state = {
-      name: '',
-      numberOfWords: 3,
+      numberOfWords: 2,
+      numberOfTeams: 2,
+      timeOfGame: 30,
+      skippable: false,
+      rounds: RoundType,
     }
   }
 
   _handleSubmit(e) {
-    console.log(e);
+    e.preventDefault();
+    console.log(this.state);
+    //this.props.updateSetting();
+  }
+  
+  handleNumberOfTeam(numberOfTeams) {
+    this.setState({ numberOfTeams });
   }
 
-  handleNumberWords(numberOfWords) {
+  handleNumberOfWords(numberOfWords) {
     this.setState({ numberOfWords });
   }
 
-  handleTime(value) {
-    console.log(value)
+  handleSkippable(skippable) {
+    this.setState({ skippable });
+  }
+
+  handleTime(timeOfGame) {
+    this.setState({ timeOfGame });
+  }
+
+  handleRoundToggle(e, index) {
+    const rounds = [...this.state.rounds];
+    rounds[index - 1].value = e.target.checked;
+    this.setState({ rounds });
+    console.log(this.state.rounds);
   }
 
   render() {
-    const renderRoundList = RoundType.map((value) => (<li><span>{value.name}</span> <input type="checkbox" name={`round${value.round}`} /></li>))
+    const renderRoundList = [...this.state.rounds].map((value) => {
+      return (<li>
+        <span>{value.name}</span> <Checkbox key={`round${value.round}`} className="round-checkbox" onChange={(e) => this.handleRoundToggle(e, value.round)} name={`round${value.round}`} checked={value.value}/>
+      </li>)
+    });
     return (
       <div className="page create">
         <div className='navbar'>
@@ -46,25 +76,60 @@ class CreatePage extends PureComponent {
         </div>
 
         <div className='page-container'>
+          <div className='card'>
           <form onSubmit={(e) => this._handleSubmit(e)}>
-            <h3>Max number of words</h3>
-            <Slider handleChange={(value) => this.handleNumberWords(value)} />
-            <h3>Time limit</h3>
-            <Slider handleChange={(value) => this.handleNumberWords(value)} />
+            <span><h3>Max Teams </h3><h2>{this.state.numberOfTeams}</h2></span>
+            <Slider
+              handleChange={(value) => this.handleNumberOfTeam(value)} 
+              min={2}
+              max={6}
+              default={2}
+              name="numberOfTeams"
+            />
+            <h3>Max number of words {this.state.numberOfWords}</h3>
+            <Slider
+              handleChange={(value) => this.handleNumberOfWords(value)}
+              min={1}
+              max={5}
+              default={2}
+              name="numberOfWords"
+            />
+            <h3>Max time per round</h3>
+            <InputNumber
+              min={10}
+              step={10}
+              max={200}
+              style={{
+                width:100,
+              }}
+              required
+              // placeholder='wtf'
+              // downHandler={{
+              //   left: '0'
+              // }}
+            />
             <hr />
+            <span style={{ textAlign: 'center'}}>
+              <h3>Allow skip:</h3>
+              <Switch
+                className='can-skip-switch'
+                onChange={(e) => this.handleSkippable(e)}
+                defaultChecked={false}
+              />
+            </span>
             <div className="create-select-rounds">
-              <span><h3>Allow skip:</h3><Switch className='can-skip-switch' /></span>
-              <ul>
+              <ol>
                 {renderRoundList}
-              </ul>
+              </ol>
             </div>
-            <button
-              className='generic-button'
+            {this.state.timeOfGame ? <button
+              className={`generic-button`}
               type='submit'
             >
-              Create
-            </button>
+              <p>Create</p>
+            </button> : ''}
           </form>
+          </div>
         </div>
       </div>
     );
