@@ -5,7 +5,7 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_USER_NAME:
       return Object.assign({}, state, {
-        name: action.user,
+        name: action.name,
       });
     case actionTypes.UPDATE_USER_TEAM:
       return Object.assign({}, state, {
