@@ -1,14 +1,17 @@
 import actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
+import RoomRequests from '../../services/RoomHTTPRequests';
 
 const updateSetting = (newSetting) => {
   return (dispatch, getState) => {
-    const data = {
-      name: getState().user.user.name,
-    }
-    console.log(getState().user)
-    UserRequests.createUser().then((response) => {
+    const body = {
+      name: getState().user.name,
+    };
+
+    UserRequests.createUser(body).then((response) => {
       dispatch(actions.updateSetting(newSetting));
+      //TODO
+      //RoomRequests.createRoom()
     }).catch((err) => {
       console.error('Error in redux:', err);
     });
