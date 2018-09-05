@@ -20,6 +20,16 @@ class Home extends PureComponent {
     this.setState({ name: e.target.value });
   }
 
+  /**
+   * Function is called when user enter's name and navigates to either Create or Join page.
+   * This will trigger redux function updateUserName and UpdatePage.
+   * @param {String} page 
+   */
+  navigatePage(page) {
+    this.props.updateUserName(this.state.name);
+    this.props.updatePage(page);
+  }
+
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
     return (
@@ -32,13 +42,13 @@ class Home extends PureComponent {
           <div className='button-group'>
             <button
               className={`generic-button create-btn ${buttonClass}`}
-              onClick={() => this.props.updatePage('CREATE')}
+              onClick={() => this.navigatePage('CREATE')}
             >
               <p>Create</p>
             </button>
             <button
               className={`generic-button join-btn ${buttonClass}`}
-              onClick={() => this.props.updatePage('JOIN')}
+              onClick={() => this.navigatePage('JOIN')}
             >
               <p>Join</p>
             </button>
@@ -51,7 +61,7 @@ class Home extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: [],
+  actions: ['updateUserName'],
 }
 
 export default connectToRedux(Home, connectObject);
