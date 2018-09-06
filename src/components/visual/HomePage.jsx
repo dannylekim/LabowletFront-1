@@ -20,6 +20,20 @@ class Home extends PureComponent {
     this.setState({ name: e.target.value });
   }
 
+  /**
+   * Function is called when user enter's name and navigates to either Create or Join page.
+   * This will trigger redux function updateUserName and UpdatePage.
+   * @param {String} page 
+   */
+  navigatePage(page) {
+    try {
+      this.props.updateUserName(this.state.name);
+      this.props.updatePage(page);
+    } catch (err) {
+      alert('Something went wrong..', err)
+    }
+  }
+
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
     return (
@@ -27,21 +41,22 @@ class Home extends PureComponent {
         <div className='navbar'>
           <h2>Labowlet</h2>
         </div>
-        <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
-
-        <div className='button-group'>
-          <button
-            className={`generic-button create-btn ${buttonClass}`}
-            onClick={() => this.navigateTo('CREATE')}
-          >
-            <p>Create</p>
-          </button>
-          <button
-            className={`generic-button join-btn ${buttonClass}`}
-            onClick={() => this.navigateTo('JOIN')}
-          >
-            <p>Join</p>
-          </button>
+        <div className="page-container">
+          <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
+          <div className='button-group'>
+            <button
+              className={`generic-button create-btn ${buttonClass}`}
+              onClick={() => this.navigatePage('CREATE')}
+            >
+              <p>Create</p>
+            </button>
+            <button
+              className={`generic-button join-btn ${buttonClass}`}
+              onClick={() => this.navigatePage('JOIN')}
+            >
+              <p>Join</p>
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -50,7 +65,7 @@ class Home extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: [],
+  actions: ['updateUserName'],
 }
 
 export default connectToRedux(Home, connectObject);

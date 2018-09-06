@@ -1,4 +1,4 @@
-$background-color-primary: rgb(150, 180, 16);
+@import './variables.scss';
 
 p, h1, h2, h3, h4, b {
   font-family: "Showcard Gothic";
@@ -13,16 +13,36 @@ body {
   position: fixed;
   width: 100%;
   background-color: $background-color-primary;
-  text-align: center;
-  padding: 20px 0px;
+  padding: 5px 0px;
+  z-index: 1;
+  // box-shadow: 7px 7px 0px 11px;
+  height: 10vh;
+  .back-button {
+    position: absolute;
+    text-align: justify;
+    color: $font-color-bright;
+  }
   h2 {
+    text-align: center;
     font-family: "Showcard Gothic";
+    color: $font-color-bright;
   }
 }
 
-.page {
-  height: 100%;
-  width: 100%;
+.page-container {
+  padding: 20px 30px;
+  padding-top: 10vh;
+  height: 90vh;
+  background-color: $background-color-third;
+  position: relative;
+  line-height: 20px;
+}
+
+.card {
+  color: $background-color-primary;
+  // background-color: $background-color-third;
+  margin: 10px;
+
 }
 
 .generic-button {
@@ -30,5 +50,6 @@ body {
   margin: 10px;
   font-size: 18px;
   width: 90%;
-  box-shadow: 2px 0px 11px 0px
+  box-shadow: $subtle-shadow;
+  background-color: $font-color-bright;
 }

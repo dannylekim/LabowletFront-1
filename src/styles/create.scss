@@ -1,0 +1,30 @@
+@import './variables.scss';
+
+.create {
+  text-align: center;
+  font-family: "Showcard Gothic";
+
+  input {
+    // width: 90vw;
+    font-size: 29px;
+    line-height: 20px;
+  }
+
+  .rc-switch-checked {
+    border: 1px solid $background-color-primary;
+    background-color: $background-color-primary;
+  }
+
+  .create-select-rounds {
+    text-align: right;
+
+    li {
+      margin: 10px 5px;
+      
+      .round-checkbox {
+        margin: 0px 10px;
+        right: 0px;
+      }
+    }
+  }
+}
