@@ -62,8 +62,8 @@ class CreatePage extends PureComponent {
 
   render() {
     const renderRoundList = [...this.state.rounds].map((value) => {
-      return (<li>
-        <span>{value.name}</span> <Checkbox key={`round${value.round}`} className="round-checkbox" onChange={(e) => this.handleRoundToggle(e, value.round)} name={`round${value.round}`} checked={value.value}/>
+      return (<li key={`round${value.round}`}>
+        <span>{value.name}</span> <Checkbox  className="round-checkbox" onChange={(e) => this.handleRoundToggle(e, value.round)} name={`round${value.round}`} checked={value.value}/>
       </li>)
     });
     return (
