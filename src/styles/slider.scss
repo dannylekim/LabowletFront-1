@@ -1,0 +1,18 @@
+@import './variables.scss';
+
+.rc-slider-handle {
+  background-color: $background-color-primary;
+  border: $background-color-primary;
+}
+
+.rc-slider-track {
+  background-color: $background-color-primary;
+}
+
+.rc-slider-dot {
+  background-color: $background-color-primary;
+}
+
+.rc-slider-rail {
+  background-color: $font-color-bright;
+}
