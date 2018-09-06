@@ -35,6 +35,6 @@ class App extends PureComponent {
 const connectObject = {
   states: [],
   actions: [],
-}
+} 
 
 export default ReduxConnector(App, connectObject);
