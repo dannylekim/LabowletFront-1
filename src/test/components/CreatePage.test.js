@@ -7,6 +7,7 @@ import configureStore from 'redux-mock-store';
 // import React from 'react';
 import { mount, render, shallow} from 'enzyme';
 import connectToRedux from '../../components/ReduxConnector';
+import CreatePage from '../../components/visual/CreatePage';
 
 const mockStore = configureStore();
 
@@ -14,16 +15,11 @@ const myReducers = require('../../redux/rootReducer');
 
 require('../testSetup.js');
 
-const TempComponent = () => {
-  return (
-    <div>This is temp component</div>
-  );
-};
 
-describe('HOC::connectToRedux', () => {
+describe('CreatePage', () => {
   describe('Structure', () => {
-    it('should be a function', () => {
-      expect(connectToRedux).to.be.an('function');
+    it('should be a class', () => {
+      expect(connectToRedux).to.be.an('class');
     })
   })
 
@@ -31,9 +27,7 @@ describe('HOC::connectToRedux', () => {
     let component;
 
     beforeAll(() => {
-      const ConnectedComponent = connectToRedux(TempComponent, { states: [] , actions: [] });
-      console.log(myReducers);
-      const wrapper = shallow(<ConnectedComponent store={mockStore({})} />)
+      const wrapper = shallow(<CreatePage store={mockStore({})} />)
       component = wrapper.dive();
     })
 
