@@ -7,6 +7,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         settings: action.newSetting,
       });
+    case actionTypes.UPDATE_ROOM_CODE:
+      return Object.assign({}, state, {
+        code: action.code,
+      });
     default:
       return state;
   }

@@ -7,4 +7,14 @@ const updateSetting = (newSetting) => {
   }
 }
 
-export default { updateSetting };
+const updateCode = (code) => {
+  return {
+    type: actionTypes.UPDATE_ROOM_CODE,
+    code,
+  }
+}
+
+export default { 
+  updateSetting,
+  updateCode,
+};
