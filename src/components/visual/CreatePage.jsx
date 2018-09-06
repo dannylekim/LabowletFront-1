@@ -6,7 +6,6 @@ import Slider from './common/Sliders';
 import Switch from 'rc-switch';
 import InputNumber from 'rc-input-number';
 import Checkbox from 'rc-checkbox';
-import InputButton from './common/InputButton';
 
 import 'rc-input-number/assets/index.css';
 import 'rc-switch/assets/index.css';
@@ -15,44 +14,43 @@ import 'rc-checkbox/assets/index.css';
 import '../../styles/create.scss';
 
 const RoundType = [
-  { round: 1, name: 'DESCRIBE IT', value: false },
-  { round: 2, name: 'ONE WORD DESCRIPTION', value: false },
-  { round: 3, name: 'ACT IT OUT', value: false },
-  { round: 4, name: 'SOUND IT OUT', value: false },
+  { round: 1, name: 'DESCRIBE IT', code: 'DESCRIBE_IT', value: false },
+  { round: 2, name: 'ONE WORD DESCRIPTION', code: 'ONE_WORD_DESCRIPTION', value: false },
+  { round: 3, name: 'ACT IT OUT', code: 'ACT_IT_OUT', value: false },
+  { round: 4, name: 'SOUND IT OUT', code: 'SOUND_IT_OUT', value: false },
 ]
 
 class CreatePage extends PureComponent {
   constructor() {
     super();
     this.state = {
-      numberOfWords: 2,
-      numberOfTeams: 2,
-      timeOfGame: 30,
-      skippable: false,
+      wordsPerPerson: 2,
+      maxTeams: 2,
+      roundTimeInSeconds: 30,
+      allowSkips: false,
       rounds: RoundType,
     }
   }
 
   _handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-    //this.props.updateSetting();
+    this.props.updateSetting(this.state);
   }
   
-  handleNumberOfTeam(numberOfTeams) {
-    this.setState({ numberOfTeams });
+  handleNumberOfTeam(maxTeams) {
+    this.setState({ maxTeams });
   }
 
-  handleNumberOfWords(numberOfWords) {
-    this.setState({ numberOfWords });
+  handleNumberOfWords(wordsPerPerson) {
+    this.setState({ wordsPerPerson });
   }
 
-  handleSkippable(skippable) {
-    this.setState({ skippable });
+  handleSkippable(allowSkips) {
+    this.setState({ allowSkips });
   }
 
-  handleTime(timeOfGame) {
-    this.setState({ timeOfGame });
+  handleTime(roundTimeInSeconds) {
+    this.setState({ roundTimeInSeconds });
   }
 
   handleRoundToggle(e, index) {
@@ -78,21 +76,21 @@ class CreatePage extends PureComponent {
         <div className='page-container'>
           <div className='card'>
           <form onSubmit={(e) => this._handleSubmit(e)}>
-            <span><h3>Max Teams </h3><h2>{this.state.numberOfTeams}</h2></span>
+            <span><h3>Max Teams </h3><h2>{this.state.maxTeams}</h2></span>
             <Slider
               handleChange={(value) => this.handleNumberOfTeam(value)} 
               min={2}
               max={6}
               default={2}
-              name="numberOfTeams"
+              name="maxTeams"
             />
-            <h3>Max number of words {this.state.numberOfWords}</h3>
+            <h3>Max number of words {this.state.wordsPerPerson}</h3>
             <Slider
               handleChange={(value) => this.handleNumberOfWords(value)}
               min={1}
               max={5}
               default={2}
-              name="numberOfWords"
+              name="wordsPerPerson"
             />
             <h3>Max time per round</h3>
             <InputNumber
@@ -122,12 +120,12 @@ class CreatePage extends PureComponent {
                 {renderRoundList}
               </ol>
             </div>
-            {this.state.timeOfGame ? <button
+            <button
               className={`generic-button`}
               type='submit'
             >
               <p>Create</p>
-            </button> : ''}
+            </button>
           </form>
           </div>
         </div>

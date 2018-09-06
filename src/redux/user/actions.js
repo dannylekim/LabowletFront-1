@@ -7,6 +7,13 @@ const updateUserName = (name) => {
   }
 }
 
+const updateUserId = (id) => {
+  return {
+    type: actionTypes.UPDATE_USER_ID,
+    id,
+  }
+}
+
 const updateUserTeam = (team) => {
   return {
     type: actionTypes.UPDATE_USER_TEAM,
@@ -23,6 +30,7 @@ const updateUserWords = (words) => {
 
 export default {
   updateUserName,
+  updateUserId,
   updateUserTeam,
   updateUserWords,
 };

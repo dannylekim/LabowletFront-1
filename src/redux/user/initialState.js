@@ -1,5 +1,6 @@
 const state = {
   name: '',
+  id: '',
   team: '',
   words: [],
 }
