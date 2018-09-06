@@ -101,10 +101,6 @@ class CreatePage extends PureComponent {
                 width:100,
               }}
               required
-              // placeholder='wtf'
-              // downHandler={{
-              //   left: '0'
-              // }}
             />
             <hr />
             <span style={{ textAlign: 'center'}}>

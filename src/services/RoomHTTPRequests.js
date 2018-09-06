@@ -14,7 +14,7 @@ async function createRoom(roomSetting, userTokenId) {
       },
       data: querystring.stringify(roomSetting),
     });
-    if (response.status > 200) {
+    if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
     }
 

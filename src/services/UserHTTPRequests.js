@@ -14,7 +14,7 @@ async function createUser(user) {
       data: querystring.stringify(user),
     });
 
-    if (response.status > 200) {
+    if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new User:`, response.statusText);
     }
 

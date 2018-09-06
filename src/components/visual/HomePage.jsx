@@ -26,8 +26,12 @@ class Home extends PureComponent {
    * @param {String} page 
    */
   navigatePage(page) {
-    this.props.updateUserName(this.state.name);
-    this.props.updatePage(page);
+    try {
+      this.props.updateUserName(this.state.name);
+      this.props.updatePage(page);
+    } catch (err) {
+      alert('Something went wrong..', err)
+    }
   }
 
   render() {
