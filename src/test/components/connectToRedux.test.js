@@ -5,12 +5,10 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 
 // import React from 'react';
-import { mount, render, shallow} from 'enzyme';
+import { mount, shallow} from 'enzyme';
 import connectToRedux from '../../components/ReduxConnector';
 
 const mockStore = configureStore();
-
-const myReducers = require('../../redux/rootReducer');
 
 require('../testSetup.js');
 
@@ -32,15 +30,13 @@ describe('HOC::connectToRedux', () => {
 
     beforeAll(() => {
       const ConnectedComponent = connectToRedux(TempComponent, { states: [] , actions: [] });
-      console.log(myReducers);
       const wrapper = shallow(<ConnectedComponent store={mockStore({})} />)
-      component = wrapper.dive();
+      component = wrapper.dive().instance();
     })
 
     it('should return object' , () => {
-      console.log(component.props().store.getState());
-      // const connectObject = connectToRedux(TempComponent, { states: [] , actions: [] });
-      expect(component.props().store.getState().application).to.be.an('object');
+      expect(component.props.store.getState()).to.be.an('object');
     }) 
   });
+
 });
