@@ -1,13 +1,20 @@
 import React, { PureComponent } from 'react';
 
 import connectToRedux from '../ReduxConnector';
+import Modal from 'rmc-dialog';
+
+
 import '../../styles/home.scss';
+import 'rmc-dialog/assets/index.css';
+
+
+
 
 class Home extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      joinModalIsVisible: false,
     }
   }
 
@@ -25,12 +32,22 @@ class Home extends PureComponent {
    * This will trigger redux function updateUserName and UpdatePage.
    * @param {String} page 
    */
-  navigatePage(page) {
+  handleCreateClick() {
     try {
       this.props.updateUserName(this.state.name);
-      this.props.updatePage(page);
+      this.props.updatePage('CREATE');
     } catch (err) {
       alert('Something went wrong..', err)
+    }
+  }
+
+  handleJoinClick() {
+    this.setState({ joinModalIsVisible : true })
+  }
+
+  _handleJoin(e) {
+    if (e.target.value.length === 4) {
+      console.log(e.target.value.length);
     }
   }
 
@@ -46,18 +63,43 @@ class Home extends PureComponent {
           <div className='button-group'>
             <button
               className={`generic-button create-btn ${buttonClass}`}
-              onClick={() => this.navigatePage('CREATE')}
+              onClick={() => this.handleCreateClick()}
             >
               <p>Create</p>
             </button>
             <button
               className={`generic-button join-btn ${buttonClass}`}
-              onClick={() => this.navigatePage('JOIN')}
+              onClick={() => this.handleJoinClick()}
             >
               <p>Join</p>
             </button>
           </div>
         </div>
+        <Modal
+          title='Enter Room Code'
+          style={{              
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: '30vh',
+          }}
+          visible={this.state.joinModalIsVisible}
+          animation="zoom"
+          maskAnimation="fade"
+          maskClosable={true}
+          onClose={() => {
+            this.setState({
+              joinModalIsVisible: false,
+            });
+          }}
+        >
+          <input 
+            className="code-input"
+            onChange={(e) => this._handleJoin(e)}
+            placeholder="Enter your name"
+            maxLength="4"
+          />
+        </Modal>
       </div>
     );
   }
