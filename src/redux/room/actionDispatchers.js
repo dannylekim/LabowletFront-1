@@ -11,7 +11,7 @@ import UserActions from '../user/actionDispatchers';
  * The user is created here in order to have a default user prior to room creation
  * @param {Object} newSetting
  */
-const updateSetting = (newSetting) => {
+const createRoom = (newSetting) => {
   return (dispatch, getState) => {
     const body = {
       name: getState().user.name,
@@ -23,8 +23,13 @@ const updateSetting = (newSetting) => {
       dispatch(UserActions.updateUserId(response.data.id))
       dispatch(actions.updateSetting(formattedSettings));
       
-      RoomRequests.createRoom(formattedSettings, authToken).then((roomResponse) => {
-        dispatch(actions.updateCode(roomResponse.data.roomCode));
+      RoomRequests.createRoom(getState().room.settings, authToken).then((roomResponse) => {
+        console.log(roomResponse)
+        if(roomResponse) {
+          dispatch(actions.updateCode(roomResponse.data.roomCode));
+        } else {
+          alert('Something went wrong...')
+        }
       }).catch((err) => {
         console.error('Error while creating room in redux:', err)
       })
@@ -34,6 +39,27 @@ const updateSetting = (newSetting) => {
   };
 }
 
+const joinRoom = (roomCode) => {
+  return (dispatch, getState) => {
+    const body = {
+      name: getState().user.name,
+    };
+    UserRequests.createUser(body).then((response) => {
+      dispatch(UserActions.updateUserId(response.data.id));
+      const authToken = response.headers['x-auth-token'];
+
+      RoomRequests.joinRoom({ roomCode }, authToken).then((roomResponse) => {
+        dispatch(actions.updateCode(roomResponse.data.roomCode));
+      }).catch((err) => {
+        console.error('Error while joining room in redux:', err)
+      })
+    }).catch((err) => {
+      console.error('Error while creating user in redux:', err);
+    });
+  }
+}
+
 export default {
-  updateSetting,
+  createRoom,
+  joinRoom,
 };

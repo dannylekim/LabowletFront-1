@@ -34,7 +34,7 @@ class CreatePage extends PureComponent {
 
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.updateSetting(this.state);
+    this.props.createRoom(this.state);
   }
   
   handleNumberOfTeam(maxTeams) {
@@ -132,7 +132,7 @@ class CreatePage extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: ['updateSetting'],
+  actions: ['createRoom'],
 }
 
 export default ReduxConnector(CreatePage, connectObject);
