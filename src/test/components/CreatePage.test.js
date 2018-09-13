@@ -33,8 +33,8 @@ describe('CreatePage', () => {
       instance = component.instance();
     })
 
-    it('should have updateSetting function' , () => {
-      expect(instance.props.updateSetting).to.be.an('function');
+    it('should have createRoom function' , () => {
+      expect(instance.props.createRoom).to.be.an('function');
     }) 
   });
 
