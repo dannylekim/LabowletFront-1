@@ -7,7 +7,7 @@ async function createUser(user) {
   try {
     const response = await axios({
       method: 'POST',
-      url: `${REST_URL}/player`,
+      url: `${REST_URL}/players`,
       headers: { 
         'Access-Control-Allow-Origin': '*',
       },

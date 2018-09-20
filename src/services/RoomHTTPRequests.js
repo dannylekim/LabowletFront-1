@@ -12,7 +12,7 @@ async function createRoom(roomSetting, TokenId) {
   try {
     const response = await axios({
       method: 'POST',
-      url: `${REST_URL}/room`,
+      url: `${REST_URL}/rooms`,
       headers: { 
         'Access-Control-Allow-Origin': '*',
         'X-Auth-Token': TokenId,
@@ -41,7 +41,7 @@ async function JoinRoom(accessCode) {
       headers: { 
         'Access-Control-Allow-Origin': '*',
       },
-      params: querystring.stringify(accessCode),
+      data: querystring.stringify(accessCode),
     });
     if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
