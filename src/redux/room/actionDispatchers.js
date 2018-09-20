@@ -4,7 +4,7 @@ import RoomRequests from '../../services/RoomHTTPRequests';
 
 import Adapters from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
-
+import ApplicationActions from '../application/actionDispatchers';
 
 /**
  * Creates a user and a room with settings passed in params.
@@ -24,9 +24,10 @@ const createRoom = (newSetting) => {
       dispatch(actions.updateSetting(formattedSettings));
       
       RoomRequests.createRoom(getState().room.settings, authToken).then((roomResponse) => {
-        console.log(roomResponse)
-        if(roomResponse) {
+        console.log(roomResponse.data)
+        if(roomResponse.status === 200) {
           dispatch(actions.updateCode(roomResponse.data.roomCode));
+          dispatch(ApplicationActions.updatePage('LOBBY'))
         } else {
           alert('Something went wrong...')
         }
@@ -50,6 +51,7 @@ const joinRoom = (roomCode) => {
 
       RoomRequests.joinRoom({ roomCode }, authToken).then((roomResponse) => {
         dispatch(actions.updateCode(roomResponse.data.roomCode));
+        dispatch(ApplicationActions.updatePage('LOBBY'))
       }).catch((err) => {
         console.error('Error while joining room in redux:', err)
       })
