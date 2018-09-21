@@ -19,4 +19,5 @@ Object.assign = require('object-assign');
 // We don't polyfill it in the browser--this is user's responsibility.
 if (process.env.NODE_ENV === 'test') {
   require('raf').polyfill(global);
+  require("regenerator-runtime/runtime");
 }
