@@ -30,7 +30,7 @@ async function createRoom(roomSetting, TokenId) {
 }
 
 /**
- * 
+ * @async
  * @param {String} accessCode 
  */
 async function JoinRoom(accessCode) {
