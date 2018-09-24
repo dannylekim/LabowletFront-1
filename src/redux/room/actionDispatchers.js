@@ -23,9 +23,11 @@ const createRoom = (newSetting) => {
       dispatch(UserActions.updateUserId(response.data.id))
       dispatch(actions.updateSetting(formattedSettings));
       
-      RoomRequests.createRoom(getState().room.settings, authToken).then((roomResponse) => {
-        console.log(roomResponse.data)
-        if(roomResponse.status === 200) {
+      RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
+        console.log('From actionDistpatcher', progress);
+      }).then((roomResponse) => {
+        console.log(roomResponse)
+        if(roomResponse && roomResponse.status === 200 ) {
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(ApplicationActions.updatePage('LOBBY'))
         } else {
