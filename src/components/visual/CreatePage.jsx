@@ -57,7 +57,6 @@ class CreatePage extends PureComponent {
     const rounds = [...this.state.rounds];
     rounds[index - 1].value = e.target.checked;
     this.setState({ rounds });
-    console.log(this.state.rounds);
   }
 
   render() {
