@@ -26,7 +26,7 @@ const RoomSettings = (state) => {
     allowSkips,
     roundTimeInSeconds,
     roundTypes,
-    rounds: roundTypes.length,
+    // rounds: roundTypes.length,
   }
 }
 

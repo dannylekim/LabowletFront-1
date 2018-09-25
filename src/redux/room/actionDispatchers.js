@@ -19,14 +19,13 @@ const createRoom = (newSetting) => {
     UserRequests.createUser(body).then((response) => {
       const formattedSettings = Adapters.RoomSettings(newSetting);
       const authToken = response.headers['x-auth-token'];
-
+      console.log(response.headers)
       dispatch(UserActions.updateUserId(response.data.id))
       dispatch(actions.updateSetting(formattedSettings));
       
       RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
         console.log('From actionDistpatcher', progress);
       }).then((roomResponse) => {
-        console.log(roomResponse)
         if(roomResponse && roomResponse.status === 200 ) {
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(ApplicationActions.updatePage('LOBBY'))

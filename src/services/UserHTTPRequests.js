@@ -1,7 +1,7 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
 const REST_URL = url.dev;
-const querystring = require('querystring');
+// const querystring = require('querystring');
 
 async function createUser(user) {
   try {
@@ -10,8 +10,9 @@ async function createUser(user) {
       url: `${REST_URL}/players`,
       headers: { 
         'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
       },
-      data: querystring.stringify(user),
+      data: JSON.stringify(user),
     });
 
     if (response.status >= 300 && response.status < 200) {

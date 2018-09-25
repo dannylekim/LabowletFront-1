@@ -8,16 +8,26 @@ const querystring = require('querystring');
  * @param {Object} roomSetting 
  * @param {String} TokenId 
  */
-async function createRoom(roomSetting, TokenId) {
+async function createRoom(roomSetting, TokenId, loading) {
   try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+
+    console.log(headers)
     const response = await axios({
       method: 'POST',
-      url: `${REST_URL}/rooms`,
-      headers: { 
-        'Access-Control-Allow-Origin': '*',
-        'X-Auth-Token': TokenId,
+      url: '/rooms',
+      baseURL: `${REST_URL}`,
+      headers,
+      // crossDomain: true,
+      onUploadProgress: function (progressEvent) {
+        loading(progressEvent)
+        // Do whatever you want with the native progress event
       },
-      data: querystring.stringify(roomSetting),
+      data: roomSetting,
     });
     if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
