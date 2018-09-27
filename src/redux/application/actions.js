@@ -7,4 +7,21 @@ const updatePage = (newPage) => {
   }
 }
 
-export default { updatePage };
+const loadTo = (loadingProgress) => {
+  return {
+    type: actionTypes.LOAD_PROGRESS,
+    loadingProgress,
+  }
+}
+
+const resetLoad = () => {
+  return {
+    type: actionTypes.RESET_LOAD,
+  }
+}
+
+export default { 
+  updatePage,
+  loadTo,
+  resetLoad,
+};

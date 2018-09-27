@@ -2,6 +2,8 @@ const actionTypes = {
   UPDATE_PAGE: 'UPDATE_PAGE',
   START_LOADING: 'START_LOADING',
   STOP_LOADING: 'STOP_LOADING',
+  LOAD_PROGRESS: 'LOAD_PROGRESS',
+  RESET_LOAD: 'RESET_LOAD',
 }
 
 export default actionTypes;
