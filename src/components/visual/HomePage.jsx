@@ -24,8 +24,8 @@ class Home extends PureComponent {
    * @private
    * @param {Event} e 
    */
-  _handleNameChange(e) {
-    this.setState({ name: e.target.value });
+  _handleNameChange(name) {
+    this.setState({ name });
   }
 
   /**
@@ -71,7 +71,7 @@ class Home extends PureComponent {
           <h2>Labowlet</h2>
         </div>
         <div className="page-container">
-          <input className="name-input" onChange={(e) => this._handleNameChange(e)} placeholder="Enter your name" />
+          <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
           <div className='button-group'>
             <button
               className={`generic-button create-btn ${buttonClass}`}

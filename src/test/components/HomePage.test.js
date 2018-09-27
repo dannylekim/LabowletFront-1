@@ -8,6 +8,14 @@ import { mount, render, shallow} from 'enzyme';
 import connectToRedux from '../../components/ReduxConnector';
 import HomePage from '../../components/visual/HomePage';
 
+/**
+ * import actions
+ */
+import * as actions from '../../redux/actionDispatchers'
+
+import * as userActions from '../../redux/user/actions';
+import * as userActionTypes from '../../redux/user/actionTypes';
+
 const mockStore = configureStore();
 
 const myReducers = require('../../redux/rootReducer');
@@ -59,15 +67,25 @@ describe('HomePage', () => {
     }) 
 
     it('should update name state' , () => {
-      console.log(typeof component.instance()._handleNumberOfWords);
-      component.instance()._handleNumberOfWords('foo')
+      component.instance()._handleNameChange('foo')
       expect(component.state('name')).to.equal('foo');
-    }) 
+    })
 
-    it('should handleCreateClick call updateUserName prop' , () => {
-      const props = sinon.spy()
-      component.instance().handleCreateClick()
-      expect(props.updateUserName).toHaveBeenCalled();
-    }) 
+    it('should expect join to udpate store' , () => {
+      component.instance()._handleNameChange('foo')
+      expect(component.state('name')).to.equal('foo');
+    })
+  });
+
+  describe('Redux functions', () => {
+    
+    it('should update user name', () => {
+      const name = 'john doe';
+      const expectedAction = {
+        type: userActionTypes.UPDATE_USER_NAME,
+        name,
+      }
+      expect(userActions.updateUserName(name)).toEqual(expectedAction)
+    });
   });
 });
