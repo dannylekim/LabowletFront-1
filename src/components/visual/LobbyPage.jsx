@@ -33,8 +33,6 @@ class LobbyPage extends PureComponent {
     const roomCode = this.props.room.code || 'UH OH';
     const settings = {...this.props.room.settings}
     const benchPlayers = [...settings.benchPlayers].map((player) => <PlayerIcon key={player.id} name={player.name}/>);
-    const 
-
     return (
       <div className="page home">
         <div className='navbar'>
