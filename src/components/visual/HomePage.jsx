@@ -15,6 +15,7 @@ class Home extends PureComponent {
     super(props);
     this.state = {
       joinModalIsVisible: false,
+      name: 'no name person',
     }
   }
 
@@ -41,7 +42,11 @@ class Home extends PureComponent {
     }
   }
 
-  handleJoinClick() {
+  /**
+   * Handles modal visibility
+   * @private
+   */
+  _handleJoinClick() {
     this.setState({ joinModalIsVisible : true })
   }
 
@@ -60,7 +65,6 @@ class Home extends PureComponent {
 
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
-    console.log(this.props)
     return (
       <div className="page home">
         <div className='navbar'>
