@@ -15,15 +15,12 @@ async function createRoom(roomSetting, TokenId, loading) {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
     };
-
-    console.log(headers)
     const response = await axios({
       method: 'POST',
       url: '/rooms',
       baseURL: `${REST_URL}`,
       headers,
-      // crossDomain: true,
-      onUploadProgress: function (progressEvent) {
+      onDownloadProgress: function (progressEvent) {
         loading(progressEvent)
         // Do whatever you want with the native progress event
       },
@@ -43,15 +40,23 @@ async function createRoom(roomSetting, TokenId, loading) {
  * @async
  * @param {String} accessCode 
  */
-async function JoinRoom(accessCode) {
+async function joinRoom(roomCode, TokenId, loading) {
   try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
     const response = await axios({
       method: 'PUT',
-      url: `${REST_URL}/join`,
-      headers: { 
-        'Access-Control-Allow-Origin': '*',
+      url: '/join',
+      baseURL: `${REST_URL}`,
+      headers,
+      data: roomCode,
+      onDownloadProgress: function (progressEvent) {
+        loading(progressEvent)
+        // Do whatever you want with the native progress event
       },
-      data: querystring.stringify(accessCode),
     });
     if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
@@ -65,5 +70,5 @@ async function JoinRoom(accessCode) {
 
 export default {
   createRoom,
-  JoinRoom,
+  joinRoom,
 }

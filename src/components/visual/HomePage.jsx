@@ -46,13 +46,21 @@ class Home extends PureComponent {
   }
 
   _handleJoin(e) {
-    if (e.target.value.length === 4) {
-      console.log(e.target.value.length);
+    try {
+      const inputCode = e.target.value;
+      if (inputCode.length === 4) {
+        this.props.updateUserName(this.state.name);
+        this.props.joinRoom(inputCode.toUpperCase())
+      }
+    } catch (err) {
+      alert('Something went wrong..', err)
     }
+
   }
 
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
+    console.log(this.props)
     return (
       <div className="page home">
         <div className='navbar'>
@@ -107,7 +115,7 @@ class Home extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: ['updateUserName'],
+  actions: ['updateUserName', 'joinRoom'],
 }
 
 export default connectToRedux(Home, connectObject);

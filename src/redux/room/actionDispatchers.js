@@ -13,24 +13,27 @@ import ApplicationActions from '../application/actionDispatchers';
  */
 const createRoom = (newSetting) => {
   return (dispatch, getState) => {
+    dispatch(ApplicationActions.resetLoad());
     const body = {
       name: getState().user.name,
     };
     UserRequests.createUser(body).then((response) => {
       const formattedSettings = Adapters.RoomSettings(newSetting);
       const authToken = response.headers['x-auth-token'];
-      console.log(response.headers)
+      
       dispatch(UserActions.updateUserId(response.data.id))
       dispatch(actions.updateSetting(formattedSettings));
       
       RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
-        console.log('From actionDistpatcher', progress);
+        dispatch(ApplicationActions.loadTo(progress.loaded))
       }).then((roomResponse) => {
-        if(roomResponse && roomResponse.status === 200 ) {
+        if(!!roomResponse && roomResponse.status === 200 ) {
+          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {benchPlayers : roomResponse.data.benchPlayers})
           dispatch(actions.updateCode(roomResponse.data.roomCode));
+          dispatch(actions.updateSetting(pendingSetting));
           dispatch(ApplicationActions.updatePage('LOBBY'))
         } else {
-          alert('Something went wrong...')
+          throw new Error('Something went wrong...', roomResponse)
         }
       }).catch((err) => {
         console.error('Error while creating room in redux:', err)
@@ -46,13 +49,24 @@ const joinRoom = (roomCode) => {
     const body = {
       name: getState().user.name,
     };
+    console.log(body)
     UserRequests.createUser(body).then((response) => {
       dispatch(UserActions.updateUserId(response.data.id));
       const authToken = response.headers['x-auth-token'];
 
-      RoomRequests.joinRoom({ roomCode }, authToken).then((roomResponse) => {
-        dispatch(actions.updateCode(roomResponse.data.roomCode));
-        dispatch(ApplicationActions.updatePage('LOBBY'))
+      RoomRequests.joinRoom({ roomCode }, authToken, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      }).then((roomResponse) => {
+
+        if(!!roomResponse && roomResponse.status === 200 ) {
+          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {benchPlayers : roomResponse.data.benchPlayers})
+          dispatch(actions.updateCode(roomResponse.data.roomCode));
+          dispatch(actions.updateSetting(pendingSetting));
+          
+          dispatch(ApplicationActions.updatePage('LOBBY'))
+        } else {
+          throw new Error('Something went wrong...', roomResponse)
+        }
       }).catch((err) => {
         console.error('Error while joining room in redux:', err)
       })
