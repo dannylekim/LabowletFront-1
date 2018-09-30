@@ -42,7 +42,6 @@ describe('CreatePage', () => {
     let component;
 
     beforeAll(() => {
-      // const CreateComponent = <CreatePage store={mockStore({})} />
       const wrapper = shallow(<CreatePage store={mockStore({})} />)
       component = wrapper.dive().dive();
     })

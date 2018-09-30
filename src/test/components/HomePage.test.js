@@ -51,10 +51,15 @@ describe('HomePage', () => {
 
   describe('Component functions', () => {
     let component;
+    const props = {};
 
     beforeAll(() => {
       const wrapper = shallow(<HomePage store={mockStore({})} />)
       component = wrapper.dive().dive();
+
+      props.updateUserName = sinon.spy();
+      props.joinRoom = sinon.spy();
+      props.updatePage = sinon.spy();
     })
 
     afterAll(() => {
@@ -75,17 +80,34 @@ describe('HomePage', () => {
       component.instance()._handleNameChange('foo')
       expect(component.state('name')).to.equal('foo');
     })
+
+    // it('should call actiondispatchers upon create', () => {
+    //   component.instance().handleCreateClick()
+    //   expect(props.updateUserName.mock.calls.length).toBe(0)
+
+    //   component.instance()._handleNameChange('foo')
+    //   component.instance().handleCreateClick()
+      
+    //   expect(props.updateUserName.mock.calls.length).toBe(1)
+
+    //   // try {
+    //     expect(props.updatePage.mock.calls.length).to.be.equal(1);
+    //   // } catch (e) {
+    //   //  console.error('Testing went wrong', e)
+    //   // }
+
+    // });
   });
 
   describe('Redux functions', () => {
-    
+
     it('should update user name', () => {
       const name = 'john doe';
       const expectedAction = {
-        type: userActionTypes.UPDATE_USER_NAME,
+        type: userActionTypes.default.UPDATE_USER_NAME,
         name,
       }
-      expect(userActions.updateUserName(name)).toEqual(expectedAction)
+      expect(userActions.default.updateUserName(name)).to.deep.equal(expectedAction)
     });
   });
 });
