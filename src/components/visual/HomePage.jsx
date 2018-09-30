@@ -28,6 +28,15 @@ class Home extends PureComponent {
     this.setState({ name });
   }
 
+
+  /**
+   * Handles modal visibility
+   * @private
+   */
+  _handleJoinClick() {
+    this.setState({ joinModalIsVisible: true })
+  }
+
   /**
    * Function is called when user enter's name and navigates to either Create or Join page.
    * This will trigger redux function updateUserName and UpdatePage.
@@ -38,16 +47,8 @@ class Home extends PureComponent {
       this.props.updateUserName(this.state.name);
       this.props.updatePage('CREATE');
     } catch (err) {
-      alert('Something went wrong..', err)
+      console.error('Something went wrong..', err)
     }
-  }
-
-  /**
-   * Handles modal visibility
-   * @private
-   */
-  _handleJoinClick() {
-    this.setState({ joinModalIsVisible : true })
   }
 
   _handleJoin(e) {
@@ -58,7 +59,7 @@ class Home extends PureComponent {
         this.props.joinRoom(inputCode.toUpperCase())
       }
     } catch (err) {
-      alert('Something went wrong..', err)
+      console.error('Something went wrong..', err)
     }
 
   }
@@ -89,7 +90,7 @@ class Home extends PureComponent {
         </div>
         <Modal
           title='Enter Room Code'
-          style={{              
+          style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -105,7 +106,7 @@ class Home extends PureComponent {
             });
           }}
         >
-          <input 
+          <input
             className="code-input"
             onChange={(e) => this._handleJoin(e)}
             placeholder="Enter your name"
