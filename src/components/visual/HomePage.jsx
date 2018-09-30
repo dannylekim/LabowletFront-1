@@ -15,7 +15,7 @@ class Home extends PureComponent {
     super(props);
     this.state = {
       joinModalIsVisible: false,
-      name: 'no name person',
+      name: '',
     }
   }
 
@@ -44,8 +44,12 @@ class Home extends PureComponent {
    */
   handleCreateClick() {
     try {
-      this.props.updateUserName(this.state.name);
-      this.props.updatePage('CREATE');
+      if (this.state.name.length > 0) {
+        this.props.updateUserName(this.state.name);
+        this.props.updatePage('CREATE');
+      } else {
+        throw new Error('Must have a name')
+      }
     } catch (err) {
       console.error('Something went wrong..', err)
     }
@@ -54,9 +58,11 @@ class Home extends PureComponent {
   _handleJoin(e) {
     try {
       const inputCode = e.target.value;
-      if (inputCode.length === 4) {
+      if (inputCode.length === 4 && this.state.name.length > 0) {
         this.props.updateUserName(this.state.name);
         this.props.joinRoom(inputCode.toUpperCase())
+      } else {
+        throw new Error('Invalid code or user name')
       }
     } catch (err) {
       console.error('Something went wrong..', err)
