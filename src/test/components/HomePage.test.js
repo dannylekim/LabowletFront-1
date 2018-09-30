@@ -80,23 +80,6 @@ describe('HomePage', () => {
       component.instance()._handleNameChange('foo')
       expect(component.state('name')).to.equal('foo');
     })
-
-    // it('should call actiondispatchers upon create', () => {
-    //   component.instance().handleCreateClick()
-    //   expect(props.updateUserName.mock.calls.length).toBe(0)
-
-    //   component.instance()._handleNameChange('foo')
-    //   component.instance().handleCreateClick()
-      
-    //   expect(props.updateUserName.mock.calls.length).toBe(1)
-
-    //   // try {
-    //     expect(props.updatePage.mock.calls.length).to.be.equal(1);
-    //   // } catch (e) {
-    //   //  console.error('Testing went wrong', e)
-    //   // }
-
-    // });
   });
 
   describe('Redux functions', () => {
