@@ -68,26 +68,21 @@ class Home extends PureComponent {
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
     return (
-      <div className="page home">
-        <div className='navbar'>
-          <h2>Labowlet</h2>
-        </div>
-        <div className="page-container">
-          <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
-          <div className='button-group'>
-            <button
-              className={`generic-button create-btn ${buttonClass}`}
-              onClick={() => this.handleCreateClick()}
-            >
-              <p>Create</p>
-            </button>
-            <button
-              className={`generic-button join-btn ${buttonClass}`}
-              onClick={() => this._handleJoinClick()}
-            >
-              <p>Join</p>
-            </button>
-          </div>
+      <div className="page-container">
+        <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
+        <div className='button-group'>
+          <button
+            className={`generic-button create-btn ${buttonClass}`}
+            onClick={() => this.handleCreateClick()}
+          >
+            <p>Create</p>
+          </button>
+          <button
+            className={`generic-button join-btn ${buttonClass}`}
+            onClick={() => this._handleJoinClick()}
+          >
+            <p>Join</p>
+          </button>
         </div>
         <Modal
           title='Enter Room Code'

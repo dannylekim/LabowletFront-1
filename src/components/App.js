@@ -13,11 +13,20 @@ class App extends PureComponent {
   switchPages(pageKey) {
     switch(pageKey) {
       case 'HOME':
-        return <HomePage />;
+        return {
+          title: 'Labowlet a',
+          component: <HomePage />
+        };
       case 'CREATE':
-        return <CreatePage />;
+        return {
+          title: 'Create Page',
+          component: <CreatePage />
+        };
       case 'LOBBY':
-        return <LobbyPage />;
+        return {
+          title: 'Lobby',
+          component: <LobbyPage />
+        };
       default:
         return null;
     }
@@ -25,8 +34,11 @@ class App extends PureComponent {
   render() {
     const PageToRender = this.switchPages(this.props.application.page)
     return (
-      <div>
-        {PageToRender}
+      <div className="page home">
+      <div className='navbar'>
+        <h2>{PageToRender.title}</h2>
+      </div>
+        {PageToRender.component}
       </div>
     );
   }
