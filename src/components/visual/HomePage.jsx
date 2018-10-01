@@ -8,7 +8,7 @@ import '../../styles/home.scss';
 import 'rmc-dialog/assets/index.css';
 
 
-
+const MAX_LENGTH_CODE = 4;
 
 class Home extends PureComponent {
   constructor(props) {
@@ -58,7 +58,7 @@ class Home extends PureComponent {
   _handleJoin(e) {
     try {
       const inputCode = e.target.value;
-      if (inputCode.length === 4 && this.state.name.length > 0) {
+      if (inputCode.length === MAX_LENGTH_CODE && this.state.name.length > 0) {
         this.props.updateUserName(this.state.name);
         this.props.joinRoom(inputCode.toUpperCase())
       } else {
