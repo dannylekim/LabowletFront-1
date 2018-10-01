@@ -12,68 +12,112 @@ import ApplicationActions from '../application/actionDispatchers';
  * @param {Object} newSetting
  */
 const createRoom = (newSetting) => {
-  return (dispatch, getState) => {
-    dispatch(ApplicationActions.resetLoad());
-    const body = {
-      name: getState().user.name,
-    };
-    UserRequests.createUser(body).then((response) => {
-      const formattedSettings = Adapters.RoomSettings(newSetting);
-      const authToken = response.headers['x-auth-token'];
-      
-      dispatch(UserActions.updateUserId(response.data.id))
-      dispatch(actions.updateSetting(formattedSettings));
-      
-      RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
-        dispatch(ApplicationActions.loadTo(progress.loaded))
-      }).then((roomResponse) => {
-        if(!!roomResponse && roomResponse.status === 200 ) {
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {benchPlayers : roomResponse.data.benchPlayers})
+  return async (dispatch, getState) => {
+    try {
+      dispatch(ApplicationActions.resetLoad());
+
+      /**
+       * Create user body
+       */
+      const body = {
+        name: getState().user.name,
+      };
+
+      /**
+       * Await create user request
+       */
+      const userResponse = await UserRequests.createUser(body);
+
+      if (userResponse.status === 200) {
+        const formattedSettings = Adapters.RoomSettings(newSetting);
+        const authToken = userResponse.headers['x-auth-token'];
+
+        dispatch(UserActions.updateUserId(userResponse.data.id))
+        dispatch(actions.updateSetting(formattedSettings));
+
+        /**
+         * Await create room request
+         */
+        const roomResponse = await RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
+          dispatch(ApplicationActions.loadTo(progress.loaded))
+        });
+
+        if (roomResponse.status === 200) {
+          const pendingSetting = Object.assign(roomResponse.data.roomSettings, { benchPlayers: roomResponse.data.benchPlayers })
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(pendingSetting));
           dispatch(ApplicationActions.updatePage('LOBBY'))
         } else {
           throw new Error('Something went wrong...', roomResponse)
         }
-      }).catch((err) => {
-        console.error('Error while creating room in redux:', err)
-      })
-    }).catch((err) => {
-      console.error('Error while creating user in redux:', err);
-    });
+      } else {
+        throw new Error(`There was an issue creating user: ${getState().user.name}`);
+      }
+    } catch (e) {
+      alert('createRoom::Something terrible went wrong...')
+    }
   };
-}
+};
 
+/**
+ * @function joinRoom join room action dispatcher
+ * @description Function will create a new user based on name in User reducer and joins a room session
+ * only if the room code is correct.
+ * @param {String} roomCode 
+ */
 const joinRoom = (roomCode) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+
+    /**
+     * Create user body
+     */
     const body = {
       name: getState().user.name,
     };
-    console.log(body)
-    UserRequests.createUser(body).then((response) => {
-      dispatch(UserActions.updateUserId(response.data.id));
+
+    /**
+     * Await create user request
+     */
+    const userResponse = await UserRequests.createUser(body);
+
+    if (userResponse.status === 200) {
       const authToken = response.headers['x-auth-token'];
 
-      RoomRequests.joinRoom({ roomCode }, authToken, (progress) => {
-        dispatch(ApplicationActions.loadTo(progress.loaded))
-      }).then((roomResponse) => {
+      dispatch(UserActions.updateUserId(response.data.id));
 
-        if(!!roomResponse && roomResponse.status === 200 ) {
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {benchPlayers : roomResponse.data.benchPlayers})
-          dispatch(actions.updateCode(roomResponse.data.roomCode));
-          dispatch(actions.updateSetting(pendingSetting));
-          
-          dispatch(ApplicationActions.updatePage('LOBBY'))
-        } else {
-          throw new Error('Something went wrong...', roomResponse)
-        }
-      }).catch((err) => {
-        console.error('Error while joining room in redux:', err)
-      })
-    }).catch((err) => {
-      console.error('Error while creating user in redux:', err);
-    });
-  }
+      /**
+      * Await create room request
+      */
+      const roomResponse = RoomRequests.joinRoom({ roomCode }, authToken, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      });
+
+      if (!!roomResponse && roomResponse.status === 200) {
+        const pendingSetting = Object.assign(roomResponse.data.roomSettings, { benchPlayers: roomResponse.data.benchPlayers })
+        dispatch(actions.updateCode(roomResponse.data.roomCode));
+        dispatch(actions.updateSetting(pendingSetting));
+
+        dispatch(ApplicationActions.updatePage('LOBBY'))
+      } else {
+        throw new Error('Something went wrong...', roomResponse)
+      }
+    } else {
+      throw new Error('joinRoom::Error creating user');
+    }
+    //UserRequests.createUser(body).then((response) => {
+
+    // RoomRequests.joinRoom({ roomCode }, authToken, (progress) => {
+    //   dispatch(ApplicationActions.loadTo(progress.loaded))
+    // }).then((roomResponse) => {
+
+
+    // }).catch((err) => {
+    //   console.error('Error while joining room in redux:', err)
+    // })
+    // }).catch ((err) => {
+    //   console.error('Error while creating user in redux:', err);
+    // });
+  };
 }
 
 export default {
