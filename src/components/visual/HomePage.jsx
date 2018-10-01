@@ -68,47 +68,49 @@ class Home extends PureComponent {
   render() {
     const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
     return (
-      <div className="page-container">
-        <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
-        <div className='button-group'>
-          <button
-            className={`generic-button create-btn ${buttonClass}`}
-            onClick={() => this.handleCreateClick()}
+      <div className="home">
+        <div className="page-container">
+          <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
+          <div className='button-group'>
+            <button
+              className={`generic-button create-btn ${buttonClass}`}
+              onClick={() => this.handleCreateClick()}
+            >
+              <p>Create</p>
+            </button>
+            <button
+              className={`generic-button join-btn ${buttonClass}`}
+              onClick={() => this._handleJoinClick()}
+            >
+              <p>Join</p>
+            </button>
+          </div>
+          <Modal
+            title='Enter Room Code'
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              top: '30vh',
+            }}
+            visible={this.state.joinModalIsVisible}
+            animation="zoom"
+            maskAnimation="fade"
+            maskClosable={true}
+            onClose={() => {
+              this.setState({
+                joinModalIsVisible: false,
+              });
+            }}
           >
-            <p>Create</p>
-          </button>
-          <button
-            className={`generic-button join-btn ${buttonClass}`}
-            onClick={() => this._handleJoinClick()}
-          >
-            <p>Join</p>
-          </button>
+            <input
+              className="code-input"
+              onChange={(e) => this._handleJoin(e)}
+              placeholder="Enter your name"
+              maxLength="4"
+            />
+          </Modal>
         </div>
-        <Modal
-          title='Enter Room Code'
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: '30vh',
-          }}
-          visible={this.state.joinModalIsVisible}
-          animation="zoom"
-          maskAnimation="fade"
-          maskClosable={true}
-          onClose={() => {
-            this.setState({
-              joinModalIsVisible: false,
-            });
-          }}
-        >
-          <input
-            className="code-input"
-            onChange={(e) => this._handleJoin(e)}
-            placeholder="Enter your name"
-            maxLength="4"
-          />
-        </Modal>
       </div>
     );
   }

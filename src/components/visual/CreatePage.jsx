@@ -68,12 +68,7 @@ class CreatePage extends PureComponent {
       </li>)
     });
     return (
-      <div className="page create">
-        <div className='navbar'>
-          <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>
-          <h2>Create Room</h2>
-        </div>
-
+      <div className="create">
         <div className='page-container'>
           <div className='card'>
           <form onSubmit={(e) => this._handleSubmit(e)}>

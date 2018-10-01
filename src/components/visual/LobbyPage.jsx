@@ -40,13 +40,10 @@ class LobbyPage extends PureComponent {
     const roomCode = this.props.room.code || 'UH OH';
     const settings = {...this.props.room.settings}
     const benchPlayers = [...settings.benchPlayers].map((player) => <PlayerIcon key={player.id} name={player.name}/>);
-    const teamList = this._renderTeam(10);//settings.maxTeams);
+    const teamList = this._renderTeam(settings.maxTeams);
 
     return (
-      <div className="page home">
-        <div className='navbar'>
-          <h2>Lobby Room</h2>
-        </div>
+      <div className="home">
         <div className="page-container">
           <p>Code is</p>
           <h1>{roomCode}</h1>
