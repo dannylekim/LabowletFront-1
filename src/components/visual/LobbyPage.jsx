@@ -43,7 +43,7 @@ class LobbyPage extends PureComponent {
     const teamList = this._renderTeam(settings.maxTeams);
 
     return (
-      <div className="home">
+      <div className="lobby">
         <div className="page-container">
           <p>Code is</p>
           <h1>{roomCode}</h1>
