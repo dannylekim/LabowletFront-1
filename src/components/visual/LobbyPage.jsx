@@ -16,6 +16,7 @@ class LobbyPage extends PureComponent {
     super(props);
     this.state = {
     }
+    this._joinTeam = this._joinTeam.bind(this);
   }
 
   /**
@@ -25,14 +26,22 @@ class LobbyPage extends PureComponent {
   _renderTeam(maxTeams) {
     const TeamCardArray = [];
     for(let i = 0; i< maxTeams; i++) {
-      TeamCardArray.push(<TeamCard />)
+      TeamCardArray.push(<TeamCard index={i + 1} key={i+1} joinTeam={this._joinTeam} teamMates={'todo'}/>)
     }
+    
+    return TeamCardArray;
+  }
+
+  _joinTeam(teamId) {
+    console.log('joined team', teamId)
   }
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
     const settings = {...this.props.room.settings}
     const benchPlayers = [...settings.benchPlayers].map((player) => <PlayerIcon key={player.id} name={player.name}/>);
+    const teamList = this._renderTeam(10);//settings.maxTeams);
+
     return (
       <div className="page home">
         <div className='navbar'>
@@ -41,7 +50,7 @@ class LobbyPage extends PureComponent {
         <div className="page-container">
           <p>Code is</p>
           <h1>{roomCode}</h1>
-
+          {teamList}
         </div>
         <div className="page-footer">
           <div className="foot-header">
