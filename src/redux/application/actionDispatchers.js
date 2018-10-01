@@ -4,4 +4,16 @@ const updatePage = (newPage) => {
   return (dispatch) => dispatch(actions.updatePage(newPage));
 }
 
-export default { updatePage };
+const loadTo = (loadingProgress) => {
+  return (dispatch) => dispatch(actions.loadTo(loadingProgress));
+}
+
+const resetLoad = () => {
+  return (dispatch) => dispatch(actions.resetLoad());
+} 
+
+export default { 
+  updatePage,
+  loadTo,
+  resetLoad,
+};

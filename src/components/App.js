@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 
 import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
-import JoinPage from './visual/JoinPage';
-import RoomPage from './visual/RoomPage';
+import LobbyPage from './visual/LobbyPage';
 
 import ReduxConnector from './ReduxConnector';
 
@@ -17,10 +16,8 @@ class App extends PureComponent {
         return <HomePage />;
       case 'CREATE':
         return <CreatePage />;
-      case 'JOIN':
-        return <JoinPage/>;
-      case 'ROOM':
-        return <RoomPage/>;        
+      case 'LOBBY':
+        return <LobbyPage />;
       default:
         return null;
     }
