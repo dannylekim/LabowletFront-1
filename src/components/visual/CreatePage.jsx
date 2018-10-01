@@ -34,7 +34,9 @@ class CreatePage extends PureComponent {
 
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.createRoom(this.state);
+    this.props.createRoom(this.state).catch(err => {
+      alert(`Error: ${err.message}`)
+    });
   }
   
   handleNumberOfTeam(maxTeams) {

@@ -45,29 +45,24 @@ class Home extends PureComponent {
   handleCreateClick() {
     try {
       if (this.state.name.length > 0) {
-        this.props.updateUserName(this.state.name);
+        this.props.updateUserName(this.state.name)
         this.props.updatePage('CREATE');
       } else {
         throw new Error('Must have a name')
       }
     } catch (err) {
-      console.error('Something went wrong..', err)
+      alert('Something went wrong..', err)
     }
   }
 
   _handleJoin(e) {
-    try {
-      const inputCode = e.target.value;
-      if (inputCode.length === MAX_LENGTH_CODE && this.state.name.length > 0) {
-        this.props.updateUserName(this.state.name);
-        this.props.joinRoom(inputCode.toUpperCase())
-      } else {
-        throw new Error('Invalid code or user name')
-      }
-    } catch (err) {
-      console.error('Something went wrong..', err)
+    const inputCode = e.target.value;
+    if (inputCode.length === MAX_LENGTH_CODE && this.state.name.length > 0) {
+      this.props.updateUserName(this.state.name);
+      this.props.joinRoom(inputCode.toUpperCase()).catch((err) => {
+        alert(`Error: ${err.message}`)
+      })
     }
-
   }
 
   render() {
@@ -88,7 +83,7 @@ class Home extends PureComponent {
             </button>
             <button
               className={`generic-button join-btn ${buttonClass}`}
-              onClick={() => this.handleJoinClick()}
+              onClick={() => this._handleJoinClick()}
             >
               <p>Join</p>
             </button>
