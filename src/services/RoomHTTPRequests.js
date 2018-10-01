@@ -6,6 +6,7 @@ const REST_URL = url.dev;
  * 
  * @param {Object} roomSetting 
  * @param {String} TokenId 
+ * @param {Function} loading
  */
 async function createRoom(roomSetting, TokenId, loading) {
   try {
@@ -21,7 +22,6 @@ async function createRoom(roomSetting, TokenId, loading) {
       headers,
       onDownloadProgress: function (progressEvent) {
         loading(progressEvent)
-        // Do whatever you want with the native progress event
       },
       data: roomSetting,
     });
@@ -31,13 +31,16 @@ async function createRoom(roomSetting, TokenId, loading) {
 
     return response;
   } catch (error) {
-    console.error('RoomHTTPRequests::createRoom:', error);
+    //console.error('RoomHTTPRequests::createRoom:', error);
+    return error;
   }
 }
 
 /**
  * @async
- * @param {String} accessCode 
+ * @param {String} roomCode
+ * @param {String} TokenId
+ * @param {Function} loading
  */
 async function joinRoom(roomCode, TokenId, loading) {
   try {
@@ -54,16 +57,12 @@ async function joinRoom(roomCode, TokenId, loading) {
       data: roomCode,
       onDownloadProgress: function (progressEvent) {
         loading(progressEvent)
-        // Do whatever you want with the native progress event
       },
     });
-    if (response.status >= 300 && response.status < 200) {
-      throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
-    }
 
     return response;
   } catch (error) {
-    console.error('RoomHTTPRequests::createRoom:', error);
+    return { status: 404 };
   }
 }
 
