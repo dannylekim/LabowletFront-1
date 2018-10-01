@@ -34,7 +34,9 @@ class CreatePage extends PureComponent {
 
   _handleSubmit(e) {
     e.preventDefault();
-    this.props.updateSetting(this.state);
+    this.props.createRoom(this.state).catch(err => {
+      alert(`Error: ${err.message}`)
+    });
   }
   
   handleNumberOfTeam(maxTeams) {
@@ -57,7 +59,6 @@ class CreatePage extends PureComponent {
     const rounds = [...this.state.rounds];
     rounds[index - 1].value = e.target.checked;
     this.setState({ rounds });
-    console.log(this.state.rounds);
   }
 
   render() {
@@ -132,7 +133,7 @@ class CreatePage extends PureComponent {
 
 const connectObject = {
   states: [],
-  actions: ['updateSetting'],
+  actions: ['createRoom'],
 }
 
 export default ReduxConnector(CreatePage, connectObject);

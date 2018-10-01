@@ -1,3 +1,4 @@
+@import './variables.scss';
 
 .home {
   text-align: center;
@@ -8,7 +9,7 @@
     left: 0;
     width: 100%;
     font-size: 29px;
-    font-family: "Showcard Gothic";
+    font-family: $game-font;
     line-height: 36px;
   }
 
@@ -47,5 +48,11 @@
       bottom:0px;
       opacity: 1;
     }
+  }
+
+  input.code-input {
+    font-family: $game-font;
+    font-size: 29px;
+    line-height: 36px;
   }
 }

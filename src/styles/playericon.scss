@@ -1,0 +1,21 @@
+@import './variables.scss';
+
+.player-icon {
+  background-color: $background-color-third;
+  border-radius: 50px;
+
+  /*
+    Set horizontal line
+  */
+  display:block;
+  float:left; 
+
+  width: 42px;
+  margin: 10px;
+  box-shadow: $font-color-dark 2px 3px 3px 0px;
+
+  p {
+    color: $background-color-primary;
+    line-height: 10px;
+  }
+}

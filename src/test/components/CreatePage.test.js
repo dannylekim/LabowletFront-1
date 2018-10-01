@@ -33,8 +33,8 @@ describe('CreatePage', () => {
       instance = component.instance();
     })
 
-    it('should have updateSetting function' , () => {
-      expect(instance.props.updateSetting).to.be.an('function');
+    it('should have createRoom function' , () => {
+      expect(instance.props.createRoom).to.be.an('function');
     }) 
   });
 
@@ -42,7 +42,6 @@ describe('CreatePage', () => {
     let component;
 
     beforeAll(() => {
-      // const CreateComponent = <CreatePage store={mockStore({})} />
       const wrapper = shallow(<CreatePage store={mockStore({})} />)
       component = wrapper.dive().dive();
     })

@@ -1,18 +1,29 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
 const REST_URL = url.dev;
-const querystring = require('querystring');
 
-async function createRoom(roomSetting, userTokenId) {
+/**
+ * 
+ * @param {Object} roomSetting 
+ * @param {String} TokenId 
+ * @param {Function} loading
+ */
+async function createRoom(roomSetting, TokenId, loading) {
   try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
     const response = await axios({
       method: 'POST',
-      url: `${REST_URL}/room`,
-      headers: { 
-        'Access-Control-Allow-Origin': '*',
-        'X-Auth-Token': userTokenId,
+      url: '/rooms',
+      baseURL: `${REST_URL}`,
+      headers,
+      onDownloadProgress: function (progressEvent) {
+        loading(progressEvent)
       },
-      data: querystring.stringify(roomSetting),
+      data: roomSetting,
     });
     if (response.status >= 300 && response.status < 200) {
       throw new Error(`Error ${response.status} creating new Room:`, response.statusText);
@@ -20,10 +31,42 @@ async function createRoom(roomSetting, userTokenId) {
 
     return response;
   } catch (error) {
-    console.error('RoomHTTPRequests::createRoom:', error);
+    //console.error('RoomHTTPRequests::createRoom:', error);
+    return error;
+  }
+}
+
+/**
+ * @async
+ * @param {String} roomCode
+ * @param {String} TokenId
+ * @param {Function} loading
+ */
+async function joinRoom(roomCode, TokenId, loading) {
+  try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+    const response = await axios({
+      method: 'PUT',
+      url: '/join',
+      baseURL: `${REST_URL}`,
+      headers,
+      data: roomCode,
+      onDownloadProgress: function (progressEvent) {
+        loading(progressEvent)
+      },
+    });
+
+    return response;
+  } catch (error) {
+    return { status: 404 };
   }
 }
 
 export default {
   createRoom,
+  joinRoom,
 }
