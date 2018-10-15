@@ -15,6 +15,8 @@ async function createRoom(roomSetting, TokenId, loading) {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
     };
+    console.log('trying to create', roomSetting)
+
     const response = await axios({
       method: 'POST',
       url: '/rooms',
@@ -49,9 +51,10 @@ async function joinRoom(roomCode, TokenId, loading) {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
     };
+    console.log('from join req:',roomCode, TokenId)
     const response = await axios({
       method: 'PUT',
-      url: '/join',
+      url: '/rooms',
       baseURL: `${REST_URL}`,
       headers,
       data: roomCode,

@@ -104,7 +104,7 @@ const joinRoom = (roomCode) => {
 
           const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
             benchPlayers: roomResponse.data.benchPlayers
-          })
+          });
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(pendingSetting));
