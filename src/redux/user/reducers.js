@@ -19,6 +19,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         words: action.words,
       });
+    case actionTypes.CONNECT_USER_TO:
+      return Object.assign({}, state, {
+        socket: action.socket,
+      });
     default:
       return state;
   }

@@ -28,9 +28,17 @@ const updateUserWords = (words) => {
   }
 }
 
+const connectUser = (socket) => {
+  return {
+    type: actionTypes.CONNECT_USER_TO,
+    socket,
+  }
+}
+
 export default {
   updateUserName,
   updateUserId,
   updateUserTeam,
   updateUserWords,
+  connectUser,
 };

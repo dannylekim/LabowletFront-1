@@ -3,6 +3,7 @@ const actionTypes = {
   UPDATE_USER_ID: 'UPDATE_USER_ID',
   UPDATE_USER_TEAM: 'UPDATE_USER_TEAM',
   UPDATE_USER_WORDS: 'UPDATE_USER_WORDS',
+  CONNECT_USER_TO: 'CONNECT_USER_TO',
 }
 
 export default actionTypes;
