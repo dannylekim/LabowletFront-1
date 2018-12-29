@@ -3,6 +3,7 @@ import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
 import Adapters from '../../services/Adapters';
+import LabowletSocket from '../../services/SocketsInit';
 import UserActions from '../user/actionDispatchers';
 import ApplicationActions from '../application/actionDispatchers';
 
@@ -44,10 +45,13 @@ const createRoom = (newSetting) => {
        */
       const userResponse = await UserRequests.createUser(body);
 
-      if (userResponse.status === 200) {
+      if (userResponse.status < 400 && userResponse.status >= 200) {
         const formattedSettings = Adapters.RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
+        /**
+         * Give user an id locally and update local settings
+         */
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
 
@@ -58,16 +62,26 @@ const createRoom = (newSetting) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
         });
 
-        if(!!roomResponse) {
-          console.log(roomResponse);
-        }
-        if (roomResponse.status === 200) {
+        if (roomResponse.status < 400 && roomResponse.status >= 200) {
           const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
             benchPlayers: roomResponse.data.benchPlayers
           })
 
+          /**
+           * 
+           */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(pendingSetting));
+          
+          // TODO create socket connection to 'room' 
+          const mySocket = new LabowletSocket(roomResponse.data.roomCode);          
+          roomChangesEvents(mySocket.socketConnection);
+          
+          /**
+           * socket events that on redux change go here
+           */
+
+          dispatch(UserActions.connectUser(mySocket.socketConnection));
           dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
@@ -118,7 +132,7 @@ const joinRoom = (roomCode) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
         });
 
-        if (!!roomResponse && roomResponse.status === 200) {
+        if (roomResponse.status < 400 && roomResponse.status >= 200) {
 
           const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
             benchPlayers: roomResponse.data.benchPlayers
@@ -126,8 +140,14 @@ const joinRoom = (roomCode) => {
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(pendingSetting));
+          
+          // TODO create socket connection to 'room' 
+          const mySocket = new LabowletSocket(roomResponse.data.roomCode);  
+          roomChangesEvents(mySocket.socketConnection);
+        
+          dispatch(UserActions.connectUser(mySocket.socketConnection));
           dispatch(ApplicationActions.updatePage('LOBBY'));
-
+          
         } else {
           if (roomResponse.status === 404) {
             throw new Error('Invalid room code');          
@@ -142,6 +162,16 @@ const joinRoom = (roomCode) => {
       throw e;
     }
   };
+}
+
+/**
+ * @function roomChangesEvents
+ * @description Define socket events that will modify redux state(s) here. Will be used in both create/join room
+ * @param {Socket} socket 
+ */
+const roomChangesEvents = (socket) => {
+  socket.on('', () => {
+  });
 }
 
 export default {
