@@ -15,8 +15,23 @@ import ApplicationActions from '../application/actionDispatchers';
 const createRoom = (newSetting) => {
   return async (dispatch, getState) => {
     try {
+
+      // We want to check that at least 1 round is selected
+      const { rounds } = { ...newSetting };
+      const hasRounds = [...rounds].reduce((acc, value) => {
+        if(value.value){
+          acc = value;
+        }
+        return acc;
+      }, false);
+
+      if (!hasRounds) {
+        throw new Error('You have to select a round dawg :\\');
+      }
+
       dispatch(ApplicationActions.resetLoad());
 
+      console.log(newSetting);
       /**
        * Create user body
        */
@@ -43,6 +58,9 @@ const createRoom = (newSetting) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
         });
 
+        if(!!roomResponse) {
+          console.log(roomResponse);
+        }
         if (roomResponse.status === 200) {
           const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
             benchPlayers: roomResponse.data.benchPlayers
