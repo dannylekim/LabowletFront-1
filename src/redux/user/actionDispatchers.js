@@ -17,6 +17,10 @@ const updateUserWords = (user) => {
   return (dispatch) => dispatch(actions.updateUserWords(user));
 }
 
+/**
+ * @description connect user to room and return the socket object. This can be called from other dispatchers
+ * to add additional subscribtion
+ */
 const connectUser = (socket) => {
   return (dispatch) => dispatch(actions.connectUser(socket));
 }
