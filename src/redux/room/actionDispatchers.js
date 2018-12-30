@@ -3,7 +3,7 @@ import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
 import Adapters from '../../services/Adapters';
-import LabowletSocket from '../../services/SocketsInit';
+import LabowletSocketSingleton from '../../services/LabowletSocketSingleton';
 import UserActions from '../user/actionDispatchers';
 import ApplicationActions from '../application/actionDispatchers';
 
@@ -68,20 +68,24 @@ const createRoom = (newSetting) => {
           })
 
           /**
-           * 
+           * update room's code and settings
            */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(pendingSetting));
+
+          console.log('code')
+          console.log('state:', getState().room.code);
+          console.log('response:', roomResponse.data.roomCode);
           
           // TODO create socket connection to 'room' 
-          const mySocket = new LabowletSocket(roomResponse.data.roomCode);          
-          roomChangesEvents(mySocket.socketConnection);
+          const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);          
+          roomChangesEvents(mySocket);
           
           /**
            * socket events that on redux change go here
            */
 
-          dispatch(UserActions.connectUser(mySocket.socketConnection));
+          dispatch(UserActions.connectUser(mySocket));
           dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
@@ -142,10 +146,10 @@ const joinRoom = (roomCode) => {
           dispatch(actions.updateSetting(pendingSetting));
           
           // TODO create socket connection to 'room' 
-          const mySocket = new LabowletSocket(roomResponse.data.roomCode);  
-          roomChangesEvents(mySocket.socketConnection);
+          const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);  
+          roomChangesEvents(mySocket);
         
-          dispatch(UserActions.connectUser(mySocket.socketConnection));
+          dispatch(UserActions.connectUser(mySocket));
           dispatch(ApplicationActions.updatePage('LOBBY'));
           
         } else {
@@ -170,8 +174,9 @@ const joinRoom = (roomCode) => {
  * @param {Socket} socket 
  */
 const roomChangesEvents = (socket) => {
-  socket.on('', () => {
-  });
+  socket.addSubscription('join', (payload) => {
+    console.log('join room payload', payload);
+  })
 }
 
 export default {
