@@ -25,36 +25,27 @@ class LabowletSocket {
     const socketClient = STOMP.over(socket);
     socketClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
+
         // Make factory method that creates subsriptions with `/room/${this.roomCode}` prefix thus the params is the socket event.
-        socketClient.subscribe(`/room/${this.roomCode}/join`, function (payload) {
-            console.log('fuck yea');
-            console.log(payload);
-        });
+        // socketClient.subscribe(`/room/${this.roomCode}/join`, function (payload) {
+        //     console.log(payload);
+        // });
     });
-    // const socketClient = socket.channel(`/room/${this.roomCode}`, (data) => {
-    //   console.log(data)
-    // });
-
-    // const socket = io(address, {
-    //   path,
-    // });
-
-    // console.log(socket);
-
-    // socket.on('connect', (mySocket) => {
-    //   mySocket.join(`/room/${this.roomCode}`, (data) => {
-    //     console.log(data);
-    //   });
-    //   console.log('yay connected!'); // true
-    //   console.log(socket.connected); // true
-    // });
-
-    // //Add events here...
-    // socket.on(``, (payload) => {
-    //   console.log('wtf is this', payload);
-    // })
     
     return socketClient;
+  }
+
+  /**
+   * @function addSubscription
+   * @description factory function that creates subsription with `/room/code` prepended to the path.
+   * All user has to input is the message
+   * @param {String} message 
+   * @param {Function} fn 
+   */
+  addSubscription(message, fn) {
+    const socketPath = `/room/${this.roomCode}/${message}`
+    console.log(socketPath)
+    this._socketConnection.subscribe(socketPath , fn);
   }
 
   get socketConnection() {
