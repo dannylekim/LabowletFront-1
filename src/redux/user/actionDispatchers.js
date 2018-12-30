@@ -17,9 +17,14 @@ const updateUserWords = (user) => {
   return (dispatch) => dispatch(actions.updateUserWords(user));
 }
 
+const connectUser = (socket) => {
+  return (dispatch) => dispatch(actions.connectUser(socket));
+}
+
 export default {
   updateUserName,
   updateUserId,
   updateUserTeam,
   updateUserWords,
+  connectUser,
 };
