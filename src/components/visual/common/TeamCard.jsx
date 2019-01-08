@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-
+import Proptypes from 'prop-types';
 import '../../../styles/teamCards.scss';
 
 const ORIGINAL_STYLES = {
@@ -13,7 +13,13 @@ const MOUNTED_STYLES = {
 const CARD_TRANSITION = 'cubic-bezier(0.18, 0.89, 0.32, 1.28)';
 
 class TeamCard extends PureComponent {
-
+  static get propTypes() {
+    return {
+      joinTeam: Proptypes.func,
+      id: Proptypes.string,
+      name: Proptypes.string,
+    }
+  }
   constructor(props) {
     super(props);
     this.state = {
