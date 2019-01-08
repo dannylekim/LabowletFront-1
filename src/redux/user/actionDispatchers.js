@@ -47,19 +47,21 @@ const connectUser = (code) => {
         
         if (command === 'MESSAGE' && parsedBody.id === 'ROOM') {
           const data = parsedBody.payload;
-          console.log('===========');
-          console.log(data);
-          console.log('===========');
           dispatch(updateSetting(data));
         }
       });
 
       /**
-       * Connect player to bowl
+       * Connect player to active game socket
        */
-      socketClient.subscribe(`/room/${code}/bowl`, function (payload) {
-        console.log(payload);
+      socketClient.subscribe(`/room/${code}/game`, function (payload) {
         const { command, body } = payload;
+        const parsedBody = JSON.parse(body);
+        
+        if (command === 'MESSAGE' && parsedBody.id === 'GAME') {
+          const data = parsedBody.payload;
+          // TODO dispatch game result
+        }
       });
 
       dispatch(updatePage('LOBBY'));
