@@ -63,7 +63,7 @@ class LobbyPage extends PureComponent {
 
 const connectObject = {
   states: ['room', 'user'],
-  actions: [],
+  actions: ['joinTeam'],
 }
 
 export default connectToRedux(LobbyPage, connectObject);

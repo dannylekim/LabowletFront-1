@@ -147,7 +147,14 @@ const joinRoom = (roomCode) => {
   };
 }
 
+const joinTeam = (team) => {
+  return async (dispatch, getState) => {
+    console.log(team);
+  }
+}
+
 export default {
   createRoom,
   joinRoom,
+  joinTeam,
 };
