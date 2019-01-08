@@ -35,10 +35,18 @@ const connectUser = (socket) => {
   }
 }
 
-export default {
+const updateUserToken = (token) => {
+  return {
+    type: actionTypes.UPDATE_USER_TOKEN,
+    token,
+  }
+}
+
+export {
   updateUserName,
   updateUserId,
   updateUserTeam,
   updateUserWords,
   connectUser,
+  updateUserToken,
 };

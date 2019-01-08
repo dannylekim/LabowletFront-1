@@ -3,6 +3,7 @@ const state = {
   id: '',
   team: '',
   words: [],
+  token: '',
   socket: null,
 }
 

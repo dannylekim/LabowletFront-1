@@ -23,6 +23,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         socket: action.socket,
       });
+    case actionTypes.UPDATE_USER_TOKEN:
+      return Object.assign({}, state, {
+        token: action.token,
+      });
     default:
       return state;
   }
