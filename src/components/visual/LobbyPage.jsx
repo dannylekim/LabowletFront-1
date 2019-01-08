@@ -34,12 +34,18 @@ class LobbyPage extends PureComponent {
 
   _joinTeam(teamId) {
     console.log('joined team', teamId)
+    this.props.joinTeam(teamId, 'temp', this.props.user.token).then(() => {
+      alert('success!');
+    }).catch((err) => {
+      alert(err)
+    }).finally(() => {
+
+    });
   }
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
     const { roomSettings, benchPlayers } = this.props.room.settings;
-    console.log(benchPlayers);
     const benchPlayersIcons = benchPlayers.map((player) => <PlayerIcon key={player.id} name={player.name}/>);
     const teamList = this._renderTeam(roomSettings.maxTeams);
 
