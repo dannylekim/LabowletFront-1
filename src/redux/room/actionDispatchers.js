@@ -1,8 +1,8 @@
-import actions from './actions';
+import * as actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
-import Adapters from '../../services/Adapters';
+import { RoomSettings } from '../../services/Adapters';
 import LabowletSocketSingleton from '../../services/LabowletSocketSingleton';
 import UserActions from '../user/actionDispatchers';
 import ApplicationActions from '../application/actionDispatchers';
@@ -46,7 +46,7 @@ const createRoom = (newSetting) => {
       const userResponse = await UserRequests.createUser(body);
 
       if (userResponse.status < 400 && userResponse.status >= 200) {
-        const formattedSettings = Adapters.RoomSettings(newSetting);
+        const formattedSettings = RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
         /**
@@ -63,30 +63,23 @@ const createRoom = (newSetting) => {
         });
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
-            benchPlayers: roomResponse.data.benchPlayers
-          })
-
+          console.log(roomResponse.data);
           /**
            * update room's code and settings
            */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
-          dispatch(actions.updateSetting(pendingSetting));
+          dispatch(actions.updateSetting(roomResponse.data));
 
-          console.log('code')
-          console.log('state:', getState().room.code);
-          console.log('response:', roomResponse.data.roomCode);
-          
-          // TODO create socket connection to 'room' 
-          const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);          
-          roomChangesEvents(mySocket);
+          // TODO create socket connection to 'room'
+          // Instantiate socket singleton
+          //const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);       
+          //roomChangesEvents(mySocket);
           
           /**
            * socket events that on redux change go here
            */
-
-          dispatch(UserActions.connectUser(mySocket));
-          dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(UserActions.connectUser(roomResponse.data.roomCode));
+          //dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
           throw new Error('Must have at least one round');
@@ -138,19 +131,15 @@ const joinRoom = (roomCode) => {
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
 
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
-            benchPlayers: roomResponse.data.benchPlayers
-          });
-
           dispatch(actions.updateCode(roomResponse.data.roomCode));
-          dispatch(actions.updateSetting(pendingSetting));
+          dispatch(actions.updateSetting(roomResponse.data));
           
           // TODO create socket connection to 'room' 
-          const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);  
-          roomChangesEvents(mySocket);
+          //const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);  
+          //roomChangesEvents(mySocket);
         
-          dispatch(UserActions.connectUser(mySocket));
-          dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(UserActions.connectUser(roomResponse.data.roomCode));
+          //dispatch(ApplicationActions.updatePage('LOBBY'));
           
         } else {
           if (roomResponse.status === 404) {
@@ -166,17 +155,6 @@ const joinRoom = (roomCode) => {
       throw e;
     }
   };
-}
-
-/**
- * @function roomChangesEvents
- * @description Define socket events that will modify redux state(s) here. Will be used in both create/join room
- * @param {Socket} socket 
- */
-const roomChangesEvents = (socket) => {
-  socket.addSubscription('join', (payload) => {
-    console.log('join room payload', payload);
-  })
 }
 
 export default {
