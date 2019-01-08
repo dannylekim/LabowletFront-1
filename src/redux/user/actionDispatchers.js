@@ -29,7 +29,7 @@ const updateUserWords = (user) => {
  * @description connect user to room and return the socket object. This can be called from other dispatchers
  * to add additional subscribtion
  */
-const _connectUser = (code) => {
+const connectUser = (code) => {
   return (dispatch, getState) => {
     //const { code } = getState().room.code;
     const LABOWLET_PATH = '/labowlet/'
@@ -72,10 +72,10 @@ const _connectUser = (code) => {
   }
 }
 
-export default {
+export default{
+  connectUser,
   updateUserName,
   updateUserId,
   updateUserTeam,
   updateUserWords,
-  connectUser,
 };
