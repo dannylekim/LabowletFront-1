@@ -38,9 +38,10 @@ class LobbyPage extends PureComponent {
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
-    const settings = {...this.props.room.settings}
-    const benchPlayers = [...settings.benchPlayers].map((player) => <PlayerIcon key={player.id} name={player.name}/>);
-    const teamList = this._renderTeam(settings.maxTeams);
+    const { roomSettings, benchPlayers } = this.props.room.settings;
+    console.log(benchPlayers);
+    const benchPlayersIcons = benchPlayers.map((player) => <PlayerIcon key={player.id} name={player.name}/>);
+    const teamList = this._renderTeam(roomSettings.maxTeams);
 
     return (
       <div className="lobby">
@@ -53,7 +54,7 @@ class LobbyPage extends PureComponent {
           <div className="foot-header">
             <h3>Players waiting: </h3>
           </div>
-          {benchPlayers}
+          {benchPlayersIcons}
         </div>
       </div>
     );
@@ -61,7 +62,7 @@ class LobbyPage extends PureComponent {
 }
 
 const connectObject = {
-  states: ['room'],
+  states: ['room', 'user'],
   actions: [],
 }
 
