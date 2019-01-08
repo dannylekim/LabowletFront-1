@@ -3,7 +3,6 @@ import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
 import { RoomSettings } from '../../services/Adapters';
-import LabowletSocketSingleton from '../../services/LabowletSocketSingleton';
 import UserActions from '../user/actionDispatchers';
 import ApplicationActions from '../application/actionDispatchers';
 
@@ -147,9 +146,25 @@ const joinRoom = (roomCode) => {
   };
 }
 
-const joinTeam = (team) => {
+const joinTeam = (teamId, teamName) => {
   return async (dispatch, getState) => {
-    console.log(team);
+    try {
+      console.log(teamId);
+      const body = {
+        teamName,
+      }
+      const joinTeamResponse = RoomRequests.joinTeam(teamId, body, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      });
+
+      if (joinTeamResponse.status === 200) {
+        console.log(joinTeamResponse.data);
+      } else {
+        throw joinTeamResponse.status;
+      }
+    } catch (err) {
+      return err;
+    }
   }
 }
 
