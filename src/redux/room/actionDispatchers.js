@@ -4,6 +4,9 @@ import RoomRequests from '../../services/RoomHTTPRequests';
 
 import { RoomSettings } from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
+import {
+  updateUserToken,
+} from '../user/actions'
 import ApplicationActions from '../application/actionDispatchers';
 
 /**
@@ -51,6 +54,7 @@ const createRoom = (newSetting) => {
         /**
          * Give user an id locally and update local settings
          */
+        dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
 
@@ -110,7 +114,8 @@ const joinRoom = (roomCode) => {
 
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
-
+        
+        dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id));
 
         /**
