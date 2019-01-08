@@ -1,10 +1,12 @@
-import actions from './actions';
+import * as actions from './actions';
 import configs from '../../config/RESTurl.json'; 
 import SockJS from 'sockjs-client';
 import STOMP from 'stompjs';
 
 import { updatePage } from '../application/actions';
-import { updateSetting } from '../room/actions';
+import { 
+  updateSetting
+ } from '../room/actions';
 
 
 const updateUserName = (user) => {
@@ -13,7 +15,6 @@ const updateUserName = (user) => {
 
 const updateUserId = (id) => {
   return (dispatch) => dispatch(actions.updateUserId(id));
-
 }
 
 const updateUserTeam = (user) => {
@@ -28,7 +29,7 @@ const updateUserWords = (user) => {
  * @description connect user to room and return the socket object. This can be called from other dispatchers
  * to add additional subscribtion
  */
-const connectUser = (code) => {
+const _connectUser = (code) => {
   return (dispatch, getState) => {
     //const { code } = getState().room.code;
     const LABOWLET_PATH = '/labowlet/'
