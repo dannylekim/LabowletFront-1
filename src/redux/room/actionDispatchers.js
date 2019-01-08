@@ -63,18 +63,12 @@ const createRoom = (newSetting) => {
         });
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
-          console.log(roomResponse.data);
           /**
            * update room's code and settings
            */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
 
-          // TODO create socket connection to 'room'
-          // Instantiate socket singleton
-          //const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);       
-          //roomChangesEvents(mySocket);
-          
           /**
            * socket events that on redux change go here
            */
@@ -133,11 +127,7 @@ const joinRoom = (roomCode) => {
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
-          
-          // TODO create socket connection to 'room' 
-          //const mySocket = new LabowletSocketSingleton(roomResponse.data.roomCode);  
-          //roomChangesEvents(mySocket);
-        
+
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
           //dispatch(ApplicationActions.updatePage('LOBBY'));
           
