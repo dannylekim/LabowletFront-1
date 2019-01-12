@@ -43,27 +43,23 @@ const connectUser = (code) => {
        * Connect player to room page and access the payload obj.
        */
       socketClient.subscribe(`/room/${code}`, function (payload) {
-        const { command, body } = payload;
+        const { body } = payload;
         const parsedBody = JSON.parse(body);
-        
-        if (command === 'MESSAGE' && parsedBody.id === 'ROOM') {
-          const data = parsedBody.payload;
-          dispatch(updateSetting(data));
-        }
+        dispatch(updateSetting(parsedBody));
       });
 
       /**
        * Connect player to active game socket
        */
       socketClient.subscribe(`/room/${code}/game`, function (payload) {
-        const { command, body } = payload;
+        const { body } = payload;
         const parsedBody = JSON.parse(body);
         
-        if (command === 'MESSAGE' && parsedBody.id === 'GAME') {
           //const data = parsedBody.payload;
           // TODO dispatch game result
-        }
       });
+
+      
 
       dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
