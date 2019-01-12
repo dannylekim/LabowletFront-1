@@ -59,8 +59,6 @@ const connectUser = (code) => {
           // TODO dispatch game result
       });
 
-      
-
       dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
     });

@@ -184,7 +184,7 @@ const joinTeam = (teamId, teamName) => {
       }
       const joinTeamResponse = await RoomRequests.joinTeam(teamId, body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
-      });
+      });  
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
       } else {
