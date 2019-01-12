@@ -23,6 +23,20 @@ class LobbyPage extends PureComponent {
   }
 
   /**
+   * @function _checkMax
+   * @description 
+   */
+  _checkMax() {
+    let isMaxed = false;
+    // Checked if we reach max team creation
+    if(!!this.props.room.settings.teams.find((value) => value.name === 'Empty Slot')) {
+      isMaxed = true;
+    }
+    this.setState({isMaxed});
+
+  }
+
+  /**
    * Create Team cards per max team
    * @private
    */
@@ -65,12 +79,14 @@ class LobbyPage extends PureComponent {
     this.props
       .joinTeam(teamId, teamName, this.props.user.token)
       .then(() => {
-        alert('success!');
+        console.log('success!');
       })
       .catch(err => {
         alert(err);
       })
-      .finally(() => {});
+      .finally(() => {
+        this._checkMax()
+      });
   }
 
   addTeam(e) {
@@ -85,20 +101,17 @@ class LobbyPage extends PureComponent {
         }).catch(err => {
           console.error(err);
         }).finally(() => {
-          let isMaxed = false;
-          console.log(this.props.room.settings.teams.find((value) => value.name === 'Empty Slot'));
-          // Checked if we reach max team creation
-          if(!!this.props.room.settings.teams.find((value) => value.name === 'Empty Slot')) {
-            isMaxed = true;
-          }
-
+          this._checkMax();
           this.setState({
             createModalIsVisible: false,
-            isMaxed,
           });
         });
       }
     }
+  }
+
+  startGame() {
+    this.props.startGame();
   }
 
   render() {
@@ -127,6 +140,7 @@ class LobbyPage extends PureComponent {
             </div>
           )}
         </div>
+        <button onClick={() => this.props.playerReady()}>Socket</button>
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>
@@ -158,7 +172,7 @@ class LobbyPage extends PureComponent {
 
 const connectObject = {
   states: ['room', 'user'],
-  actions: ['createTeam', 'joinTeam'],
+  actions: ['createTeam', 'joinTeam', 'playerReady'],
 };
 
 export default connectToRedux(LobbyPage, connectObject);
