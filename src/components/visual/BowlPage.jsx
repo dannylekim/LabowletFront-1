@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 
 import connectToRedux from '../ReduxConnector';
 
-import TeamCard from './common/TeamCard';
 import PlayerIcon from './common/PlayerIcon';
 
 import '../../styles/bowl.scss';
