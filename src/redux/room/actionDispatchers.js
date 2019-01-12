@@ -114,7 +114,7 @@ const joinRoom = (roomCode) => {
 
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
-        
+
         dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id));
 
@@ -151,6 +151,30 @@ const joinRoom = (roomCode) => {
   };
 }
 
+const createTeam = (teamName) => {
+  return async (dispatch, getState) => {
+    try {
+      const body = {
+        teamName,
+      }
+      console.log('body is',body);
+      // Post create Team req
+      const joinTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      });
+      if (joinTeamResponse.status === 200) {
+        console.log('successfull result => ',joinTeamResponse.data);
+      } else {
+        console.log('status = ', joinTeamResponse.status);
+        throw joinTeamResponse;
+      }
+    } catch (err) {
+      console.log('error: ', err);
+      return err;
+    }
+  }
+}
+
 const joinTeam = (teamId, teamName) => {
   return async (dispatch, getState) => {
     try {
@@ -158,16 +182,17 @@ const joinTeam = (teamId, teamName) => {
       const body = {
         teamName,
       }
-      const joinTeamResponse = RoomRequests.joinTeam(teamId, body, (progress) => {
+      const joinTeamResponse = await RoomRequests.joinTeam(teamId, body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
       });
-
       if (joinTeamResponse.status === 200) {
-        console.log(joinTeamResponse.data);
+        console.log('successfull result => ',joinTeamResponse.data);
       } else {
-        throw joinTeamResponse.status;
+        console.log('status = ', joinTeamResponse.status);
+        throw joinTeamResponse;
       }
     } catch (err) {
+      console.log('error: ', err);
       return err;
     }
   }
@@ -176,5 +201,6 @@ const joinTeam = (teamId, teamName) => {
 export default {
   createRoom,
   joinRoom,
+  createTeam,
   joinTeam,
 };
