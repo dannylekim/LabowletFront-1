@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
 import LobbyPage from './visual/LobbyPage';
+import BowlPage from './visual/BowlPage';
 
 import ReduxConnector from './ReduxConnector';
 
@@ -14,7 +15,7 @@ class App extends PureComponent {
     switch(pageKey) {
       case 'HOME':
         return {
-          title: 'Labowlet a',
+          title: 'Labowlet',
           component: <HomePage />
         };
       case 'CREATE':
@@ -27,6 +28,16 @@ class App extends PureComponent {
           title: 'Lobby',
           component: <LobbyPage />
         };
+      case 'BOWL':
+        return {
+          title: 'Bowl',
+          component: <BowlPage />
+        };
+      // case 'LOBBY':
+      //   return {
+      //     title: 'Lobby',
+      //     component: <LobbyPage />
+      //   };
       default:
         return null;
     }
