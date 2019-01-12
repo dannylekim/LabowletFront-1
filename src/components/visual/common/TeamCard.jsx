@@ -53,14 +53,35 @@ class TeamCard extends PureComponent {
     }));
   }
   
+  /**
+   * @function renderTeamates
+   * @description render teamate names. Default Empty otherwise
+   * @param {Array} teamMates 
+   */
+  renderTeamates(teamMates) {
+    if (teamMates.length === 0) {
+      return ['Empty', 'Empty'];
+    }
+
+    const teamList = teamMates.map(value => value.name );
+
+    if (teamList.length === 1 ){
+      teamList.push('Empty');
+    } 
+
+    return teamList;
+  } 
+
   render() {
+    const { teamMates } = this.props;
+    const myTeamMates = this.renderTeamates(teamMates);
     return (
-      <div className="team-card" onClick={() => this.props.joinTeam(this.props.index)} style={this.state.styles}>
+      <div className="team-card" onClick={() => this.props.joinTeam(this.props.key)} style={this.state.styles}>
         <div className="team-card-title">
-          <h3>TEAM {this.props.index}</h3>
+          <h3>{this.props.name}</h3>
         </div>
         <div className="team-card-container">
-          {this.props.teamMates}
+          {myTeamMates}
         </div>
       </div>
     );
