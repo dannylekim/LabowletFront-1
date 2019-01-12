@@ -4,6 +4,7 @@ import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
 import LobbyPage from './visual/LobbyPage';
 import BowlPage from './visual/BowlPage';
+import GamePage from './visual/GamePage';
 
 import ReduxConnector from './ReduxConnector';
 
@@ -33,11 +34,11 @@ class App extends PureComponent {
           title: 'Bowl',
           component: <BowlPage />
         };
-      // case 'LOBBY':
-      //   return {
-      //     title: 'Lobby',
-      //     component: <LobbyPage />
-      //   };
+      case 'GAME':
+        return {
+          title: 'Game Time',
+          component: <GamePage />
+        };
       default:
         return null;
     }
