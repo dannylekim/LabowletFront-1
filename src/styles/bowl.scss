@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+.bowl {
+  text-align: center;
+  font-family: $game-font;
+
+  .words-container {
+    // display: flex;
+    // flex-wrap: wrap;
+
+    .words {
+      // flex: 1 1 50%;
+      //flex-grow: 2;
+      // display: inline-block;
+    }
+  }
+  .word-input {
+    font-size: 20px;
+    height: 30px;
+  }
+  .word-submit {
+    font-size: 20px;
+    height: 30px;
+  }
+
+}
+
+.page-footer {
+  .foot-header {
+    text-align: justify;
+    margin-left: 10px;
+    line-height: 20px;
+    // font-size: 20px;
+  }
+}

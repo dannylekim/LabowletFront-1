@@ -60,7 +60,7 @@ const connectUser = (code) => {
         const parsedBody = JSON.parse(body);
         
         if (command === 'MESSAGE' && parsedBody.id === 'GAME') {
-          const data = parsedBody.payload;
+          //const data = parsedBody.payload;
           // TODO dispatch game result
         }
       });
