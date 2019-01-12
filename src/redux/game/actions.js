@@ -28,8 +28,16 @@ const updateContent = (content) => {
   }
 }
 
+const updateGameType = (gameType) => {
+  return {
+    type: actionTypes.UPDATE_GAME_TYPE,
+    gameType,
+  }
+}
+
 export { 
   updatePoints,
   updateStatus,
   updateContent,
+  updateGameType,
 };

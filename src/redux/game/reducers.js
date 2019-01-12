@@ -23,6 +23,10 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         content: action.content,
       });
+    case actionTypes.UPDATE_GAME_TYPE:
+      return Object.assign({}, state, {
+        gameType: action.gameType,
+      });
     default:
       return state;
   }
