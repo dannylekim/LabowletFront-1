@@ -44,7 +44,7 @@ class LobbyPage extends PureComponent {
       .map(value => (
         <TeamCard
           key={value.teamId}
-          joinTeam={this._joinTeam}
+          joinTeam={() => this._joinTeam(value.teamId, value.teamName)}
           name={value.teamName}
           teamMates={value.teamMembers}
         />
@@ -60,10 +60,10 @@ class LobbyPage extends PureComponent {
     return TeamCardArray;
   }
 
-  _joinTeam(teamId) {
+  _joinTeam(teamId, teamName) {
     console.log('joined team', teamId);
     this.props
-      .joinTeam(teamId, 'temp', this.props.user.token)
+      .joinTeam(teamId, teamName, this.props.user.token)
       .then(() => {
         alert('success!');
       })
