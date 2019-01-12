@@ -90,7 +90,7 @@ describe('HomePage', () => {
         type: userActionTypes.default.UPDATE_USER_NAME,
         name,
       }
-      expect(userActions.default.updateUserName(name)).to.deep.equal(expectedAction)
+      expect(userActions.updateUserName(name)).to.deep.equal(expectedAction)
     });
   });
 });

@@ -198,6 +198,8 @@ const joinTeam = (teamId, teamName) => {
   }
 }
 
+// addWord here
+
 export default {
   createRoom,
   joinRoom,

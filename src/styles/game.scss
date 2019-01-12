@@ -1,0 +1,43 @@
+@import './variables.scss';
+
+
+ @-webkit-keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}@keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}
+ @-webkit-keyframes tracking-out-contract{0%{opacity:1}50%{opacity:1}100%{letter-spacing:-.5em;opacity:0}}@keyframes tracking-out-contract{0%{opacity:1}50%{opacity:1}100%{letter-spacing:-.5em;opacity:0}}
+
+.game {
+  text-align: center;
+  font-family: $game-font;
+  .game-type {
+    padding-top: 5%;
+    font-size: 50px;
+    line-height: 60px;
+  }
+
+  .game-timer {
+    padding-top: 5%;
+    .game-time-seconds {
+      font-size: 100px;
+    }
+  }
+
+  .game-word {
+    font-size: 70px;
+    line-height: 200px;
+
+    .enter {-webkit-animation:tracking-in-expand .12s linear both;animation:tracking-in-expand .12s linear both}
+    .leave {-webkit-animation:tracking-out-contract .12s linear both;animation:tracking-out-contract .12s linear both}
+  }
+
+  .game-selection {
+    padding-top: 90px;
+
+    .player-btn {
+      line-height: 50px;
+      width: 200px;
+      font-family: $game-font;
+      font-size: 29px;
+      border-radius: 20px;
+    }
+  }
+
+}

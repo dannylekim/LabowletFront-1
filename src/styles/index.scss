@@ -58,3 +58,15 @@ body {
   box-shadow: $subtle-shadow;
   background-color: $font-color-bright;
 }
+
+.rmc-dialog-body {
+  
+  input.code-input {
+    font-family: $game-font;
+    font-size: 30px;
+    line-height: 36px;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+  }
+}
