@@ -29,6 +29,6 @@ const RoomSettings = (state) => {
   }
 }
 
-export default {
+export {
   RoomSettings,
 }

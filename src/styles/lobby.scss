@@ -1,5 +1,8 @@
-.team-card {
+@import './variables.scss';
 
+.lobby {
+  text-align: center;
+  margin-bottom: 100px; /* To add extra space if team # > 4 */
 }
 
 .page-footer {

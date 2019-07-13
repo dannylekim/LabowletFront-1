@@ -3,6 +3,8 @@ const state = {
   id: '',
   team: '',
   words: [],
+  token: '',
+  socket: null,
 }
 
 export default state;

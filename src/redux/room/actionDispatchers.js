@@ -1,9 +1,12 @@
-import actions from './actions';
+import * as actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
-import Adapters from '../../services/Adapters';
+import { RoomSettings } from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
+import {
+  updateUserToken,
+} from '../user/actions'
 import ApplicationActions from '../application/actionDispatchers';
 
 /**
@@ -15,8 +18,23 @@ import ApplicationActions from '../application/actionDispatchers';
 const createRoom = (newSetting) => {
   return async (dispatch, getState) => {
     try {
+
+      // We want to check that at least 1 round is selected
+      const { rounds } = { ...newSetting };
+      const hasRounds = [...rounds].reduce((acc, value) => {
+        if(value.value){
+          acc = value;
+        }
+        return acc;
+      }, false);
+
+      if (!hasRounds) {
+        throw new Error('You have to select a round dawg :\\');
+      }
+
       dispatch(ApplicationActions.resetLoad());
 
+      console.log(newSetting);
       /**
        * Create user body
        */
@@ -29,10 +47,14 @@ const createRoom = (newSetting) => {
        */
       const userResponse = await UserRequests.createUser(body);
 
-      if (userResponse.status === 200) {
-        const formattedSettings = Adapters.RoomSettings(newSetting);
+      if (userResponse.status < 400 && userResponse.status >= 200) {
+        const formattedSettings = RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
+        /**
+         * Give user an id locally and update local settings
+         */
+        dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
 
@@ -43,14 +65,18 @@ const createRoom = (newSetting) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
         });
 
-        if (roomResponse.status === 200) {
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
-            benchPlayers: roomResponse.data.benchPlayers
-          })
-
+        if (roomResponse.status < 400 && roomResponse.status >= 200) {
+          /**
+           * update room's code and settings
+           */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
-          dispatch(actions.updateSetting(pendingSetting));
-          dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(actions.updateSetting(roomResponse.data));
+
+          /**
+           * socket events that on redux change go here
+           */
+          dispatch(UserActions.connectUser(roomResponse.data.roomCode));
+          //dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
           throw new Error('Must have at least one round');
@@ -89,6 +115,7 @@ const joinRoom = (roomCode) => {
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
 
+        dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id));
 
         /**
@@ -100,16 +127,14 @@ const joinRoom = (roomCode) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
         });
 
-        if (!!roomResponse && roomResponse.status === 200) {
-
-          const pendingSetting = Object.assign(roomResponse.data.roomSettings, {
-            benchPlayers: roomResponse.data.benchPlayers
-          })
+        if (roomResponse.status < 400 && roomResponse.status >= 200) {
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
-          dispatch(actions.updateSetting(pendingSetting));
-          dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(actions.updateSetting(roomResponse.data));
 
+          dispatch(UserActions.connectUser(roomResponse.data.roomCode));
+          //dispatch(ApplicationActions.updatePage('LOBBY'));
+          
         } else {
           if (roomResponse.status === 404) {
             throw new Error('Invalid room code');          
@@ -126,7 +151,58 @@ const joinRoom = (roomCode) => {
   };
 }
 
+const createTeam = (teamName) => {
+  return async (dispatch, getState) => {
+    try {
+      const body = {
+        teamName,
+      }
+      console.log('body is',body);
+      // Post create Team req
+      const joinTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      });
+      if (joinTeamResponse.status === 200) {
+        console.log('successfull result => ',joinTeamResponse.data);
+      } else {
+        console.log('status = ', joinTeamResponse.status);
+        throw joinTeamResponse;
+      }
+    } catch (err) {
+      console.log('error: ', err);
+      return err;
+    }
+  }
+}
+
+const joinTeam = (teamId, teamName) => {
+  return async (dispatch, getState) => {
+    try {
+      console.log(teamId);
+      const body = {
+        teamName,
+      }
+      const joinTeamResponse = await RoomRequests.joinTeam(teamId, body, getState().user.token, (progress) => {
+        dispatch(ApplicationActions.loadTo(progress.loaded))
+      });  
+      if (joinTeamResponse.status === 200) {
+        console.log('successfull result => ',joinTeamResponse.data);
+      } else {
+        console.log('status = ', joinTeamResponse.status);
+        throw joinTeamResponse;
+      }
+    } catch (err) {
+      console.log('error: ', err);
+      return err;
+    }
+  }
+}
+
+// addWord here
+
 export default {
   createRoom,
   joinRoom,
+  createTeam,
+  joinTeam,
 };

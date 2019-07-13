@@ -1,3 +1,4 @@
 {
-  "dev": "http://159.203.5.35:4000"
+  "dev": "http://localhost:4000",
+  "sk": "https://labowlet.herokuapp.com/"
 }

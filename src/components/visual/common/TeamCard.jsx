@@ -1,11 +1,91 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import Proptypes from 'prop-types';
+import '../../../styles/teamCards.scss';
 
-const TeamCard = (props) => {
-  return (
-    <div className='team-card'>
-      hi
-    </div>
-  );
+const ORIGINAL_STYLES = {
+  opacity: '0',
+  transform: 'scale(0.1)',
+}
+const MOUNTED_STYLES = {
+  opacity: '1',
+  transform: 'scale(1)',
+}
+const CARD_TRANSITION = 'cubic-bezier(0.18, 0.89, 0.32, 1.28)';
+
+class TeamCard extends PureComponent {
+  static get propTypes() {
+    return {
+      joinTeam: Proptypes.func,
+      id: Proptypes.string,
+      name: Proptypes.string,
+    }
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      styles: Object.assign(ORIGINAL_STYLES),
+    };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.mountStyles();
+    }, 40 + this.props.index * 10);
+  }
+
+  componentWillUnmount() {
+    setTimeout(() => {
+      this.unmountStyles();
+    }, 30);
+  }
+
+  mountStyles() {
+    this.setState((prev) => ({
+      styles: Object.assign({
+        transition: `600ms ${CARD_TRANSITION} ${100 * this.props.index}ms`
+      }, MOUNTED_STYLES),
+    }));
+  }
+
+  unmountStyles() {
+    this.setState((prev) => ({
+      styles: Object.assign(prev.styles, ORIGINAL_STYLES),
+    }));
+  }
+  
+  /**
+   * @function renderTeamates
+   * @description render teamate names. Default Empty otherwise
+   * @param {Array} teamMates 
+   */
+  renderTeamates(teamMates) {
+    if (teamMates.length === 0) {
+      return ['Empty', 'Empty'];
+    }
+
+    const teamList = teamMates.map(value => value.name );
+
+    if (teamList.length === 1 ){
+      teamList.push('Empty');
+    } 
+
+    return teamList;
+  } 
+
+  render() {
+    const { teamMates } = this.props;
+    const myTeamMates = this.renderTeamates(teamMates);
+    return (
+      <div className="team-card" onClick={() => this.props.joinTeam(this.props.key)} style={this.state.styles}>
+        <div className="team-card-title">
+          <h3>{this.props.name}</h3>
+        </div>
+        <div className="team-card-container">
+          {myTeamMates}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default TeamCard;

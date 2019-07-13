@@ -3,29 +3,29 @@ import actionTypes from './actionTypes';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_USER_NAME:
+    case actionTypes.UPDATE_POINTS:
       return Object.assign({}, state, {
-        name: action.name,
+        teamPoints: action.point,
       });
-    case actionTypes.UPDATE_USER_ID:
+    case actionTypes.BECOME_ACTOR:
       return Object.assign({}, state, {
-        id: action.id,
+        status: "Actor",
       });
-    case actionTypes.UPDATE_USER_TEAM:
+    case actionTypes.BECOME_GUESSER:
       return Object.assign({}, state, {
-        team: action.team,
+        status: "Guesser",
       });
-    case actionTypes.UPDATE_USER_WORDS:
+    case actionTypes.BECOME_SPECTATOR:
       return Object.assign({}, state, {
-        words: action.words,
+        status: "Spectator",
       });
-    case actionTypes.CONNECT_USER_TO:
+    case actionTypes.UPDATE_GAME_CONTENT:
       return Object.assign({}, state, {
-        socket: action.socket,
+        content: action.content,
       });
-    case actionTypes.UPDATE_USER_TOKEN:
+    case actionTypes.UPDATE_GAME_TYPE:
       return Object.assign({}, state, {
-        token: action.token,
+        gameType: action.gameType,
       });
     default:
       return state;

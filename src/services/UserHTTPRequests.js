@@ -1,6 +1,6 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
-const REST_URL = url.dev;
+const REST_URL = url.sk;
 
 async function createUser(user) {
   try {
@@ -15,12 +15,14 @@ async function createUser(user) {
     });
 
     if (response.status >= 300 && response.status < 200) {
-      throw new Error(`Error ${response.status} creating new User:`, response.statusText);
+      throw new Error(`Error ${response.status} creating new User: ${response.message}`);
     }
 
     return response
   } catch (error) {
-    console.error('UserHTTPRequests::createUser:', error);
+    const errMessage = `UserHTTPRequests::createUser: ${error.message}`;
+    console.error(errMessage);
+    throw new Error(errMessage);
   }
 }
 

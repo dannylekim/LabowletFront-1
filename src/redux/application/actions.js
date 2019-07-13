@@ -20,7 +20,7 @@ const resetLoad = () => {
   }
 }
 
-export default { 
+export { 
   updatePage,
   loadTo,
   resetLoad,

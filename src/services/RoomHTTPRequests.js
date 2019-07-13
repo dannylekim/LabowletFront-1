@@ -1,6 +1,6 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
-const REST_URL = url.dev;
+const REST_URL = url.sk;
 
 /**
  * 
@@ -51,7 +51,7 @@ async function joinRoom(roomCode, TokenId, loading) {
     };
     const response = await axios({
       method: 'PUT',
-      url: '/join',
+      url: '/rooms',
       baseURL: `${REST_URL}`,
       headers,
       data: roomCode,
@@ -66,7 +66,73 @@ async function joinRoom(roomCode, TokenId, loading) {
   }
 }
 
+/**
+ * @async
+ * @param {String} roomCode
+ * @param {String} TokenId
+ * @param {Function} loading
+ */
+async function joinTeam(teamId, team, TokenId, loading) {
+  try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+
+    console.log(teamId, team, TokenId);
+    const response = await axios({
+      method: 'PUT',
+      url: `/teams/${teamId}`,
+      baseURL: `${REST_URL}`,
+      headers,
+      data: team,
+      onDownloadProgress: function (progressEvent) {
+        loading(progressEvent)
+      },
+    });
+
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+/**
+ * @async
+ * @param {String} roomCode
+ * @param {String} TokenId
+ * @param {Function} loading
+ */
+async function createTeam(team, TokenId, loading) {
+  try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+
+    console.log(TokenId);
+
+    const response = await axios({
+      method: 'POST',
+      url: '/teams',
+      baseURL: `${REST_URL}`,
+      headers,
+      data: team,
+      onDownloadProgress: function (progressEvent) {
+        loading(progressEvent)
+      },
+    });
+
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 export default {
   createRoom,
   joinRoom,
+  createTeam,
+  joinTeam,
 }

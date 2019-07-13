@@ -14,7 +14,7 @@ const updateCode = (code) => {
   }
 }
 
-export default { 
+export { 
   updateSetting,
   updateCode,
 };
