@@ -15,6 +15,14 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         loadingProgress: 0,
       });
+    case actionTypes.TOGGLE_SERVER:
+      return Object.assign({}, state, {
+        server: {
+          url: action.newServer,
+          label: action.serverName
+        }
+
+      });
     default:
       return state;
   }

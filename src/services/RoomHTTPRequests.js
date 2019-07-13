@@ -1,6 +1,6 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
-const REST_URL = url.sk;
+const REST_URL = url.prod;
 
 /**
  * 
@@ -8,7 +8,7 @@ const REST_URL = url.sk;
  * @param {String} TokenId 
  * @param {Function} loading
  */
-async function createRoom(roomSetting, TokenId, loading) {
+async function createRoom(roomSetting, TokenId, loading, server) {
   try {
     const headers = { 
       'X-Auth-Token': TokenId,
@@ -18,7 +18,7 @@ async function createRoom(roomSetting, TokenId, loading) {
     const response = await axios({
       method: 'POST',
       url: '/rooms',
-      baseURL: `${REST_URL}`,
+      baseURL: `${server || REST_URL}`,
       headers,
       onDownloadProgress: function (progressEvent) {
         loading(progressEvent)
@@ -42,7 +42,7 @@ async function createRoom(roomSetting, TokenId, loading) {
  * @param {String} TokenId
  * @param {Function} loading
  */
-async function joinRoom(roomCode, TokenId, loading) {
+async function joinRoom(roomCode, TokenId, loading, server) {
   try {
     const headers = { 
       'X-Auth-Token': TokenId,
@@ -52,7 +52,7 @@ async function joinRoom(roomCode, TokenId, loading) {
     const response = await axios({
       method: 'PUT',
       url: '/rooms',
-      baseURL: `${REST_URL}`,
+      baseURL: `${server || REST_URL}`,
       headers,
       data: roomCode,
       onDownloadProgress: function (progressEvent) {
@@ -72,7 +72,7 @@ async function joinRoom(roomCode, TokenId, loading) {
  * @param {String} TokenId
  * @param {Function} loading
  */
-async function joinTeam(teamId, team, TokenId, loading) {
+async function joinTeam(teamId, team, TokenId, loading, server) {
   try {
     const headers = { 
       'X-Auth-Token': TokenId,
@@ -84,7 +84,7 @@ async function joinTeam(teamId, team, TokenId, loading) {
     const response = await axios({
       method: 'PUT',
       url: `/teams/${teamId}`,
-      baseURL: `${REST_URL}`,
+      baseURL: `${server || REST_URL}`,
       headers,
       data: team,
       onDownloadProgress: function (progressEvent) {
@@ -104,7 +104,7 @@ async function joinTeam(teamId, team, TokenId, loading) {
  * @param {String} TokenId
  * @param {Function} loading
  */
-async function createTeam(team, TokenId, loading) {
+async function createTeam(team, TokenId, loading, server) {
   try {
     const headers = { 
       'X-Auth-Token': TokenId,
@@ -117,7 +117,7 @@ async function createTeam(team, TokenId, loading) {
     const response = await axios({
       method: 'POST',
       url: '/teams',
-      baseURL: `${REST_URL}`,
+      baseURL: `${server || REST_URL}`,
       headers,
       data: team,
       onDownloadProgress: function (progressEvent) {

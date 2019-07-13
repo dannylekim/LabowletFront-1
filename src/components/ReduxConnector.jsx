@@ -36,7 +36,10 @@ export default function (ComposedComponent, connectObject) {
     return (connectObject.actions || []).reduce((acc, item) => {
       acc[item] = actionDispatchers[item]
       return acc;
-    }, { updatePage: actionDispatchers.updatePage } );
+    }, { 
+      updatePage: actionDispatchers.updatePage,
+      toggleServer: actionDispatchers.toggleServer, 
+    });
   };
 
   class ReduxContainer extends React.PureComponent {

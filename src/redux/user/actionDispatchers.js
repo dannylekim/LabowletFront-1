@@ -34,7 +34,7 @@ const connectUser = (code) => {
     //const { code } = getState().room.code;
     const LABOWLET_PATH = '/labowlet/'
 
-    const socket = new SockJS(`${configs.sk}${LABOWLET_PATH}`);
+    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
     const socketClient = STOMP.over(socket);
 
     socketClient.connect({}, async (frame) => {

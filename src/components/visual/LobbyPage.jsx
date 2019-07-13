@@ -125,6 +125,7 @@ class LobbyPage extends PureComponent {
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
     console.log(this.props.room);
     //const addButton = ;
+    const canStart = this.props.user.id === this.props.room.settings.host.id;
 
     return (
       <div className="lobby">
@@ -132,15 +133,17 @@ class LobbyPage extends PureComponent {
           <p>Code is</p>
           <h1>{roomCode}</h1>
           {teamList}
-          {this.state.isMaxed ? (
-            ''
-          ) : (
-            <div className="add-team-btn" onClick={() => this.setState({ createModalIsVisible: true })}>
-              +
-            </div>
-          )}
+          <div className="page-container__team-list">
+            {this.state.isMaxed ? (
+              ''
+            ) : (
+              <div className="add-team-btn" onClick={() => this.setState({ createModalIsVisible: true })}>
+                +
+              </div>
+            )}
+          </div>
         </div>
-        <button onClick={() => this.props.playerReady()}>Socket</button>
+        { canStart && <button className="generic-start-btn" onClick={() => this.props.playerReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>

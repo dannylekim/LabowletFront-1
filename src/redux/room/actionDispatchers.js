@@ -18,8 +18,9 @@ import ApplicationActions from '../application/actionDispatchers';
 const createRoom = (newSetting) => {
   return async (dispatch, getState) => {
     try {
-
+      console.log('here')
       // We want to check that at least 1 round is selected
+      console.log(newSetting);
       const { rounds } = { ...newSetting };
       const hasRounds = [...rounds].reduce((acc, value) => {
         if(value.value){
@@ -34,7 +35,6 @@ const createRoom = (newSetting) => {
 
       dispatch(ApplicationActions.resetLoad());
 
-      console.log(newSetting);
       /**
        * Create user body
        */
@@ -45,7 +45,7 @@ const createRoom = (newSetting) => {
       /**
        * Await create user request
        */
-      const userResponse = await UserRequests.createUser(body);
+      const userResponse = await UserRequests.createUser(body, getState().application.server.url);
 
       if (userResponse.status < 400 && userResponse.status >= 200) {
         const formattedSettings = RoomSettings(newSetting);
@@ -57,13 +57,13 @@ const createRoom = (newSetting) => {
         dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
-
+        console.log(getState().application.server.url);
         /**
          * Await create room request
          */
         const roomResponse = await RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
-        });
+        }, getState().application.server.url);
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
           /**
@@ -110,7 +110,7 @@ const joinRoom = (roomCode) => {
       /**
        * Await create user request
        */
-      const userResponse = await UserRequests.createUser(body);
+      const userResponse = await UserRequests.createUser(body, getState().application.server.url);
 
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
@@ -121,11 +121,14 @@ const joinRoom = (roomCode) => {
         /**
          * Await create room request
          */
-        const roomResponse = await RoomRequests.joinRoom({
-          roomCode
-        }, authToken, (progress) => {
-          dispatch(ApplicationActions.loadTo(progress.loaded))
-        });
+        const roomResponse = await RoomRequests.joinRoom(
+          {
+            roomCode
+          }, authToken
+          ,(progress) => {
+            dispatch(ApplicationActions.loadTo(progress.loaded))
+          }, getState().application.server.url,
+        );
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
 
@@ -161,7 +164,7 @@ const createTeam = (teamName) => {
       // Post create Team req
       const joinTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
-      });
+      }, getState().application.server.url);
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
       } else {
@@ -184,7 +187,7 @@ const joinTeam = (teamId, teamName) => {
       }
       const joinTeamResponse = await RoomRequests.joinTeam(teamId, body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
-      });  
+      }, getState().application.server.url);  
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
       } else {
