@@ -1,11 +1,12 @@
-@import './variables.scss';
+@import 'variables';
 
 .bowl {
   text-align: center;
   font-family: $game-font;
 
   .words-container {
-    // display: flex;
+    display: list;
+    justify-items: flex-start;
     // flex-wrap: wrap;
 
     .words {
@@ -15,12 +16,17 @@
     }
   }
   .word-input {
+    @extend %labowlet-input;
+    border-radius: 10px;
     font-size: 20px;
-    height: 30px;
+    line-height: 30px;
+    box-shadow: $subtle-shadow;
   }
   .word-submit {
     font-size: 20px;
     height: 30px;
+    border-radius: 10px;
+    box-shadow: $subtle-shadow;
   }
 
 }
