@@ -112,8 +112,6 @@ async function createTeam(team, TokenId, loading, server) {
       'Content-Type': 'application/json',
     };
 
-    console.log(TokenId);
-
     const response = await axios({
       method: 'POST',
       url: '/teams',
@@ -130,9 +128,43 @@ async function createTeam(team, TokenId, loading, server) {
     return error;
   }
 }
+
+/**
+ * @description request function used to notify server of  a particular `state` is ready.
+ * NOTE: should only be used by the host. No one else can call this function.
+ * @param {String} TokenId 
+ * @param {String} state 
+ * @param {Object} data 
+ * @param {String} server 
+ */
+async function stageReady(TokenId, state, data = {}, server) {
+  try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+
+
+    const response = await axios({
+      method: 'POST',
+      url: `/host/${state}`,
+      baseURL: `${server || REST_URL}`,
+      headers,
+      data,
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 export default {
   createRoom,
   joinRoom,
   createTeam,
   joinTeam,
+  stageReady,
 }

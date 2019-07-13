@@ -204,11 +204,47 @@ const joinTeam = (teamId, teamName) => {
   }
 }
 
+/**
+ * request used by host to notift server that players are teamed up and ready to go
+ * 
+ * will notify erver which will respond with a socket message `/client/room/${code}/state/word`
+ */
+const lobbyReady = () => {
+  return async (dispatch, getState) => {
+    try {
+      await RoomRequests.lobbyReady(getState().user.token,'word' , null, getState().application.server.url);
+
+    } catch (err) {
+      const errMessage = `room::lobbyReady ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }
+}
+
+
 // addWord here
+
+/**
+ * request used by host to notify server that words are listed and ready to go
+ */
+const wordReady = () => {
+  return async (dispatch, getState) => {
+    try {
+      await RoomRequests.stageReady(getState().user.token, 'game' , null, getState().application.server.url);
+
+    } catch (err) {
+      const errMessage = `room::wordReady ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }}
 
 export default {
   createRoom,
   joinRoom,
   createTeam,
   joinTeam,
+  lobbyReady,
+  wordReady,
 };
