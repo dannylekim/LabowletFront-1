@@ -18,7 +18,6 @@ class BowlPage extends PureComponent {
     }
     this.addWord = this.addWord.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.props.toggleServer();
   }
   
   addWord() {
