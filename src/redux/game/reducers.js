@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         gameType: action.gameType,
       });
-    case actionTypes.UPDATE_GAME_TIMER:
+    case actionTypes.UPDATE_GAME_TIME:
       return {
         ...state,
         currentTime: action.time,

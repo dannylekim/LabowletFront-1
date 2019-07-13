@@ -7,7 +7,11 @@ import { updatePage } from '../application/actions';
 import { 
   updateSetting
  } from '../room/actions';
-
+import {
+  updateStatus,
+  updateGameTime,
+  updateGameWord
+} from '../game/actions'
 
 const updateUserName = (user) => {
   return (dispatch) => dispatch(actions.updateUserName(user));
@@ -59,14 +63,30 @@ const connectUser = (code) => {
       });
 
       /**
-       * Connect player to active game socket
+       * Called when user start a game, round ends or turn ends. Return a Game object
+       * which contains 
+       * @param {Object} round
+       * @param {Object} currentPlayer
+       * @param {Object} currountActor
        */
       socketClient.subscribe(`/client/room/${code}/game`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-   
-          //const data = parsedBody.payload;
-          // TODO dispatch game result
+        console.log(parsedBody);
+        const {
+          // round
+        } = parsedBody;
+
+        // update status
+        switch() {
+
+        }
+        dispatch(updateStatus());
+
+        dispatch(updateGameTime(0));
+        dispatch(updateGameWord(''));
+        // TODO map out data from payload to redux.
+        // TODO update the team's score
       });
       
       /**
@@ -98,18 +118,6 @@ const connectUser = (code) => {
       });
 
       /**
-       * Used to notifify user that room is ready
-       */
-      socketClient.subscribe(`/client/room/${code}/state/game`, function (payload) {
-        const { body } = payload;
-        const { usersStatus } = JSON.parse(body);
-        
-
-          //const data = parsedBody.payload;
-          // TODO dispatch game result
-      });
-
-      /**
        * Message to add word
        */
       socketClient.subscribe(`/client/room/${code}/addWords`, function (payload) {
@@ -122,6 +130,7 @@ const connectUser = (code) => {
         if (ready) {
           return dispatch({
             type: 'UPDATE_READY_WORD',
+            status: true,
           });
         }
 
@@ -133,6 +142,30 @@ const connectUser = (code) => {
         });
       });
       
+      /**
+       * Subscribe to /word. Should just update the active word in redux.
+       * @returns {String} word 
+       */
+      socketClient.subscribe(`/client/room/${code}/game/word`, (payload) => {
+        const { body } = payload; 
+        const parsedBody = JSON.parse(body);
+        dispatch(updateGameWord(parsedBody));
+      })
+      
+      /**
+       * Subscribe to /timer. SHould up the game clock
+       * @returns {Integer} timer
+       */
+      socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        dispatch(updateGameTime(parsedBody));
+      })
+
+       /**
+        * send to /startStep inorder to start Timer.
+        */
+
       // Subscribe to error endpoint /client/errors
       /**
        * subscribe  to error message 

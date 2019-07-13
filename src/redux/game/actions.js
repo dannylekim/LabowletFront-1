@@ -35,6 +35,19 @@ const updateGameType = (gameType) => {
   }
 }
 
+const updateGameWord = (word) => {
+  return {
+    type: actionTypes.UPDATE_GAME_WORD,
+    word,
+  }
+}
+const updateGameTime = (time) => {
+  return {
+    type: actionTypes.UPDATE_GAME_TIME,
+    time,
+  }
+}
+
 const updateWordReady = (list) => {
   return {
     type: actionTypes.UPDATE_WORD_LIST,
@@ -48,4 +61,6 @@ export {
   updateContent,
   updateGameType,
   updateWordReady,
+  updateGameWord,
+  updateGameTime,
 };
