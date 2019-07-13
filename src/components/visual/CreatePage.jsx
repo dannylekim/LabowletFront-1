@@ -14,7 +14,7 @@ import 'rc-checkbox/assets/index.css';
 import '../../styles/create.scss';
 
 const RoundType = [
-  { round: 1, name: 'DESCRIBE IT', code: 'DESCRIBE_IT', value: false },
+  { round: 1, name: 'DESCRIBE IT', code: 'DESCRIBE_IT', value: true },
   { round: 2, name: 'ONE WORD DESCRIPTION', code: 'ONE_WORD_DESCRIPTION', value: false },
   { round: 3, name: 'ACT IT OUT', code: 'ACT_IT_OUT', value: false },
   { round: 4, name: 'SOUND IT OUT', code: 'SOUND_IT_OUT', value: false },
@@ -62,9 +62,14 @@ class CreatePage extends PureComponent {
   }
 
   render() {
-    const renderRoundList = [...this.state.rounds].map((value) => {
+    const renderRoundList = [...this.state.rounds].map((value, i) => {
       return (<li key={`round${value.round}`}>
-        <span>{value.name}</span> <Checkbox  className="round-checkbox" onChange={(e) => this.handleRoundToggle(e, value.round)} name={`round${value.round}`} checked={value.value}/>
+        <span>{value.name}</span>
+        <Checkbox
+          className="round-checkbox"
+          onChange={(e) => this.handleRoundToggle(e, value.round)}
+          name={`round${value.round}`}
+          checked={value.value}/>
       </li>)
     });
     return (
@@ -93,6 +98,7 @@ class CreatePage extends PureComponent {
               min={10}
               step={10}
               max={200}
+              defaultValue={10}
               style={{
                 width:100,
               }}

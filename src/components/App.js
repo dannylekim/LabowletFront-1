@@ -52,7 +52,7 @@ class App extends PureComponent {
     const PageToRender = this.switchPages(this.props.application.page)
     return (
       <div className="page">
-      <div className='navbar'>
+      <div className='navbar' style={{ display: 'flex'}}>
         {this.props.application.page === 'LOBBY' || this.props.application.page === 'CREATE' ?
          <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>: ''}
         <h2>{PageToRender.title}</h2>
