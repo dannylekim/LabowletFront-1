@@ -35,9 +35,17 @@ const updateGameType = (gameType) => {
   }
 }
 
+const updateWordReady = (list) => {
+  return {
+    type: actionTypes.UPDATE_WORD_LIST,
+    list,
+  }
+}
+
 export { 
   updatePoints,
   updateStatus,
   updateContent,
   updateGameType,
+  updateWordReady,
 };

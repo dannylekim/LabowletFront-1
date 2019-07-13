@@ -27,6 +27,27 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         gameType: action.gameType,
       });
+    case actionTypes.UPDATE_WORD_LIST:
+      return {
+        ...state,
+        listOfWordsReady: action.list,
+      };
+    case actionTypes.UPDATE_READY_ROOM:
+      return {
+        ...state, 
+        readyState: {
+          ...state.readyState,
+          room: action.status,
+        },
+      }
+    case actionTypes.UPDATE_READY_WORD:
+      return {
+        ...state, 
+        readyState: {
+          ...state.readyState,
+          word: action.status,
+        },
+      }
     default:
       return state;
   }

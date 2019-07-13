@@ -33,12 +33,6 @@ class TeamCard extends PureComponent {
     }, 40 + this.props.index * 10);
   }
 
-  componentWillUnmount() {
-    setTimeout(() => {
-      this.unmountStyles();
-    }, 30);
-  }
-
   mountStyles() {
     this.setState((prev) => ({
       styles: Object.assign({

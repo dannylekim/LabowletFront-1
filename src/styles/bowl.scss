@@ -7,12 +7,9 @@
   .words-container {
     display: list;
     justify-items: flex-start;
-    // flex-wrap: wrap;
 
     .words {
-      // flex: 1 1 50%;
-      //flex-grow: 2;
-      // display: inline-block;
+      animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
   }
   .word-input {
@@ -27,6 +24,10 @@
     height: 30px;
     border-radius: 10px;
     box-shadow: $subtle-shadow;
+    &.disabled-btn {
+      opacity: 0.8;
+      background-color: grey;
+    }
   }
 
 }
@@ -39,3 +40,5 @@
     // font-size: 20px;
   }
 }
+
+@keyframes slide-in-left{0%{transform:translateX(-1000px);opacity:0}100%{transform:translateX(0);opacity:1}}
