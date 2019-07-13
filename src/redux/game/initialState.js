@@ -1,8 +1,17 @@
 const state = {
-  teamPoints: 0,
-  status: '',
-  content: {},
-  gameType: '',
+
+  // Stuff to do with uer
+  teamPoints: 0, // current user's team point
+  status: '', // player status ['GUESSER', 'ACTOR', 'SPECTATOR']
+
+  // GAME INFO
+  content: {}, // round content
+  currentWord: '', // word to guess
+  currentTime: 0, // should be default to seconds until further notice
+  gameType: '', // round type
+
+
+  // used to verify player readiness
   readyState: {
     room: false,
     word: false,
