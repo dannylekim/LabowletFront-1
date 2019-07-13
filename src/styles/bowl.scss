@@ -24,6 +24,10 @@
     height: 30px;
     border-radius: 10px;
     box-shadow: $subtle-shadow;
+    &.disabled-btn {
+      opacity: 0.8;
+      background-color: grey;
+    }
   }
 
 }

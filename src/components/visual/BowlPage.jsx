@@ -48,7 +48,7 @@ class BowlPage extends PureComponent {
     try {
       this.props.submitWords(this.state.wordList)
     } catch (err) {
-
+      console.error(err.message)
     }
   }
 
@@ -86,9 +86,10 @@ class BowlPage extends PureComponent {
           {/* <input className="word-input" onKeyDown={(e) => this.addWord(e)} /> */}
           <div >
             <input className="word-input" type="text" value={this.state.value} onChange={this.handleChange} />
-            <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Submit</button>
-            <button className="word-submit" onClick={() => this.props.wordReady()}>Test Next Page</button>
+            <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
           </div>
+            { this.state.wordList.length === this.props.room.settings.roomSettings.wordsPerPerson && <button className="word-submit" onClick={() => this.submitWords()}>Submit</button>}
+            { (this.props.user.id === this.props.room.settings.host.id) && <button className={`word-submit ${this.props.game.readyState.word ? '': 'disabled-btn'}`} onClick={() => this.props.wordReady()} disabled={!this.props.game.readyState.word}>Submit</button>}
         </div>
         <div className="page-footer">
           <div className="foot-header">
@@ -102,8 +103,8 @@ class BowlPage extends PureComponent {
 }
 
 const connectObject = {
-  states: ['room', 'game'],
-  actions: ['addWord', 'wordReady'],
+  states: ['room', 'game', 'user'],
+  actions: ['submitWords', 'wordReady'],
 }
 
 export default connectToRedux(BowlPage, connectObject);
