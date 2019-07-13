@@ -32,33 +32,94 @@ const updateUserWords = (user) => {
 const connectUser = (code) => {
   return (dispatch, getState) => {
     //const { code } = getState().room.code;
-    const LABOWLET_PATH = '/labowlet/'
+    const LABOWLET_PATH = '/socket'
 
-    const socket = new SockJS(`${configs.sk}${LABOWLET_PATH}`);
+    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`, null , {
+      debug: (str) => {
+        console.log(str);
+      },
+    });
     const socketClient = STOMP.over(socket);
+
+    socketClient.reconnect_delay = 5000;
 
     socketClient.connect({}, async (frame) => {
       
       /**
        * Connect player to room page and access the payload obj.
        */
-      socketClient.subscribe(`/room/${code}`, function (payload) {
+      socketClient.subscribe(`/client/room/${code}`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
+        console.log('helloo');
+        console.log(payload);
         dispatch(updateSetting(parsedBody));
       });
 
       /**
        * Connect player to active game socket
        */
-      socketClient.subscribe(`/room/${code}/game`, function (payload) {
+      socketClient.subscribe(`/client/room/${code}/game`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
+   
+          //const data = parsedBody.payload;
+          // TODO dispatch game result
+      });
+      
+      /**
+       * Used to notifify user to move from `LobbyPage` to `BowlPage`
+       */
+      socketClient.subscribe(`/client/room/${code}/state/word`, function (payload) {
+        const { body } = payload;
+        // const { usersStatus } = JSON.parse(body);
+        const d = JSON.parse(body);
+
+        console.log('You\'re read to start! lets go');
+        console.log(d);
+        //const data = parsedBody.payload;
+          // TODO dispatch game result
+      });
+
+      /**
+       * Used to notifify user that room is ready
+       */
+      socketClient.subscribe(`/client/room/${code}/state/game`, function (payload) {
+        const { body } = payload;
+        const { usersStatus } = JSON.parse(body);
         
+
           //const data = parsedBody.payload;
           // TODO dispatch game result
       });
 
+      /**
+       * Message to add word
+       */
+      socketClient.subscribe(`/client/room/${code}/addWords`, function (payload) {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        console.log('yaaay');
+        console.log(parsedBody);
+        // socketClient.data
+          // TODO dispatch game result
+      });
+      
+      // Subscribe to error endpoint /client/errors
+      /**
+       * subscribe  to error message 
+       */
+      socketClient.subscribe(`/user/client/errors`, function (payload) {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        console.log('yaaay');
+        console.log(parsedBody);
+        // socketClient.data
+        // TODO dispatch game result
+
+      });
+
+      
       dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
     });

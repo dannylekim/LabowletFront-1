@@ -1,4 +1,5 @@
 {
-  "dev": "http://localhost:4000",
-  "sk": "https://labowlet.herokuapp.com/"
+  "dev_legacy": "http://localhost:4000",
+  "dev": "https://labowlet-dev.herokuapp.com/",
+  "prod": "https://labowlet.herokuapp.com/"
 }

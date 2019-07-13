@@ -5,9 +5,9 @@ import connectToRedux from '../ReduxConnector';
 import '../../styles/game.scss';
 
 /**
- * @class LobbyPage
+ * @class GamePage
  */
-class BowlPage extends PureComponent {
+class GamePage extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,4 +92,4 @@ const connectObject = {
   actions: [''],
 }
 
-export default connectToRedux(BowlPage, connectObject);
+export default connectToRedux(GamePage, connectObject);

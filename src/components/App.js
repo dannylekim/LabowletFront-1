@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Switch from 'rc-switch';
 
 import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
@@ -9,8 +10,12 @@ import GamePage from './visual/GamePage';
 import ReduxConnector from './ReduxConnector';
 
 import '../styles/index.scss';
+import 'rc-switch/assets/index.css';
 
 class App extends PureComponent {
+  componentWillMount() {
+    this.props.toggleServer();
+  }
 
   switchPages(pageKey) {
     switch(pageKey) {
@@ -51,6 +56,11 @@ class App extends PureComponent {
         {this.props.application.page === 'LOBBY' || this.props.application.page === 'CREATE' ?
          <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>: ''}
         <h2>{PageToRender.title}</h2>
+          <Switch
+            className='can-skip-switch'
+            onChange={(e) => this.props.toggleServer()}
+          />
+          <p style={{ color: '#fff'}}>{this.props.application.server.label}</p>
       </div>
         {PageToRender.component}
       </div>

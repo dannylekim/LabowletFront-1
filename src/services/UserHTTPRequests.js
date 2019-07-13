@@ -1,12 +1,12 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
-const REST_URL = url.sk;
+const REST_URL = url.prod;
 
-async function createUser(user) {
+async function createUser(user, server) {
   try {
     const response = await axios({
       method: 'POST',
-      url: `${REST_URL}/players`,
+      url: `${server || REST_URL}/players`,
       headers: { 
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',

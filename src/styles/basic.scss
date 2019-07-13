@@ -1,0 +1,14 @@
+@import 'variables';
+
+.generic-start-btn {
+  // padding: 20px 10px;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  background: lime;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: pointer;
+}

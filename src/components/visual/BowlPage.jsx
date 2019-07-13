@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-
+//import 
 import connectToRedux from '../ReduxConnector';
 
 import PlayerIcon from './common/PlayerIcon';
@@ -88,6 +88,7 @@ class BowlPage extends PureComponent {
           <div >
             <input className="word-input" type="text" value={this.state.value} onChange={this.handleChange} />
             <button className="word-submit" onClick={this.addWord}>Submit</button>
+            <button className="word-submit" onClick={() => this.props.wordReady()}>Test Next Page</button>
           </div>
         </div>
         <div className="page-footer">
@@ -103,7 +104,7 @@ class BowlPage extends PureComponent {
 
 const connectObject = {
   states: ['room'],
-  actions: ['addWord'],
+  actions: ['addWord', 'wordReady'],
 }
 
 export default connectToRedux(BowlPage, connectObject);

@@ -18,7 +18,6 @@ import ApplicationActions from '../application/actionDispatchers';
 const createRoom = (newSetting) => {
   return async (dispatch, getState) => {
     try {
-
       // We want to check that at least 1 round is selected
       const { rounds } = { ...newSetting };
       const hasRounds = [...rounds].reduce((acc, value) => {
@@ -34,7 +33,6 @@ const createRoom = (newSetting) => {
 
       dispatch(ApplicationActions.resetLoad());
 
-      console.log(newSetting);
       /**
        * Create user body
        */
@@ -45,7 +43,7 @@ const createRoom = (newSetting) => {
       /**
        * Await create user request
        */
-      const userResponse = await UserRequests.createUser(body);
+      const userResponse = await UserRequests.createUser(body, getState().application.server.url);
 
       if (userResponse.status < 400 && userResponse.status >= 200) {
         const formattedSettings = RoomSettings(newSetting);
@@ -57,13 +55,13 @@ const createRoom = (newSetting) => {
         dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
-
+        console.log(getState().application.server.url);
         /**
          * Await create room request
          */
         const roomResponse = await RoomRequests.createRoom(getState().room.settings, authToken, (progress) => {
           dispatch(ApplicationActions.loadTo(progress.loaded))
-        });
+        }, getState().application.server.url);
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
           /**
@@ -94,9 +92,9 @@ const createRoom = (newSetting) => {
  * @function joinRoom join room action dispatcher
  * @description Function will create a new user based on name in User reducer and joins a room session
  * only if the room code is correct.
- * @param {String} roomCode 
+ * @param {String} code 
  */
-const joinRoom = (roomCode) => {
+const joinRoom = (code) => {
   return async (dispatch, getState) => {
     try {
 
@@ -110,7 +108,7 @@ const joinRoom = (roomCode) => {
       /**
        * Await create user request
        */
-      const userResponse = await UserRequests.createUser(body);
+      const userResponse = await UserRequests.createUser(body, getState().application.server.url);
 
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
@@ -121,11 +119,14 @@ const joinRoom = (roomCode) => {
         /**
          * Await create room request
          */
-        const roomResponse = await RoomRequests.joinRoom({
-          roomCode
-        }, authToken, (progress) => {
-          dispatch(ApplicationActions.loadTo(progress.loaded))
-        });
+        const roomResponse = await RoomRequests.joinRoom(
+          {
+            code
+          }, authToken
+          ,(progress) => {
+            dispatch(ApplicationActions.loadTo(progress.loaded))
+          }, getState().application.server.url,
+        );
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
 
@@ -157,20 +158,23 @@ const createTeam = (teamName) => {
       const body = {
         teamName,
       }
-      console.log('body is',body);
+      // getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {}, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
+
       // Post create Team req
-      const joinTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
+      const createTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
-      });
-      if (joinTeamResponse.status === 200) {
-        console.log('successfull result => ',joinTeamResponse.data);
+      }, getState().application.server.url);
+
+      if (createTeamResponse.status === 200) {
+        console.log('successfull result => ',createTeamResponse.data);
+
       } else {
-        console.log('status = ', joinTeamResponse.status);
-        throw joinTeamResponse;
+        console.log('status = ', createTeamResponse.status);
+        throw createTeamResponse;
       }
     } catch (err) {
-      console.log('error: ', err);
-      return err;
+      console.log('room:error: ', err.message);
+      throw err;
     }
   }
 }
@@ -184,7 +188,7 @@ const joinTeam = (teamId, teamName) => {
       }
       const joinTeamResponse = await RoomRequests.joinTeam(teamId, body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
-      });  
+      }, getState().application.server.url);  
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
       } else {
@@ -192,17 +196,53 @@ const joinTeam = (teamId, teamName) => {
         throw joinTeamResponse;
       }
     } catch (err) {
-      console.log('error: ', err);
-      return err;
+      console.log('error: ', err.message);
+      throw err;
     }
   }
 }
 
+/**
+ * request used by host to notift server that players are teamed up and ready to go
+ * 
+ * will notify erver which will respond with a socket message `/client/room/${code}/state/word`
+ */
+const lobbyReady = () => {
+  return async (dispatch, getState) => {
+    try {
+      await RoomRequests.stageReady(getState().user.token,'wordState' , null, getState().application.server.url);
+
+    } catch (err) {
+      const errMessage = `room::lobbyReady ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }
+}
+
+
 // addWord here
+
+/**
+ * request used by host to notify server that words are listed and ready to go
+ */
+const wordReady = () => {
+  return async (dispatch, getState) => {
+    try {
+      await RoomRequests.stageReady(getState().user.token, 'gameState' , null, getState().application.server.url);
+
+    } catch (err) {
+      const errMessage = `room::wordReady ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }}
 
 export default {
   createRoom,
   joinRoom,
   createTeam,
   joinTeam,
+  lobbyReady,
+  wordReady,
 };

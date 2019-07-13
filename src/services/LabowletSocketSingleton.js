@@ -15,8 +15,8 @@ const LABOWLET_PATH = '/labowlet/'
  */
 class LabowletSocket {
   constructor(roomCode){
-    this.roomCode = roomCode;
-    this._socketConnection = this.connect(configs.sk, LABOWLET_PATH);
+    this.roomCode = roomCode; // server
+    this._socketConnection = this.connect(configs.prod, LABOWLET_PATH);
   }
   
   connect(address, path){
