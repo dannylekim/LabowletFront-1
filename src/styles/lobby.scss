@@ -24,3 +24,11 @@
   display: list;
   
 }
+
+.team-name-modal {
+  @extend %labowlet-input;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 30vh;
+}

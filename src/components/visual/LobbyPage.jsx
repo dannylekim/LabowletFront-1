@@ -151,13 +151,8 @@ class LobbyPage extends PureComponent {
           {benchPlayersIcons}
         </div>
         <Modal
-          title="Enter Room Code"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: '30vh',
-          }}
+          title="Enter Team name"
+          className="team-name-modal"
           visible={this.state.createModalIsVisible}
           animation="zoom"
           maskAnimation="fade"
