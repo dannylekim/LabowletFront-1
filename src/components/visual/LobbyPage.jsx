@@ -143,7 +143,7 @@ class LobbyPage extends PureComponent {
             )}
           </div>
         </div>
-        { canStart && <button className="generic-start-btn" onClick={() => this.props.playerReady()}>Start</button>}
+        { canStart && <button className="generic-start-btn" onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>
@@ -175,7 +175,7 @@ class LobbyPage extends PureComponent {
 
 const connectObject = {
   states: ['room', 'user'],
-  actions: ['createTeam', 'joinTeam', 'playerReady'],
+  actions: ['createTeam', 'joinTeam', 'lobbyReady'],
 };
 
 export default connectToRedux(LobbyPage, connectObject);
