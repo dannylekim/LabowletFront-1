@@ -32,17 +32,23 @@ const updateUserWords = (user) => {
 const connectUser = (code) => {
   return (dispatch, getState) => {
     //const { code } = getState().room.code;
-    const LABOWLET_PATH = '/labowlet/'
+    const LABOWLET_PATH = '/socket'
 
-    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
+    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`, null , {
+      debug: (str) => {
+        console.log(str);
+      },
+    });
     const socketClient = STOMP.over(socket);
+
+    socketClient.reconnect_delay = 5000;
 
     socketClient.connect({}, async (frame) => {
       
       /**
        * Connect player to room page and access the payload obj.
        */
-      socketClient.subscribe(`/room/${code}`, function (payload) {
+      socketClient.subscribe(`/client/room/${code}`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
         dispatch(updateSetting(parsedBody));
@@ -51,14 +57,27 @@ const connectUser = (code) => {
       /**
        * Connect player to active game socket
        */
-      socketClient.subscribe(`/room/${code}/game`, function (payload) {
+      socketClient.subscribe(`/client/room/${code}/game`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        
+   
           //const data = parsedBody.payload;
           // TODO dispatch game result
       });
 
+      /**
+       * Message to add word
+       */
+      socketClient.subscribe(`/client/room/${code}/addWords`, function (payload) {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        console.log('yaaay');
+        console.log(parsedBody);
+        // socketClient.data
+          // TODO dispatch game result
+
+      });
+      
       dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
     });

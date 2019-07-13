@@ -161,10 +161,13 @@ const createTeam = (teamName) => {
         teamName,
       }
       console.log('body is',body);
+      getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {}, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
+
       // Post create Team req
       const joinTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
       }, getState().application.server.url);
+
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
       } else {
