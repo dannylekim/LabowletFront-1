@@ -1,7 +1,7 @@
 const state = {
   loading: false,
   loadingProgress: 100,
-  page: 'BOWL',
+  page: 'HOME',
   server: {
     label: '',
     url: '',

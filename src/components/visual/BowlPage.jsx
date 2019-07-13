@@ -21,6 +21,10 @@ class BowlPage extends PureComponent {
   }
   
   addWord(word) {
+    if (word === '') {
+      alert('No empty string!');
+      return;
+    }
     // TODO add insert word function
 
     const dupWords = this.state.wordList.find((myWord) => myWord === word);
