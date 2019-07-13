@@ -158,7 +158,9 @@ const createTeam = (teamName) => {
       const body = {
         teamName,
       }
-      // getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {}, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
+      getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {
+        'X-Auth-Token': getState().user.token,
+      }, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
 
       // Post create Team req
       const createTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {

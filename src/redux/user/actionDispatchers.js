@@ -113,7 +113,11 @@ const connectUser = (code) => {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
         console.log('yaaay');
-        console.log(parsedBody);
+        if (parsedBody.status === 'BAD_REQUEST') {
+          const { timestamp }= parsedBody;
+          console.error(timestamp, parsedBody.message);
+          console.log(timestamp, 'Server message: ', parsedBody.debugMessage);
+        }
         // socketClient.data
         // TODO dispatch game result
 
