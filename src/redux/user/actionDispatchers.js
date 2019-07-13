@@ -78,9 +78,9 @@ const connectUser = (code) => {
         } = parsedBody;
 
         // update status
-        switch() {
+        // switch() {
 
-        }
+        // }
         dispatch(updateStatus());
 
         dispatch(updateGameTime(0));
