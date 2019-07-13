@@ -51,6 +51,8 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
+        console.log('helloo');
+        console.log(payload);
         dispatch(updateSetting(parsedBody));
       });
 
@@ -101,10 +103,21 @@ const connectUser = (code) => {
         console.log(parsedBody);
         // socketClient.data
           // TODO dispatch game result
+      });
+      
+      // Subscribe to error endpoint /client/errors
+      /**
+       * subscribe  to error message 
+       */
+      socketClient.subscribe(`/user/client/errors`, function (payload) {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        console.log('yaaay');
+        console.log(parsedBody);
+        // socketClient.data
+        // TODO dispatch game result
 
       });
-
-      // Subscribe to error endpoint /client/errors
 
       
       dispatch(updatePage('LOBBY'));
