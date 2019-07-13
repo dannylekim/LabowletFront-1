@@ -1,6 +1,6 @@
 import url from '../config/RESTurl.json';
 const axios = require('axios');
-const REST_URL = url.dev;
+const REST_URL = url.sk;
 
 async function createUser(user) {
   try {
