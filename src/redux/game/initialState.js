@@ -3,6 +3,11 @@ const state = {
   status: '',
   content: {},
   gameType: '',
+  readyState: {
+    room: false,
+    word: false,
+  },
+  listOfWordsReady: []
 }
 
 export default state;

@@ -43,7 +43,9 @@ const connectUser = (code) => {
 
     socketClient.reconnect_delay = 5000;
 
-    socketClient.connect({}, async (frame) => {
+    socketClient.connect({
+      'X-Auth-Token': getState().user.token,
+    }, async (frame) => {
       
       /**
        * Connect player to room page and access the payload obj.
@@ -72,13 +74,27 @@ const connectUser = (code) => {
        */
       socketClient.subscribe(`/client/room/${code}/state/word`, function (payload) {
         const { body } = payload;
-        // const { usersStatus } = JSON.parse(body);
-        const d = JSON.parse(body);
+        const {ready, usersStatus} = JSON.parse(body);
 
-        console.log('You\'re read to start! lets go');
-        console.log(d);
-        //const data = parsedBody.payload;
-          // TODO dispatch game result
+        
+        // Navigate user to BOWL page if not done already.
+        if(getState().application.page !== 'BOWL') {
+          dispatch(updatePage('BOWL'));
+        }
+
+        // Init/reset word readiness status here.
+        if (ready) {
+          return dispatch({
+            type: 'UPDATE_READY_WORD',
+            status: false,
+          });
+        }
+
+        // Init/reset word list here 
+        dispatch({
+          type: 'UPDATE_WORD_LIST',
+          list: usersStatus,
+        });
       });
 
       /**
@@ -99,10 +115,22 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}/addWords`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log('yaaay');
-        console.log(parsedBody);
-        // socketClient.data
-          // TODO dispatch game result
+
+        const {ready, usersStatus} = parsedBody;
+
+        // If everyone is ready, allow host to click ready button
+        if (ready) {
+          return dispatch({
+            type: 'UPDATE_READY_WORD',
+          });
+        }
+
+        // Always update the wordlist progress whenever this message get called.
+        // The words are NOT stored here.
+        dispatch({
+          type: 'UPDATE_WORD_LIST',
+          list: usersStatus,
+        });
       });
       
       // Subscribe to error endpoint /client/errors

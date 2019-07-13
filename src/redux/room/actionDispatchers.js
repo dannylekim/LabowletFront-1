@@ -211,7 +211,6 @@ const lobbyReady = () => {
   return async (dispatch, getState) => {
     try {
       await RoomRequests.stageReady(getState().user.token,'wordState' , null, getState().application.server.url);
-
     } catch (err) {
       const errMessage = `room::lobbyReady ${err.message}`
       console.error(errMessage);
@@ -222,7 +221,21 @@ const lobbyReady = () => {
 
 
 // addWord here
-
+const submitWords = () => {
+  return async (dispatch, getState) => {
+    try {
+      getState().user.socket.send(`/server/room/${getState().room.code}/addWords`,{
+        // headers
+      }, JSON.stringify({
+        // body
+      }))
+    } catch (err) {
+      const errMessage = `room::addWord ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }
+}
 /**
  * request used by host to notify server that words are listed and ready to go
  */
@@ -243,6 +256,7 @@ export default {
   joinRoom,
   createTeam,
   joinTeam,
+  submitWords,
   lobbyReady,
   wordReady,
 };
