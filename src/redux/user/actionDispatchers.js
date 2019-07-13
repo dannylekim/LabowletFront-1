@@ -64,6 +64,32 @@ const connectUser = (code) => {
           //const data = parsedBody.payload;
           // TODO dispatch game result
       });
+      
+      /**
+       * Used to notifify user to move from `LobbyPage` to `BowlPage`
+       */
+      socketClient.subscribe(`/client/room/${code}/state/word`, function (payload) {
+        const { body } = payload;
+        // const { usersStatus } = JSON.parse(body);
+        const d = JSON.parse(body);
+
+        console.log('You\'re read to start! lets go');
+        console.log(d);
+        //const data = parsedBody.payload;
+          // TODO dispatch game result
+      });
+
+      /**
+       * Used to notifify user that room is ready
+       */
+      socketClient.subscribe(`/client/room/${code}/state/game`, function (payload) {
+        const { body } = payload;
+        const { usersStatus } = JSON.parse(body);
+        
+
+          //const data = parsedBody.payload;
+          // TODO dispatch game result
+      });
 
       /**
        * Message to add word
@@ -77,6 +103,9 @@ const connectUser = (code) => {
           // TODO dispatch game result
 
       });
+
+      // Subscribe to error endpoint /client/errors
+
       
       dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
