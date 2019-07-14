@@ -80,7 +80,9 @@ const connectUser = (code) => {
           currentActor,
           currentGuesser,
           currentRound,
+          // teamScore,
         } = parsedBody;
+        console.log(parsedBody);
         const { roundName } = currentRound;
         // First thing: reset time/word
         dispatch(updateGameTime(0));
@@ -112,7 +114,7 @@ const connectUser = (code) => {
         dispatch(updateGameType(roundName))
 
         // TODO update the team's score
-        // dispatch(updatePoints())
+        dispatch(updatePoints(teamScore))
 
         
       });
@@ -185,7 +187,19 @@ const connectUser = (code) => {
         // const parsedBody = JSON.parse(body);
         console.log(body);
         dispatch(updateGameTime(body));
-      })
+      });
+
+      /**
+       * Subscribe to /timer. SHould update the game clock
+       * @returns {Integer} timer
+       */
+      socketClient.subscribe(`/client/room/${code}/game/over`, (payload) => {
+        const { body } = payload;
+        const parsedBody = JSON.parse(body);
+        console.log('WE DONE HOMIEE');
+        console.log(parsedBody);
+        // dispatch(updateGameTime(body));
+      });
 
        /**
         * send to /startStep inorder to start Timer.

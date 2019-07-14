@@ -24,9 +24,12 @@ class Actor extends PureComponent {
       <div className="game-container__content">
         {
           this.state.ready ?
-            (<div className="game-container__actions">
-              {this.props.canSkip && <button onClick={() => this.props.handleSkip()}>Skip</button>}
-              <button onClick={() => this.props.handleGotIt()}>Got it!</button>
+            (<div className="game-container__actor-area">
+              <h3 className="game-container__word">{this.props.word}</h3>
+              <div className="game-container__actions">
+                {this.props.canSkip && <button onClick={() => this.props.handleSkip()}>Skip</button>}
+                <button onClick={() => this.props.handleGotIt()}>Got it!</button>
+              </div>
             </div>) : (
               <div className="game-container__actions">
                 <button onClick={(e) => this.handleReady(e)}>Ready</button>
@@ -44,17 +47,29 @@ const Guesser = () => {
     </div>
   )
 }
-const Spectator = (props) => {
-  return (
-    <div
-      className="game-container__content game-container__tappable"
-      onTouchStart={() => console.log('hey')}
-    >
-      <h3>Sit back and relax!</h3>
-      <code>But pay attention!</code>
-      <p>Press and hold me to see your score.</p>
-    </div>
-  )
+class Spectator extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pressed: false,
+    }
+  }
+  render() {
+    return (
+      <div
+        className="game-container__content game-container__tappable"
+        onTouchStart={() => this.setState({ pressed: true })}
+        onTouchEnd={() => this.setState({ pressed: false })}
+      >
+        <h3>Sit back and relax!</h3>
+        <code>But pay attention!</code>
+        <p>Press and hold me to see your score.</p>
+        { this.state.pressed && (
+          <div className="current-score">{this.props.score}</div>
+        )}
+      </div>
+    );
+  }
 }
 
 /**
@@ -77,13 +92,14 @@ class GamePage extends PureComponent {
             start={() => this.props.startStep()}
           />
         );
-        break;
       case 'GUESSER':
         return <Guesser/>;
-        break;
       case 'SPECTATOR':
-        return <Spectator />;
-        break;
+        return (
+          <Spectator
+            score={this.props.game.teamPoints}
+          />
+        );
       default:
         return 'Who the hell are you? How did u get here?';
     }
