@@ -15,8 +15,8 @@ const updateStatus = (newStatus) => {
       return { type: actionTypes.BECOME_GUESSER };
     case 'SPECTATOR':
       return { type: actionTypes.BECOME_SPECTATOR };
-    default:
-      break;
+      default:
+      return { type: actionTypes.BECOME_SPECTATOR };
   }
 }
 

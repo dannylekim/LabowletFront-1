@@ -68,7 +68,7 @@ class TeamCard extends PureComponent {
 
   render() {
     const { teamMates } = this.props;
-    const myTeamMates = this.renderTeamates(teamMates);
+    const myTeamMates = this.renderTeamates(teamMates).map((member) => <p>{member}</p>);
     return (
       <div className="team-card" onClick={() => this.props.joinTeam(this.props.key)} style={this.state.styles}>
         <div className="team-card-title">

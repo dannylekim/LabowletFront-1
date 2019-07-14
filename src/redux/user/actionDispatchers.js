@@ -10,7 +10,9 @@ import {
 import {
   updateStatus,
   updateGameTime,
-  updateGameWord
+  updateGameWord,
+  updateGameType,
+  updatePoints,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -72,21 +74,46 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}/game`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log(parsedBody);
         const {
           // round
+          currentActor,
+          currentGuesser,
+          currentRound,
         } = parsedBody;
-
-        // update status
-        // switch() {
-
-        // }
-        dispatch(updateStatus());
-
+        const { roundName } = currentRound;
+        // First thing: reset time/word
         dispatch(updateGameTime(0));
         dispatch(updateGameWord(''));
-        // TODO map out data from payload to redux.
+
+        /**
+         * currentActor: {name: "host", id: "8210aebc-9bef-4299-a717-a81e808e239f"}
+         * currentGuesser: {name: "fast guy", id: "ee847daa-9c35-4bcc-91ff-f70690353147"}
+         * currentRound: {roundName: "DESCRIBE_IT", turns: 0, randomWord: "aa"}
+         */
+        
+        let userStatus = 'SPECTATOR';
+        if(currentActor.id === getState().user.id) {
+          userStatus = 'ACTOR';
+        } else if (currentGuesser.id === getState().user.id) {
+          userStatus = 'GUESSER';
+        }
+        
+        // update user's status
+        dispatch(updateStatus(userStatus));
+
+        // If we're not on  GAME page, go there
+        // important that it must be AFTER the user has their status updated.
+        if (getState().application.page !== 'GAME') {
+          dispatch(updatePage('GAME'));
+        }
+
+        // update game type
+        dispatch(updateGameType(roundName))
+
         // TODO update the team's score
+        // dispatch(updatePoints())
+
+        
       });
       
       /**
@@ -153,7 +180,7 @@ const connectUser = (code) => {
       })
       
       /**
-       * Subscribe to /timer. SHould up the game clock
+       * Subscribe to /timer. SHould update the game clock
        * @returns {Integer} timer
        */
       socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
