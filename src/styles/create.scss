@@ -21,10 +21,20 @@
     li {
       margin: 10px 5px;
       
-      .round-checkbox {
-        margin: 0px 10px;
-        right: 0px;
+      .rc-checkbox {
+        margin-left: 10px;
+        &.rc-checkbox-checked {
+          & > .rc-checkbox-inner {
+            background-color: black;
+            border: none;
+          }
+        } 
       }
+      
     }
+  }
+
+  .rc-input-number-input {
+    font-family: inherit;
   }
 }

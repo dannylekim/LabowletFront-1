@@ -102,6 +102,7 @@ class CreatePage extends PureComponent {
               style={{
                 width:100,
               }}
+              onChange={(e) => this.setState({ roundTimeInSeconds: e})}
               required
             />
             <hr />
