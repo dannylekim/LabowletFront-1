@@ -114,6 +114,10 @@ class LobbyPage extends PureComponent {
     this.props.startGame();
   }
 
+  copyToClip(code) {
+    navigator.clipboard.writeText(code).then(() => alert('copied code'));
+  }
+
   render() {
     const roomCode = this.props.room.code || 'UH OH';
     const { roomSettings, benchPlayers, teams } = this.props.room.settings;
@@ -132,7 +136,7 @@ class LobbyPage extends PureComponent {
       <div className="lobby">
         <div className="page-container">
           <p>Code is</p>
-          <h1>{roomCode}</h1>
+          <h1 onClick={() => this.copyToClip(roomCode)}>{roomCode}</h1>
           {teamList}
           <div className="page-container__team-list">
             {this.state.isMaxed ? (
@@ -144,7 +148,7 @@ class LobbyPage extends PureComponent {
             )}
           </div>
         </div>
-        { isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled'}`} onClick={() => this.props.lobbyReady()}>Start</button>}
+        { isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`} onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>
