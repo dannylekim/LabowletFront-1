@@ -171,8 +171,9 @@ const connectUser = (code) => {
        */
       socketClient.subscribe(`/client/room/${code}/game/word`, (payload) => {
         const { body } = payload; 
-        const parsedBody = JSON.parse(body);
-        dispatch(updateGameWord(parsedBody));
+        // const parsedBody = JSON.parse(body);
+        console.log(body);
+        dispatch(updateGameWord(body));
       })
       
       /**
@@ -181,8 +182,9 @@ const connectUser = (code) => {
        */
       socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
         const { body } = payload;
-        const parsedBody = JSON.parse(body);
-        dispatch(updateGameTime(parsedBody));
+        // const parsedBody = JSON.parse(body);
+        console.log(body);
+        dispatch(updateGameTime(body));
       })
 
        /**
