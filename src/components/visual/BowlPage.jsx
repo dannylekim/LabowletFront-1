@@ -86,6 +86,7 @@ class BowlPage extends PureComponent {
   render() {
     //const { roomSettings, benchPlayers } = this.props.room.settings;
     const pendingPlayers = this.props.game.listOfWordsReady.map((player) => <PlayerIcon color={player.completed ? 'green' : 'red'} key={player.player.id} name={player.player.name}/>);
+    const maxWordsLimit = this.props.room.settings.roomSettings.wordsPerPerson;
 
     return (
       <div className="bowl">
@@ -94,12 +95,20 @@ class BowlPage extends PureComponent {
           <div className="words-container">
             {this._renderWords(this.state.wordList)}
           </div>
-          <div >
-            <input className="word-input" type="text" value={this.state.value} onChange={this.handleChange} />
+          {(this.state.wordList.length < maxWordsLimit) && <div >
+            <input
+              className="word-input"
+              type="text"
+              value={this.state.value}
+              maxlength={20}
+              onChange={this.handleChange}
+            />
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
-          </div>
-            {(this.state.wordList.length === this.props.room.settings.roomSettings.wordsPerPerson) && <button className="word-submit" onClick={() => this.submitWords()}>Submit</button>}
+          </div>}
+          <div>
+            {(this.state.wordList.length === maxWordsLimit) && <button className="word-submit" onClick={() => this.submitWords()}>Submit</button>}
             {(this.props.user.id === this.props.room.settings.host.id) && <button className={`word-submit ${this.props.game.readyState.word ? '': 'disabled-btn'}`} onClick={() => this.props.wordReady()} disabled={!this.props.game.readyState.word}>Start</button>}
+          </div>
         </div>
         <div className="page-footer">
           <div className="foot-header">
