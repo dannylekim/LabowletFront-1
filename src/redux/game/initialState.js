@@ -9,7 +9,7 @@ const state = {
   currentWord: '', // word to guess
   currentTime: 0, // should be default to seconds until further notice
   gameType: '', // round type
-
+  remainingWords: 0,
 
   // used to verify player readiness
   readyState: {
