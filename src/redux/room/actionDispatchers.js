@@ -6,6 +6,7 @@ import { RoomSettings } from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
 import {
   updateUserToken,
+  updateUserTeam,
 } from '../user/actions'
 import ApplicationActions from '../application/actionDispatchers';
 
@@ -134,8 +135,7 @@ const joinRoom = (code) => {
           dispatch(actions.updateSetting(roomResponse.data));
 
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
-          //dispatch(ApplicationActions.updatePage('LOBBY'));
-          
+
         } else {
           if (roomResponse.status === 404) {
             throw new Error('Invalid room code');          
@@ -170,6 +170,16 @@ const createTeam = (teamName) => {
       if (createTeamResponse.status === 200) {
         console.log('successfull result => ',createTeamResponse.data);
 
+        // Go through the room object and find our user id that matches the team's member id thenset that team id for ourself
+        const myTeamId = [...createTeamResponse.data.teams].reduce((acc, team) => {
+          team.teamMembers.forEach(element => {
+            if (element.id === getState().user.id) {
+              acc = team.teamId;
+            }
+          });
+          return acc;
+        }, '');
+        dispatch(updateUserTeam(myTeamId));
       } else {
         console.log('status = ', createTeamResponse.status);
         throw createTeamResponse;
@@ -184,7 +194,6 @@ const createTeam = (teamName) => {
 const joinTeam = (teamId, teamName) => {
   return async (dispatch, getState) => {
     try {
-      console.log(teamId);
       const body = {
         teamName,
       }
@@ -193,6 +202,7 @@ const joinTeam = (teamId, teamName) => {
       }, getState().application.server.url);  
       if (joinTeamResponse.status === 200) {
         console.log('successfull result => ',joinTeamResponse.data);
+        dispatch(updateUserTeam(teamId));
       } else {
         console.log('status = ', joinTeamResponse.status);
         throw joinTeamResponse;
