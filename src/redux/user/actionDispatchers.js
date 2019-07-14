@@ -114,7 +114,7 @@ const connectUser = (code) => {
         dispatch(updateGameType(roundName))
 
         // TODO update the team's score
-        dispatch(updatePoints(teamScore))
+        // dispatch(updatePoints(teamScore))
 
         
       });

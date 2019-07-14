@@ -86,6 +86,7 @@ class GamePage extends PureComponent {
       case 'ACTOR':
         return (
           <Actor
+            // canSkip={this.props.room.roomSettings}
             word={this.props.game.currentWord}
             handleGotIt={() => this.props.sendWord(this.props.game.currentWord)}
             handleSkip={() => this.props.sendWord()}
@@ -132,7 +133,7 @@ class GamePage extends PureComponent {
 }
 
 const connectObject = {
-  states: ['game'],
+  states: ['game', 'room'],
   actions: ['sendWord', 'startStep'],
 }
 
