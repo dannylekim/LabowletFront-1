@@ -4,14 +4,16 @@
   text-align: center;
 
   .name-input {
+    @extend %labowlet-input;
     position: relative;
     border-radius: 10px;
+    box-shadow: $subtle-shadow;
     top: 20vh;
     left: 0;
     width: 100%;
-    font-size: 29px;
+    font-size: 20px;
     font-family: $game-font;
-    line-height: 29px;
+    line-height: 30px;
     padding-bottom: 8px;
   }
 

@@ -75,14 +75,10 @@ class LobbyPage extends PureComponent {
   }
 
   _joinTeam(teamId, teamName) {
-    console.log('joined team', teamId);
     this.props
       .joinTeam(teamId, teamName, this.props.user.token)
-      .then(() => {
-        console.log('success!');
-      })
       .catch(err => {
-        alert(err);
+        console.error(err);
       })
       .finally(() => {
         this._checkMax()
@@ -96,9 +92,7 @@ class LobbyPage extends PureComponent {
         const teamName = e.target.value;
         
         // send request
-        this.props.createTeam(teamName).then(() => {
-          console.log('hooray')
-        }).catch(err => {
+        this.props.createTeam(teamName).catch(err => {
           console.error(err);
         }).finally(() => {
           this._checkMax();
@@ -114,24 +108,27 @@ class LobbyPage extends PureComponent {
     this.props.startGame();
   }
 
+  copyToClip(code) {
+    navigator.clipboard.writeText(code).then(() => alert('copied code'));
+  }
+
   render() {
     const roomCode = this.props.room.code || 'UH OH';
-    const { roomSettings, benchPlayers, teams } = this.props.room.settings;
-    console.log(this.props.room.settings);
+    const { benchPlayers, teams } = this.props.room.settings;
     const benchPlayersIcons = benchPlayers.map(player => (
       <PlayerIcon key={player.id} name={player.name} />
     ));
     // By default we render 0 teams, user will have to create them themselves
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
-    console.log(this.props.room);
-    //const addButton = ;
-    const canStart = this.props.user.id === this.props.room.settings.host.id;
+
+    const isAdmin = this.props.user.id === this.props.room.settings.host.id;
+    const canStart = this.props.room.settings.canStart;
 
     return (
       <div className="lobby">
         <div className="page-container">
           <p>Code is</p>
-          <h1>{roomCode}</h1>
+          <h1 onClick={() => this.copyToClip(roomCode)}>{roomCode}</h1>
           {teamList}
           <div className="page-container__team-list">
             {this.state.isMaxed ? (
@@ -143,7 +140,7 @@ class LobbyPage extends PureComponent {
             )}
           </div>
         </div>
-        { canStart && <button className="generic-start-btn" onClick={() => this.props.lobbyReady()}>Start</button>}
+        { isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`} onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>
@@ -151,13 +148,8 @@ class LobbyPage extends PureComponent {
           {benchPlayersIcons}
         </div>
         <Modal
-          title="Enter Room Code"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: '30vh',
-          }}
+          title="Enter Team name"
+          className="team-name-modal"
           visible={this.state.createModalIsVisible}
           animation="zoom"
           maskAnimation="fade"

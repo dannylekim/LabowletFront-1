@@ -26,7 +26,7 @@ class CreatePage extends PureComponent {
     this.state = {
       wordsPerPerson: 2,
       maxTeams: 2,
-      roundTimeInSeconds: 30,
+      roundTimeInSeconds: 10,
       allowSkips: false,
       rounds: RoundType,
     }
@@ -98,10 +98,11 @@ class CreatePage extends PureComponent {
               min={10}
               step={10}
               max={200}
-              defaultValue={10}
+              defaultValue={this.state.roundTimeInSeconds}
               style={{
                 width:100,
               }}
+              onChange={(e) => this.setState({ roundTimeInSeconds: e})}
               required
             />
             <hr />

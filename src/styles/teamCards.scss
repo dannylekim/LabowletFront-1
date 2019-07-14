@@ -7,16 +7,22 @@
   padding: 5px;
   // transition: $bouncing-transition-slow;
   position: relative;
+  animation: slide-in-elliptic-top-fwd 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 
   .team-card-title {
     line-height: 30px;
   }
 
   .team-card-container {
+    display:flex;
     margin-bottom: 10px;
+    justify-content: space-around;
+
     span {
       font-family: $primary-font;
       margin: 0px 10px;
     }
   }
 }
+
+@keyframes slide-in-elliptic-top-fwd{0%{transform:translateY(-600px) rotateX(-30deg) scale(0);transform-origin:50% 100%;opacity:0}100%{transform:translateY(0) rotateX(0) scale(1);transform-origin:50% 1400px;opacity:1}}

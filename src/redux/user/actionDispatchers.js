@@ -7,7 +7,16 @@ import { updatePage } from '../application/actions';
 import { 
   updateSetting
  } from '../room/actions';
-
+import {
+  updateStatus,
+  updateGameTime,
+  updateGameWord,
+  updateGameType,
+  updatePoints,
+  updateWordReady,
+  updateContent,
+  updateRemainingWordCount,
+} from '../game/actions'
 
 const updateUserName = (user) => {
   return (dispatch) => dispatch(actions.updateUserName(user));
@@ -34,11 +43,7 @@ const connectUser = (code) => {
     //const { code } = getState().room.code;
     const LABOWLET_PATH = '/socket'
 
-    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`, null , {
-      debug: (str) => {
-        console.log(str);
-      },
-    });
+    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
     const socketClient = STOMP.over(socket);
 
     socketClient.reconnect_delay = 5000;
@@ -53,20 +58,63 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log('helloo');
-        console.log(payload);
         dispatch(updateSetting(parsedBody));
       });
 
       /**
-       * Connect player to active game socket
+       * Called when user start a game, round ends or turn ends. Return a Game object
+       * which contains 
+       * @param {Object} round
+       * @param {Object} currentPlayer
+       * @param {Object} currountActor
        */
       socketClient.subscribe(`/client/room/${code}/game`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-   
-          //const data = parsedBody.payload;
-          // TODO dispatch game result
+        const {
+          // round
+          currentActor,
+          currentGuesser,
+          currentRound,
+          // teamScore,
+          teams,
+        } = parsedBody;
+        const { roundName } = currentRound;
+        // First thing: reset time/word
+        if (getState().game.currentTime <= 0) {
+          dispatch(updateGameTime(0));
+        }
+        dispatch(updateGameWord(''));
+
+        /**
+         * currentActor: {name: "host", id: "8210aebc-9bef-4299-a717-a81e808e239f"}
+         * currentGuesser: {name: "fast guy", id: "ee847daa-9c35-4bcc-91ff-f70690353147"}
+         * currentRound: {roundName: "DESCRIBE_IT", turns: 0, randomWord: "aa"}
+         */
+        
+        let userStatus = 'SPECTATOR';
+        if(currentActor.id === getState().user.id) {
+          userStatus = 'ACTOR';
+        } else if (currentGuesser.id === getState().user.id) {
+          userStatus = 'GUESSER';
+        }
+        
+        // update user's status
+        dispatch(updateStatus(userStatus));
+
+        // If we're not on  GAME page, go there
+        // important that it must be AFTER the user has their status updated.
+        if (getState().application.page !== 'GAME') {
+          dispatch(updatePage('GAME'));
+        }
+
+        // update game type
+        dispatch(updateGameType(roundName))
+
+        // TODO update the team's score
+        const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
+        
+        dispatch(updatePoints(teamScore.totalScore));
       });
       
       /**
@@ -91,22 +139,8 @@ const connectUser = (code) => {
         }
 
         // Init/reset word list here 
-        dispatch({
-          type: 'UPDATE_WORD_LIST',
-          list: usersStatus,
-        });
-      });
+        dispatch(updateWordReady(usersStatus));
 
-      /**
-       * Used to notifify user that room is ready
-       */
-      socketClient.subscribe(`/client/room/${code}/state/game`, function (payload) {
-        const { body } = payload;
-        const { usersStatus } = JSON.parse(body);
-        
-
-          //const data = parsedBody.payload;
-          // TODO dispatch game result
       });
 
       /**
@@ -120,19 +154,65 @@ const connectUser = (code) => {
 
         // If everyone is ready, allow host to click ready button
         if (ready) {
-          return dispatch({
+          dispatch({
             type: 'UPDATE_READY_WORD',
+            status: true,
           });
         }
 
         // Always update the wordlist progress whenever this message get called.
         // The words are NOT stored here.
-        dispatch({
-          type: 'UPDATE_WORD_LIST',
-          list: usersStatus,
-        });
+        dispatch(updateWordReady(usersStatus));
       });
       
+      /**
+       * Subscribe to /word. Should just update the active word in redux.
+       * @returns {String} word 
+       */
+      socketClient.subscribe(`/client/room/${code}/game/word`, (payload) => {
+        try {
+          const { body } = payload; 
+          const parsedBody= JSON.parse(body);
+          const { word, remainingWordCount } = parsedBody;
+          dispatch(updateGameWord(word));
+          dispatch(updateRemainingWordCount(remainingWordCount));
+        } catch (err) {
+          throw new Error(`/game/word/ error: `, err.message);
+        }
+      })
+      
+      /**
+       * Subscribe to /timer. SHould update the game clock
+       * @returns {Integer} timer
+       */
+      socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
+        const { body } = payload;
+        // const parsedBody = JSON.parse(body);
+        if (body >= 0) {
+          dispatch(updateGameTime(body));
+        }
+      });
+
+      /**
+       * Subscribe to /timer. SHould update the game clock
+       * @returns {Integer} timer
+       */
+      socketClient.subscribe(`/client/room/${code}/game/over`, (payload) => {
+        try {
+          const { body } = payload;
+          const parsedBody = JSON.parse(body);
+          dispatch(updateContent(parsedBody.scores));
+          dispatch(updateGameTime(0));
+          dispatch(updatePage('SCOREBOARD'));
+        } catch (err) {
+          throw new Error(`WTF HAPPEND ${err.message}`)
+        }
+      });
+
+       /**
+        * send to /startStep inorder to start Timer.
+        */
+
       // Subscribe to error endpoint /client/errors
       /**
        * subscribe  to error message 
@@ -140,11 +220,10 @@ const connectUser = (code) => {
       socketClient.subscribe(`/user/client/errors`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log('yaaay');
-        console.log(parsedBody);
-        // socketClient.data
-        // TODO dispatch game result
-
+        if (parsedBody.status === 'BAD_REQUEST') {
+          const { timestamp }= parsedBody;
+          console.error(timestamp, parsedBody.message);
+        }
       });
 
       

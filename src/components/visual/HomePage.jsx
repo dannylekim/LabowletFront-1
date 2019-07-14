@@ -106,7 +106,7 @@ class Home extends PureComponent {
             <input
               className="code-input"
               onChange={(e) => this._handleJoin(e)}
-              placeholder="Enter your name"
+              placeholder="XXXX"
               maxLength="4"
             />
           </Modal>

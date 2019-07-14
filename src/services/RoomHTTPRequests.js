@@ -80,7 +80,6 @@ async function joinTeam(teamId, team, TokenId, loading, server) {
       'Content-Type': 'application/json',
     };
 
-    console.log(teamId, team, TokenId);
     const response = await axios({
       method: 'PUT',
       url: `/teams/${teamId}`,

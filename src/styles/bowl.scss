@@ -5,11 +5,19 @@
   font-family: $game-font;
 
   .words-container {
-    display: list;
-    justify-items: flex-start;
+    display: inline-block;
 
     .words {
       animation: slide-in-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      display: flex;
+      & > .remove-words-btn {
+        @extend %clear-button;
+        font-family: $primary-font;
+        font-weight: bold;
+        background: none;
+        border: none;
+        color: black;
+      }
     }
   }
   .word-input {

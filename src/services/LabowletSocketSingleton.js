@@ -21,10 +21,8 @@ class LabowletSocket {
   
   connect(address, path){
     const socket = new SockJS(`${address}${path}`);
-    console.log(socket)
     const socketClient = STOMP.over(socket);
     socketClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
 
         // Make factory method that creates subsriptions with `/room/${this.roomCode}` prefix thus the params is the socket event.
         // socketClient.subscribe(`/room/${this.roomCode}/join`, function (payload) {
@@ -44,7 +42,6 @@ class LabowletSocket {
    */
   addSubscription(message, fn) {
     const socketPath = `/room/${this.roomCode}/${message}`
-    console.log(socketPath)
     this._socketConnection.subscribe(socketPath , fn);
   }
 

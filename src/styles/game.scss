@@ -1,9 +1,5 @@
 @import './variables.scss';
 
-
- @-webkit-keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}@keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}
- @-webkit-keyframes tracking-out-contract{0%{opacity:1}50%{opacity:1}100%{letter-spacing:-.5em;opacity:0}}@keyframes tracking-out-contract{0%{opacity:1}50%{opacity:1}100%{letter-spacing:-.5em;opacity:0}}
-
 .game {
   text-align: center;
   font-family: $game-font;
@@ -16,16 +12,16 @@
   .game-timer {
     padding-top: 5%;
     .game-time-seconds {
-      font-size: 100px;
+      font-size: 70px;
     }
   }
 
-  .game-word {
+  .game-container__word {
     font-size: 70px;
-    line-height: 200px;
-
-    .enter {-webkit-animation:tracking-in-expand .12s linear both;animation:tracking-in-expand .12s linear both}
-    .leave {-webkit-animation:tracking-out-contract .12s linear both;animation:tracking-out-contract .12s linear both}
+    line-height: 60px;
+    margin: 0px;
+    margin-top: 20px;
+	  animation: tracking-in-expand 0.3s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
   }
 
   .game-selection {
@@ -40,4 +36,28 @@
     }
   }
 
+  .game-container {
+    .game-container__actions {
+      display: flex;
+      height: 200px;
+      & > button {
+        @extend %clear-button;
+        border:none;
+        background: transparent;
+        font-size: 50px;
+        font-weight: bold;
+        height: 100%;
+        width: 100%;
+        
+        &.actor-ready, &.ready-state {
+          animation: wobble-hor-bottom 0.8s infinite;
+        }
+        // animation: tracking-in-expand 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+      }
+    }
+  }
+  
 }
+
+@keyframes wobble-hor-bottom{0%,100%{transform:translateX(0);transform-origin:50% 50%}15%{transform:translateX(-30px) rotate(-6deg)}30%{transform:translateX(15px) rotate(6deg)}45%{transform:translateX(-15px) rotate(-3.6deg)}60%{transform:translateX(9px) rotate(2.4deg)}75%{transform:translateX(-6px) rotate(-1.2deg)}}
+ @keyframes tracking-in-expand{0%{letter-spacing:-.5em;opacity:0}40%{opacity:.6}100%{opacity:1}}

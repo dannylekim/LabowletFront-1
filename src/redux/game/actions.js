@@ -15,8 +15,8 @@ const updateStatus = (newStatus) => {
       return { type: actionTypes.BECOME_GUESSER };
     case 'SPECTATOR':
       return { type: actionTypes.BECOME_SPECTATOR };
-    default:
-      break;
+      default:
+      return { type: actionTypes.BECOME_SPECTATOR };
   }
 }
 
@@ -35,10 +35,30 @@ const updateGameType = (gameType) => {
   }
 }
 
+const updateGameWord = (word) => {
+  return {
+    type: actionTypes.UPDATE_GAME_WORD,
+    word,
+  }
+}
+const updateGameTime = (time) => {
+  return {
+    type: actionTypes.UPDATE_GAME_TIME,
+    time,
+  }
+}
+
 const updateWordReady = (list) => {
   return {
     type: actionTypes.UPDATE_WORD_LIST,
     list,
+  }
+}
+
+const updateRemainingWordCount = (count) => {
+  return {
+    type: actionTypes.UPDATE_WORD_COUNT,
+    count,
   }
 }
 
@@ -48,4 +68,7 @@ export {
   updateContent,
   updateGameType,
   updateWordReady,
+  updateGameWord,
+  updateGameTime,
+  updateRemainingWordCount,
 };

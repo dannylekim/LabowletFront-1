@@ -3,7 +3,7 @@ import actionTypes from './actionTypes';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_POINTS:
+    case actionTypes.UPDATE_POINT:
       return Object.assign({}, state, {
         teamPoints: action.point,
       });
@@ -27,10 +27,25 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         gameType: action.gameType,
       });
+    case actionTypes.UPDATE_GAME_TIME:
+      return {
+        ...state,
+        currentTime: action.time,
+      }
+    case actionTypes.UPDATE_GAME_WORD:
+      return {
+        ...state,
+        currentWord: action.word,
+      }
     case actionTypes.UPDATE_WORD_LIST:
       return {
         ...state,
         listOfWordsReady: action.list,
+      };
+    case actionTypes.UPDATE_WORD_COUNT:
+      return {
+        ...state,
+        remainingWords: action.count,
       };
     case actionTypes.UPDATE_READY_ROOM:
       return {
