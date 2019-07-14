@@ -55,6 +55,13 @@ const updateWordReady = (list) => {
   }
 }
 
+const updateRemainingWordCount = (count) => {
+  return {
+    type: actionTypes.UPDATE_WORD_COUNT,
+    count,
+  }
+}
+
 export { 
   updatePoints,
   updateStatus,
@@ -63,4 +70,5 @@ export {
   updateWordReady,
   updateGameWord,
   updateGameTime,
+  updateRemainingWordCount,
 };

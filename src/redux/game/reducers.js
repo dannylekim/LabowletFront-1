@@ -42,6 +42,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         listOfWordsReady: action.list,
       };
+    case actionTypes.UPDATE_WORD_COUNT:
+      return {
+        ...state,
+        remainingWords: action.count,
+      };
     case actionTypes.UPDATE_READY_ROOM:
       return {
         ...state, 
