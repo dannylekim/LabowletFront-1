@@ -15,7 +15,7 @@ const updateContent = (content) => {
 const sendWord = (word = null) => {
   return async (dispatch, getState) => {
     try {
-      if(word.length) {
+      if(word != null) {
         return await getState().user.socket.send(`/server/room/${getState().room.code}/game/newWord`, {}, word);
       }
       return await getState().user.socket.send(`/server/room/${getState().room.code}/game/skipWord`, {});
