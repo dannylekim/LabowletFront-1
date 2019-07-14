@@ -15,6 +15,7 @@ import {
   updatePoints,
   updateWordReady,
   updateContent,
+  updateRemainingWordCount,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -82,6 +83,7 @@ const connectUser = (code) => {
           currentGuesser,
           currentRound,
           // teamScore,
+          teams,
         } = parsedBody;
         console.log(parsedBody);
         const { roundName } = currentRound;
@@ -117,9 +119,9 @@ const connectUser = (code) => {
         dispatch(updateGameType(roundName))
 
         // TODO update the team's score
-        // dispatch(updatePoints(teamScore))
-
+        const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
         
+        dispatch(updatePoints(teamScore.totalScore));
       });
       
       /**
@@ -175,10 +177,16 @@ const connectUser = (code) => {
        * @returns {String} word 
        */
       socketClient.subscribe(`/client/room/${code}/game/word`, (payload) => {
-        const { body } = payload; 
-        // const parsedBody = JSON.parse(body);
-        console.log(body);
-        dispatch(updateGameWord(body));
+        try {
+          const { body } = payload; 
+          const parsedBody= JSON.parse(body);
+          const { word, remainingWordCount } = parsedBody;
+          console.log('from /word...', parsedBody);
+          dispatch(updateGameWord(word));
+          dispatch(updateRemainingWordCount(remainingWordCount));
+        } catch (err) {
+          throw new Error(`/game/word/ error: `, err.message);
+        }
       })
       
       /**
