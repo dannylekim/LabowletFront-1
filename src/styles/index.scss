@@ -11,14 +11,15 @@ body {
 }
 
 .navbar {
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
   position: fixed;
   width: 100%;
   background-color: $background-color-primary;
   padding: 5px 0px;
   z-index: 1;
   .back-button {
-    position: absolute;
-    text-align: justify;
     color: $font-color-bright;
     top:20px;
   }

@@ -3,7 +3,7 @@ import actionTypes from './actionTypes';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.UPDATE_POINTS:
+    case actionTypes.UPDATE_POINT:
       return Object.assign({}, state, {
         teamPoints: action.point,
       });

@@ -75,14 +75,10 @@ class LobbyPage extends PureComponent {
   }
 
   _joinTeam(teamId, teamName) {
-    console.log('joined team', teamId);
     this.props
       .joinTeam(teamId, teamName, this.props.user.token)
-      .then(() => {
-        console.log('success!');
-      })
       .catch(err => {
-        alert(err);
+        console.error(err);
       })
       .finally(() => {
         this._checkMax()
@@ -96,9 +92,7 @@ class LobbyPage extends PureComponent {
         const teamName = e.target.value;
         
         // send request
-        this.props.createTeam(teamName).then(() => {
-          console.log('hooray')
-        }).catch(err => {
+        this.props.createTeam(teamName).catch(err => {
           console.error(err);
         }).finally(() => {
           this._checkMax();
@@ -120,15 +114,13 @@ class LobbyPage extends PureComponent {
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
-    const { roomSettings, benchPlayers, teams } = this.props.room.settings;
-    console.log(this.props.room.settings);
+    const { benchPlayers, teams } = this.props.room.settings;
     const benchPlayersIcons = benchPlayers.map(player => (
       <PlayerIcon key={player.id} name={player.name} />
     ));
     // By default we render 0 teams, user will have to create them themselves
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
-    console.log(this.props.room);
-    //const addButton = ;
+
     const isAdmin = this.props.user.id === this.props.room.settings.host.id;
     const canStart = this.props.room.settings.canStart;
 

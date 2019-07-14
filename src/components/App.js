@@ -15,7 +15,7 @@ import 'rc-switch/assets/index.css';
 
 class App extends PureComponent {
   componentWillMount() {
-    this.props.toggleServer();
+    // this.props.toggleServer();
   }
 
   switchPages(pageKey) {
@@ -62,11 +62,12 @@ class App extends PureComponent {
         {this.props.application.page === 'LOBBY' || this.props.application.page === 'CREATE' ?
          <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>: ''}
         <h2>{PageToRender.title}</h2>
-          <Switch
+          {this.props.application.debugMode && <span><Switch
             className='can-skip-switch'
             onChange={(e) => this.props.toggleServer()}
           />
           <p style={{ color: '#fff'}}>{this.props.application.server.label}</p>
+          </span>}
           { this.props.application.page !== 'HOME' && <p style={{ color: '#fff'}}>{this.props.user.name}</p>}
       </div>
         {PageToRender.component}

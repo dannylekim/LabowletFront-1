@@ -56,7 +56,6 @@ const createRoom = (newSetting) => {
         dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id))
         dispatch(actions.updateSetting(formattedSettings));
-        console.log(getState().application.server.url);
         /**
          * Await create room request
          */
@@ -168,8 +167,6 @@ const createTeam = (teamName) => {
       }, getState().application.server.url);
 
       if (createTeamResponse.status === 200) {
-        console.log('successfull result => ',createTeamResponse.data);
-
         // Go through the room object and find our user id that matches the team's member id thenset that team id for ourself
         const myTeamId = [...createTeamResponse.data.teams].reduce((acc, team) => {
           team.teamMembers.forEach(element => {
@@ -181,11 +178,9 @@ const createTeam = (teamName) => {
         }, '');
         dispatch(updateUserTeam(myTeamId));
       } else {
-        console.log('status = ', createTeamResponse.status);
         throw createTeamResponse;
       }
     } catch (err) {
-      console.log('room:error: ', err.message);
       throw err;
     }
   }
@@ -201,15 +196,12 @@ const joinTeam = (teamId, teamName) => {
         dispatch(ApplicationActions.loadTo(progress.loaded))
       }, getState().application.server.url);  
       if (joinTeamResponse.status === 200) {
-        console.log('successfull result => ',joinTeamResponse.data);
         dispatch(updateUserTeam(teamId));
       } else {
-        console.log('status = ', joinTeamResponse.status);
         throw joinTeamResponse;
       }
     } catch (err) {
-      console.log('error: ', err.message);
-      throw err;
+      throw new Error(`room::joinTeam dipatcher: ${err.message}`);
     }
   }
 }

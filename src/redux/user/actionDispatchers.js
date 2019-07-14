@@ -43,11 +43,7 @@ const connectUser = (code) => {
     //const { code } = getState().room.code;
     const LABOWLET_PATH = '/socket'
 
-    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`, null , {
-      debug: (str) => {
-        console.log(str);
-      },
-    });
+    const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
     const socketClient = STOMP.over(socket);
 
     socketClient.reconnect_delay = 5000;
@@ -62,8 +58,6 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log('helloo');
-        console.log(payload);
         dispatch(updateSetting(parsedBody));
       });
 
@@ -85,7 +79,6 @@ const connectUser = (code) => {
           // teamScore,
           teams,
         } = parsedBody;
-        console.log(parsedBody);
         const { roundName } = currentRound;
         // First thing: reset time/word
         if (getState().game.currentTime <= 0) {
@@ -208,8 +201,6 @@ const connectUser = (code) => {
         try {
           const { body } = payload;
           const parsedBody = JSON.parse(body);
-          console.log('WE DONE HOMIEE');
-          console.log(parsedBody);
           dispatch(updateContent(parsedBody.scores));
           dispatch(updateGameTime(0));
           dispatch(updatePage('SCOREBOARD'));
@@ -229,15 +220,10 @@ const connectUser = (code) => {
       socketClient.subscribe(`/user/client/errors`, function (payload) {
         const { body } = payload;
         const parsedBody = JSON.parse(body);
-        console.log('yaaay');
         if (parsedBody.status === 'BAD_REQUEST') {
           const { timestamp }= parsedBody;
           console.error(timestamp, parsedBody.message);
-          console.log(timestamp, 'Server message: ', parsedBody.debugMessage);
         }
-        // socketClient.data
-        // TODO dispatch game result
-
       });
 
       
