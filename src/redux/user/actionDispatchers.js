@@ -181,7 +181,6 @@ const connectUser = (code) => {
           const { body } = payload; 
           const parsedBody= JSON.parse(body);
           const { word, remainingWordCount } = parsedBody;
-          console.log('from /word...', parsedBody);
           dispatch(updateGameWord(word));
           dispatch(updateRemainingWordCount(remainingWordCount));
         } catch (err) {
