@@ -85,7 +85,7 @@ class BowlPage extends PureComponent {
 
   render() {
     //const { roomSettings, benchPlayers } = this.props.room.settings;
-    const pendingPlayers = [...this.props.game.listOfWordsReady].map((player) => <PlayerIcon color={player.completed ? 'green' : 'red'} key={player.player.id} name={player.player.name}/>);
+    const pendingPlayers = this.props.game.listOfWordsReady.map((player) => <PlayerIcon color={player.completed ? 'green' : 'red'} key={player.player.id} name={player.player.name}/>);
 
     return (
       <div className="bowl">

@@ -13,6 +13,7 @@ import {
   updateGameWord,
   updateGameType,
   updatePoints,
+  updateWordReady,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -138,10 +139,8 @@ const connectUser = (code) => {
         }
 
         // Init/reset word list here 
-        dispatch({
-          type: 'UPDATE_WORD_LIST',
-          list: usersStatus,
-        });
+        dispatch(updateWordReady(usersStatus));
+
       });
 
       /**
@@ -155,7 +154,7 @@ const connectUser = (code) => {
 
         // If everyone is ready, allow host to click ready button
         if (ready) {
-          return dispatch({
+          dispatch({
             type: 'UPDATE_READY_WORD',
             status: true,
           });
@@ -163,10 +162,7 @@ const connectUser = (code) => {
 
         // Always update the wordlist progress whenever this message get called.
         // The words are NOT stored here.
-        dispatch({
-          type: 'UPDATE_WORD_LIST',
-          list: usersStatus,
-        });
+        dispatch(updateWordReady(usersStatus));
       });
       
       /**

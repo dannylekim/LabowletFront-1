@@ -4,6 +4,23 @@ import connectToRedux from '../ReduxConnector';
 
 import '../../styles/game.scss';
 
+const Actor = (props) => {
+
+  return (
+    <div className="game-container__content">
+      <div className="game-word">
+        <h3>
+          {props.word}
+        </h3>
+      </div>
+      <div className="game-selection">
+        <button></button>
+        {/* {this._renderButton(status)} */}
+      </div>
+    </div>
+  )
+}
+
 /**
  * @class GamePage
  */
@@ -73,13 +90,8 @@ class GamePage extends PureComponent {
               s
             </h2>
           </div>
-          <div className="game-word">
-            <div className={`${classWord}`}>
-              {this.state.word}
-            </div>
-          </div>
-          <div className="game-selection">
-            {this._renderButton(status)}
+          <div>
+            You are {status}
           </div>
         </div>
       </div>
