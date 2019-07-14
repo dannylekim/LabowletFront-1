@@ -42,7 +42,7 @@ class Actor extends PureComponent {
               </div>
             </div>) : (
               <div className="game-container__actions">
-                <button className="ready-state" onClick={(e) => this.handleReady(e)}>Ready</button>
+                <button className="actor-ready" onClick={(e) => this.handleReady(e)}>Ready</button>
               </div>
             )
         }
