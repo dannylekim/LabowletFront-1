@@ -5,7 +5,7 @@ const state = {
   status: '', // player status ['GUESSER', 'ACTOR', 'SPECTATOR']
 
   // GAME INFO
-  content: {}, // round content
+  content: [], // final game result // ignore irrelavent name, too tired to fix
   currentWord: '', // word to guess
   currentTime: 0, // should be default to seconds until further notice
   gameType: '', // round type

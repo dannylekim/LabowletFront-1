@@ -198,12 +198,17 @@ const connectUser = (code) => {
        * @returns {Integer} timer
        */
       socketClient.subscribe(`/client/room/${code}/game/over`, (payload) => {
-        const { body } = payload;
-        const parsedBody = JSON.parse(body);
-        console.log('WE DONE HOMIEE');
-        console.log(parsedBody);
-        dispatch(updateContent(parsedBody));
-        dispatch(updateGameTime(0));
+        try {
+          const { body } = payload;
+          const parsedBody = JSON.parse(body);
+          console.log('WE DONE HOMIEE');
+          console.log(parsedBody);
+          dispatch(updateContent(parsedBody.scores));
+          dispatch(updateGameTime(0));
+          dispatch(updatePage('SCOREBOARD'));
+        } catch (err) {
+          throw new Error(`WTF HAPPEND ${err.message}`)
+        }
       });
 
        /**

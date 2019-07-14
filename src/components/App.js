@@ -6,6 +6,7 @@ import CreatePage from './visual/CreatePage';
 import LobbyPage from './visual/LobbyPage';
 import BowlPage from './visual/BowlPage';
 import GamePage from './visual/GamePage';
+import ScorePage from './visual/ScorePage';
 
 import ReduxConnector from './ReduxConnector';
 
@@ -43,6 +44,11 @@ class App extends PureComponent {
         return {
           title: 'Game Time',
           component: <GamePage />
+        };
+      case 'SCOREBOARD':
+        return {
+          title: 'GAME OVER',
+          component: <ScorePage />
         };
       default:
         return null;
