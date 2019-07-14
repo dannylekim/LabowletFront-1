@@ -44,4 +44,5 @@ export default {
   updateStatus,
   updateContent,
   sendWord,
+  startStep,
 };

@@ -4,19 +4,55 @@ import connectToRedux from '../ReduxConnector';
 
 import '../../styles/game.scss';
 
-const Actor = (props) => {
+class Actor extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      ready: false,
+    }
+  }
 
+  handleReady(e) {
+    this.setState({
+      ready: true,
+    });
+    this.props.start();
+  }
+
+  render() {
+    return (
+      <div className="game-container__content">
+        {
+          this.state.ready ?
+            (<div className="game-container__actions">
+              {this.props.canSkip && <button onClick={() => this.props.handleSkip()}>Skip</button>}
+              <button onClick={() => this.props.handleGotIt()}>Got it!</button>
+            </div>) : (
+              <div className="game-container__actions">
+                <button onClick={(e) => this.handleReady(e)}>Ready</button>
+              </div>
+            )
+        }
+      </div>
+    );
+  }
+}
+const Guesser = () => {
   return (
     <div className="game-container__content">
-      <div className="game-word">
-        <h3>
-          {props.word}
-        </h3>
-      </div>
-      <div className="game-selection">
-        <button></button>
-        {/* {this._renderButton(status)} */}
-      </div>
+      Don't look at me! Pay attention to your partner!
+    </div>
+  )
+}
+const Spectator = (props) => {
+  return (
+    <div
+      className="game-container__content game-container__tappable"
+      onTouchStart={() => console.log('hey')}
+    >
+      <h3>Sit back and relax!</h3>
+      <code>But pay attention!</code>
+      <p>Press and hold me to see your score.</p>
     </div>
   )
 }
@@ -25,58 +61,37 @@ const Actor = (props) => {
  * @class GamePage
  */
 class GamePage extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      canSkip: true,
-      word: 'YOYO',
-      animation: 'entry',
-    }
-    this.gotIt = this.gotIt.bind(this);
-    this.skipWord = this.skipWord.bind(this);
-  }
-  
-  /**
-   * Successfully guessed word
-   */
-  gotIt() {
-    // Add points
-  }
-
-  skipWord() {
-    // Skip word
-    this.setState({
-      animation: 'entry',
-      word: 'WTF',
-    })
-  }
-
   /**
    * @function _renderButton
    * @description Depending on user's status player/guesser they will either see a skip button or pass
    * @param {boolean} playerStatus 
    */
-  _renderButton(playerStatus){
+  _renderView(playerStatus){
     switch(playerStatus) {
       case 'ACTOR':
-        return (<button disable={this.state.canSkip} className="player-btn" onClick={this.skipWord}>Skip</button>);
+        return (
+          <Actor
+            word={this.props.game.currentWord}
+            handleGotIt={() => this.props.sendWord(this.props.game.currentWord)}
+            handleSkip={() => this.props.sendWord()}
+            start={() => this.props.startStep()}
+          />
+        );
+        break;
       case 'GUESSER':
-        return (<button className="player-btn" onClick={this.gotIt}>Correct</button>);
+        return <Guesser/>;
+        break;
       case 'SPECTATOR':
-        return "Sit back and relax :) But pay attention!";
+        return <Spectator />;
+        break;
       default:
-        return '';
+        return 'Who the hell are you? How did u get here?';
     }
   }
 
   render() {
-    const s = {
-      status: 'ACTOR',
-      gameType: 'Describe!'
-    }
-    const { status, gameType } = s;//this.props.game;
-    const classWord = this.state.animation;//"enter";
+
+    const { status, gameType, currentTime } = this.props.game;
 
     return (
       <div className="game">
@@ -86,12 +101,13 @@ class GamePage extends PureComponent {
           </div>
           <div className="game-timer">
             <h2>
-              <span className="game-time-seconds">{50}</span>
+              <span className="game-time-seconds">{currentTime}</span>
               s
             </h2>
           </div>
-          <div>
+          <div className="game-container">
             You are {status}
+            {this._renderView(status.toUpperCase())}
           </div>
         </div>
       </div>
@@ -101,7 +117,7 @@ class GamePage extends PureComponent {
 
 const connectObject = {
   states: ['game'],
-  actions: [''],
+  actions: ['sendWord', 'startStep'],
 }
 
 export default connectToRedux(GamePage, connectObject);
