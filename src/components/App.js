@@ -61,6 +61,7 @@ class App extends PureComponent {
             onChange={(e) => this.props.toggleServer()}
           />
           <p style={{ color: '#fff'}}>{this.props.application.server.label}</p>
+          { this.props.application.page !== 'HOME' && <p style={{ color: '#fff'}}>{this.props.user.name}</p>}
       </div>
         {PageToRender.component}
       </div>
@@ -69,7 +70,7 @@ class App extends PureComponent {
 }
 
 const connectObject = {
-  states: [],
+  states: ['user'],
   actions: [],
 } 
 

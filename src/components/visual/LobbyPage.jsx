@@ -125,7 +125,8 @@ class LobbyPage extends PureComponent {
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
     console.log(this.props.room);
     //const addButton = ;
-    const canStart = this.props.user.id === this.props.room.settings.host.id;
+    const isAdmin = this.props.user.id === this.props.room.settings.host.id;
+    const canStart = this.props.room.settings.canStart;
 
     return (
       <div className="lobby">
@@ -143,7 +144,7 @@ class LobbyPage extends PureComponent {
             )}
           </div>
         </div>
-        { canStart && <button className="generic-start-btn" onClick={() => this.props.lobbyReady()}>Start</button>}
+        { isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled'}`} onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>

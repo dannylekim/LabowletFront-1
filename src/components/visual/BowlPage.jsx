@@ -99,7 +99,7 @@ class BowlPage extends PureComponent {
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
           </div>
             {(this.state.wordList.length === this.props.room.settings.roomSettings.wordsPerPerson) && <button className="word-submit" onClick={() => this.submitWords()}>Submit</button>}
-            {(this.props.user.id === this.props.room.settings.host.id) && <button className={`word-submit ${this.props.game.readyState.word ? '': 'disabled-btn'}`} onClick={() => this.props.wordReady()} disabled={!this.props.game.readyState.word}>Submit</button>}
+            {(this.props.user.id === this.props.room.settings.host.id) && <button className={`word-submit ${this.props.game.readyState.word ? '': 'disabled-btn'}`} onClick={() => this.props.wordReady()} disabled={!this.props.game.readyState.word}>Start</button>}
         </div>
         <div className="page-footer">
           <div className="foot-header">

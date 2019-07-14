@@ -19,6 +19,14 @@ class Actor extends PureComponent {
     this.props.start();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.gameType !== prevProps.gameType ) {
+      this.setState({
+        ready: false,
+      })
+    }
+  }
+
   render() {
     return (
       <div className="game-container__content">
@@ -87,6 +95,7 @@ class GamePage extends PureComponent {
         return (
           <Actor
             // canSkip={this.props.room.roomSettings}
+            gameType={this.props.game.gameType}
             word={this.props.game.currentWord}
             handleGotIt={() => this.props.sendWord(this.props.game.currentWord)}
             handleSkip={() => this.props.sendWord()}

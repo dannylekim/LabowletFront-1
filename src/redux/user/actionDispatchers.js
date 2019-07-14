@@ -14,6 +14,7 @@ import {
   updateGameType,
   updatePoints,
   updateWordReady,
+  updateContent,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -85,7 +86,9 @@ const connectUser = (code) => {
         console.log(parsedBody);
         const { roundName } = currentRound;
         // First thing: reset time/word
-        dispatch(updateGameTime(0));
+        if (getState().game.currentTime <= 0) {
+          dispatch(updateGameTime(0));
+        }
         dispatch(updateGameWord(''));
 
         /**
@@ -185,8 +188,9 @@ const connectUser = (code) => {
       socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
         const { body } = payload;
         // const parsedBody = JSON.parse(body);
-        console.log(body);
-        dispatch(updateGameTime(body));
+        if (body >= 0) {
+          dispatch(updateGameTime(body));
+        }
       });
 
       /**
@@ -198,7 +202,8 @@ const connectUser = (code) => {
         const parsedBody = JSON.parse(body);
         console.log('WE DONE HOMIEE');
         console.log(parsedBody);
-        // dispatch(updateGameTime(body));
+        dispatch(updateContent(parsedBody));
+        dispatch(updateGameTime(0));
       });
 
        /**

@@ -8,7 +8,16 @@
 
 .add-team-btn {
   @extend .generic-start-btn;
-  background-color: $background-color-third
+  background-color: $font-color-bright;
+  // border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 100%;
+  width: 50px;
+  box-shadow: $subtle-shadow;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .page-footer {
@@ -21,8 +30,8 @@
 }
 
 .page-container__team-list {
-  display: list;
-  
+  display: flex;
+  justify-content: center;  
 }
 
 .team-name-modal {
