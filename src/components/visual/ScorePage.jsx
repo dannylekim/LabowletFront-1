@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import connectToRedux from '../ReduxConnector';
 
-import '../../styles/game.scss';
+import '../../styles/score.scss';
 
 /**
  * @class GamePage
@@ -27,8 +27,12 @@ class ScorePage extends PureComponent {
           <div className="title">
             Game Over
           </div>
-          <div>
+          <div className="score-page__results">
             {result}
+          </div>
+          <div className="score-page__actionable">
+            <button onClick={() => this.props.updatePage('HOME')}>Take me home</button>
+            <button onClick={() => this.props.updatePage('CREATE')}>Create new game</button>
           </div>
         </div>
     

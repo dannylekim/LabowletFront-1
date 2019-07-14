@@ -1,0 +1,32 @@
+@import './variables.scss';
+
+.title {
+  line-height: 190px;
+  text-align: center;
+  font-family: $primary-font;
+  font-size: 80px;
+}
+
+.team-row {
+  display: flex;
+  justify-content: space-around;
+  font-family: $primary-font;
+  font-size: 26px;
+}
+.score-page__actionable {
+  display: flex;
+  justify-content: space-around;
+  height: 100px;
+  & > button {
+    width: 100%;
+    height: 100%;
+    font-family: $primary-font;
+    font-size: 26px;
+    box-shadow: $shadowColor;
+    border-radius: 10px;
+  }
+}
+
+.score-page__results {
+  margin: 50px 0px;
+}
