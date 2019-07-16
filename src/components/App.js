@@ -14,15 +14,21 @@ import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
 class App extends PureComponent {
-  componentWillMount() {
-    // this.props.toggleServer();
+  componentDidMount() {
+    window.onbeforeunload = () => this.props.leaveRoom();
   }
+
+  componentWillMount() {
+    this.props.toggleServer();
+  }
+
+
 
   switchPages(pageKey) {
     switch(pageKey) {
       case 'HOME':
         return {
-          title: 'Labowlet',
+          title: 'Labowless',
           component: <HomePage />
         };
       case 'CREATE':
@@ -59,8 +65,10 @@ class App extends PureComponent {
     return (
       <div className="page">
       <div className='navbar' style={{ display: 'flex'}}>
-        {this.props.application.page === 'LOBBY' || this.props.application.page === 'CREATE' ?
+        {this.props.application.page === 'CREATE' ?
          <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>: ''}
+        {this.props.application.page === 'LOBBY' ?
+         <div className="back-button" onClick={() => this.props.leaveRoom()}>Back</div>: ''}
         <h2>{PageToRender.title}</h2>
           {this.props.application.debugMode && <span><Switch
             className='can-skip-switch'
@@ -78,7 +86,7 @@ class App extends PureComponent {
 
 const connectObject = {
   states: ['user'],
-  actions: [],
+  actions: ['leaveRoom'],
 } 
 
 export default ReduxConnector(App, connectObject);
