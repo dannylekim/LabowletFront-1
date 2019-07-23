@@ -19,10 +19,10 @@ class App extends PureComponent {
   }
 
   componentWillMount() {
-    this.props.toggleServer();
+    if (this.props.application.debugMode) {
+      this.props.toggleServer();
+    }
   }
-
-
 
   switchPages(pageKey) {
     switch(pageKey) {
