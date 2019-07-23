@@ -30,7 +30,7 @@ const toggleServer = () => {
     const action = {
       type: 'TOGGLE_SERVER',
     }
-    if (currentServer === prod || currentServer === '') {
+    if (currentServer === prod) {
       return dispatch({
         ...action,
         newServer: dev,
