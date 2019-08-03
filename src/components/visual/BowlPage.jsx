@@ -100,7 +100,7 @@ class BowlPage extends PureComponent {
               className="word-input"
               type="text"
               value={this.state.value}
-              maxlength={20}
+              maxlength={50}
               onChange={this.handleChange}
             />
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
