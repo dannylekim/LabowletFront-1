@@ -50,6 +50,8 @@ const createRoom = (newSetting) => {
         const formattedSettings = RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
+        // store/update token to localstorage
+        localStorage.setItem('labowless_token', authToken);
         /**
          * Give user an id locally and update local settings
          */
