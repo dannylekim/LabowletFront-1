@@ -49,8 +49,7 @@ const startStep = () => {
 const resetGame = () => {
   return async (dispatch, getState) => {
     try {
-      const newSettings = await getState().user.socket.send(`/room/${getState().room.code}/game/resetGame`, {});
-      console.log(newSettings);
+      await getState().user.socket.send(`/server/room/${getState().room.code}/game/resetGame`, {});
     } catch (err) {
       throw new Error(`Error while starting new turn/round: ${err.message}`);
     }
@@ -76,9 +75,9 @@ const leaveRoom = () => {
 const giveUpRound = () => {
   return async (dispatch, getState) => {
     try {
-      return await getState().user.socket.send(`/room/${getState().room.code}/game/endTurn`, {});
+      return await getState().user.socket.send(`/server/room/${getState().room.code}/game/endTurn`, {});
     } catch (err) {
-      throw new Error(`Error while starting new turn/round: ${err.message}`);
+      throw new Error(`Error while starting giving up: ${err.message}`);
     }
   }}
 
