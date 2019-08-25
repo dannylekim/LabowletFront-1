@@ -131,7 +131,7 @@ class GamePage extends PureComponent {
           <div className="game-type">
             {gameType.replace(/_/gi, ' ')}
           </div>
-            <div className="game-timer" style={(currentTime <= 5) && {color: `#f57373`}}>
+            <div className="game-timer" style={(currentTime <= 5) ? {color: `red`} : {}}>
             <h2>
               <span className="game-time-seconds">{currentTime}</span>
               s
