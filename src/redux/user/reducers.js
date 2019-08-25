@@ -27,6 +27,11 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         token: action.token,
       });
+    case actionTypes.OVERRIDE_USER:
+      return {
+        ...state,
+        ...action.user,
+      };
     default:
       return state;
   }

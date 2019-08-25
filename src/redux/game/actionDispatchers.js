@@ -57,6 +57,9 @@ const resetGame = () => {
   }
 }
 
+/**
+ * sock call to disconnect user from room session.
+ */
 const leaveRoom = () => {
   return async (dispatch, getState) => {
     try {
@@ -70,6 +73,15 @@ const leaveRoom = () => {
   }
 }
 
+const giveUpRound = () => {
+  return async (dispatch, getState) => {
+    try {
+      return await getState().user.socket.send(`/room/${getState().room.code}/game/endTurn`, {});
+    } catch (err) {
+      throw new Error(`Error while starting new turn/round: ${err.message}`);
+    }
+  }}
+
 export default { 
   updatePoints,
   updateStatus,
@@ -80,4 +92,5 @@ export default {
   startStep,
   resetGame,
   leaveRoom,
+  giveUpRound,
 };

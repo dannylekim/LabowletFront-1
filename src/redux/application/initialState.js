@@ -6,7 +6,7 @@ const state = {
     label: '',
     url: '',
   },
-  debugMode: false,
+  debugMode: true,
 }
 
 export default state;

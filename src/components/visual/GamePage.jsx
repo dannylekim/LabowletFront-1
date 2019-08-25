@@ -40,6 +40,9 @@ class Actor extends PureComponent {
                 {this.props.canSkip && <button disabled={this.props.maxWords === 1} onClick={() => this.props.handleSkip()}>Skip</button>}
                 <button onClick={() => this.props.handleGotIt()}>Got it!</button>
               </div>
+              <div className="game-container__give-up">
+                <button onClick={() => this.props.giveUpRound()}>Give up turn</button>
+              </div>
             </div>) : (
               <div className="game-container__actions">
                 <button className="actor-ready" onClick={(e) => this.handleReady(e)}>Ready</button>
@@ -144,7 +147,7 @@ class GamePage extends PureComponent {
 
 const connectObject = {
   states: ['game', 'room'],
-  actions: ['sendWord', 'startStep'],
+  actions: ['sendWord', 'startStep', 'giveUpRound'],
 }
 
 export default connectToRedux(GamePage, connectObject);

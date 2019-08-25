@@ -7,8 +7,10 @@ import UserActions from '../user/actionDispatchers';
 import {
   updateUserToken,
   updateUserTeam,
-} from '../user/actions'
+  overrideUser,
+} from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
+import { overrideGame } from '../game/actions';
 
 /**
  * @function createRoom
@@ -50,6 +52,8 @@ const createRoom = (newSetting) => {
         const formattedSettings = RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
+        // store/update token to localstorage
+        localStorage.setItem('labowless_token', authToken);
         /**
          * Give user an id locally and update local settings
          */
@@ -74,7 +78,7 @@ const createRoom = (newSetting) => {
            * socket events that on redux change go here
            */
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
-          //dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
           throw new Error('Must have at least one round');
@@ -113,6 +117,9 @@ const joinRoom = (code) => {
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
 
+        // store/update token to localstorage
+        localStorage.setItem('labowless_token', authToken);
+
         dispatch(updateUserToken(authToken));
         dispatch(UserActions.updateUserId(userResponse.data.id));
 
@@ -134,7 +141,7 @@ const joinRoom = (code) => {
           dispatch(actions.updateSetting(roomResponse.data));
 
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
-
+          dispatch(ApplicationActions.updatePage('LOBBY'));
         } else {
           if (roomResponse.status === 404) {
             throw new Error('Invalid room code');          
@@ -157,9 +164,6 @@ const createTeam = (teamName) => {
       const body = {
         teamName,
       }
-      getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {
-        'X-Auth-Token': getState().user.token,
-      }, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
 
       // Post create Team req
       const createTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
@@ -251,7 +255,53 @@ const wordReady = () => {
       console.error(errMessage);
       throw new Error(errMessage);
     }
-  }}
+  }
+}
+
+// currentlyIn: "LOBBY"
+// game: null
+// player: {name: "ddfs", id: "170132bf-753d-44ed-9e19-c709e4131e6c"}
+// room: {teams: Array(2), benchPlayers: Array(0), host: {…}, roomCode: "JQDS", roomSettings: {…}, …}
+// team: null
+// wordState:
+
+const reconnect = (token) => {
+  return async (dispatch, getState) => {
+    try {
+      const reconnectSession = await RoomRequests.reconnect(token,  getState().application.server.url);
+      console.log(reconnectSession.data);
+      const {
+        currentlyIn,
+        game,
+        player,
+        room,
+        team,
+        wordState,
+      } = reconnectSession.data;
+      
+      if(player) {
+        dispatch(overrideUser(player));
+        dispatch(updateUserToken(token));
+      }
+      if (room) {
+        const { roomCode, ...rest } = room;
+        dispatch(actions.updateCode(roomCode));
+        dispatch(actions.updateSetting(rest));
+        dispatch(UserActions.connectUser(roomCode));
+      }
+      if(game) {
+        dispatch(overrideGame(game));
+      }
+
+      dispatch(ApplicationActions.updatePage(currentlyIn));
+    } catch (err) {
+      const errMessage = `room::wordReady ${err.message}`
+      console.error(errMessage);
+      throw new Error(errMessage);
+    }
+  }
+}
+
 
 export default {
   createRoom,
@@ -261,4 +311,5 @@ export default {
   submitWords,
   lobbyReady,
   wordReady,
+  reconnect,
 };
