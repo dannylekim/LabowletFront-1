@@ -159,6 +159,36 @@ async function stageReady(TokenId, state, data = {}, server) {
   }
 }
 
+/**
+ * @description this function is used when under the assumption  that 
+ * the user was in a room session and eventualy was disconnected.
+ * @param {*} TokenId 
+ * @param {*} state 
+ * @param {*} data 
+ * @param {*} server 
+ */
+async function reconnect(TokenId, server) {
+  try {
+    const headers = { 
+      'X-Auth-Token': TokenId,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    };
+
+
+    const response = await axios({
+      method: 'GET',
+      url: `/game/session`,
+      baseURL: `${server || REST_URL}`,
+      headers,
+    });
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
 
 export default {
   createRoom,
@@ -166,4 +196,5 @@ export default {
   createTeam,
   joinTeam,
   stageReady,
+  reconnect,
 }
