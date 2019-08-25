@@ -12,6 +12,7 @@ const actionTypes = {
   UPDATE_GAME_TIME: 'UPDATE_GAME_TIME',
   UPDATE_WORD_COUNT: 'UPDATE_WORD_COUNT',
   OVERRIDE_GAME: 'OVERRIDE_GAME',
+  RESET_GAME: 'RESET_GAME',
 }
 
 export default actionTypes;

@@ -62,6 +62,12 @@ const updateRemainingWordCount = (count) => {
   }
 }
 
+const resetGame = (game) => {
+  return {
+    type: actionTypes.RESET_GAME,
+  }
+}
+
 const overrideGame = (game) => {
   return {
     type: actionTypes.OVERRIDE_GAME,
@@ -79,4 +85,5 @@ export {
   updateGameTime,
   updateRemainingWordCount,
   overrideGame,
+  resetGame,
 };
