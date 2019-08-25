@@ -39,7 +39,8 @@
   .game-container {
     .game-container__actions {
       display: flex;
-      height: 200px;
+      height: 100px;
+
       & > button {
         @extend %clear-button;
         border:none;
