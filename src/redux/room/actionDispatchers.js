@@ -311,29 +311,31 @@ const reconnect = (token) => {
 
         dispatch(overrideGame(game));
 
-        let userStatus = 'SPECTATOR';
-        if (currentActor.id === getState().user.id) {
-          userStatus = 'ACTOR';
-        } else if (currentGuesser.id === getState().user.id) {
-          userStatus = 'GUESSER';
+        if (currentlyIn === 'GAME') {
+          let userStatus = 'SPECTATOR';
+          if (currentActor.id === getState().user.id) {
+            userStatus = 'ACTOR';
+          } else if (currentGuesser.id === getState().user.id) {
+            userStatus = 'GUESSER';
+          }
+  
+          // update user's status
+          dispatch(updateStatus(userStatus));
+          // update game type
+          dispatch(updateGameType(roundName));
+          // TODO update the team's score
+          const { teamScore } = teams.find(
+            element => element.teamId === getState().user.team,
+          );
+  
+          dispatch(updatePoints(teamScore.totalScore));
         }
 
-        // update user's status
-        dispatch(updateStatus(userStatus));
-        // update game type
-        dispatch(updateGameType(roundName));
-
-        // TODO update the team's score
-        const { teamScore } = teams.find(
-          element => element.teamId === getState().user.team,
-        );
-
-        dispatch(updatePoints(teamScore.totalScore));
       }
 
       dispatch(ApplicationActions.updatePage(currentlyIn));
     } catch (err) {
-      const errMessage = `room::wordReady ${err.message}`
+      const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
       throw new Error(errMessage);
     }
