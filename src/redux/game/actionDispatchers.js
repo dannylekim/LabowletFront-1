@@ -57,6 +57,9 @@ const resetGame = () => {
   }
 }
 
+/**
+ * sock call to disconnect user from room session.
+ */
 const leaveRoom = () => {
   return async (dispatch, getState) => {
     try {
