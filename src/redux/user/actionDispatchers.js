@@ -16,6 +16,7 @@ import {
   updateWordReady,
   updateContent,
   updateRemainingWordCount,
+  resetGame,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -226,6 +227,10 @@ const connectUser = (code) => {
         }
       });
 
+      socketClient.subscribe(`/client/room/${code}/game/reset`, function () {
+        dispatch(resetGame());
+        dispatch(updatePage('LOBBY'));
+      })
       
       dispatch(actions.connectUser(socketClient));
     });

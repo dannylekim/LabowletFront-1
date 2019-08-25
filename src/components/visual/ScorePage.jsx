@@ -32,7 +32,7 @@ class ScorePage extends PureComponent {
           </div>
           <div className="score-page__actionable">
             <button onClick={() => this.props.updatePage('HOME')}>Take me home</button>
-            <button onClick={() => this.props.updatePage('CREATE')}>Create new game</button>
+            <button onClick={() => this.props.resetGame()}>Create new game</button>
           </div>
         </div>
     
@@ -42,7 +42,7 @@ class ScorePage extends PureComponent {
 
 const connectObject = {
   states: ['game', 'room'],
-  actions: ['sendWord', 'startStep'],
+  actions: ['resetGame'],
 }
 
 export default connectToRedux(ScorePage, connectObject);

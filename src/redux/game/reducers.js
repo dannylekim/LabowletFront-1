@@ -68,6 +68,11 @@ const reducer = (state = initialState, action) => {
         ...state, 
         ...action.game,
       }
+    case actionTypes.RESET_GAME:
+      return {
+        ...state, 
+        ...initialState,
+      }
     default:
       return state;
   }

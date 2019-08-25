@@ -65,7 +65,7 @@ class BowlPage extends PureComponent {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+      this.setState({value: event.target.value});
   }
 
   /**
@@ -101,6 +101,7 @@ class BowlPage extends PureComponent {
               value={this.state.value}
               maxlength={50}
               onChange={this.handleChange}
+              onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
             />
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
           </div>}
