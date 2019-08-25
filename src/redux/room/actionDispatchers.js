@@ -10,7 +10,12 @@ import {
   overrideUser,
 } from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
-import { overrideGame } from '../game/actions';
+import {
+  overrideGame,
+  updateStatus,
+  updateGameType,
+  updatePoints
+} from '../game/actions';
 
 /**
  * @function createRoom
@@ -289,8 +294,41 @@ const reconnect = (token) => {
         dispatch(actions.updateSetting(rest));
         dispatch(UserActions.connectUser(roomCode));
       }
-      if(game) {
+
+      if (team) {
+        dispatch(updateUserTeam(team.teamId));
+      }
+      if (game) {
+        const {
+          // round
+          currentActor,
+          currentGuesser,
+          currentRound,
+          // teamScore,
+          teams,
+        } = game;
+        const { roundName } = currentRound;
+
         dispatch(overrideGame(game));
+
+        let userStatus = 'SPECTATOR';
+        if (currentActor.id === getState().user.id) {
+          userStatus = 'ACTOR';
+        } else if (currentGuesser.id === getState().user.id) {
+          userStatus = 'GUESSER';
+        }
+
+        // update user's status
+        dispatch(updateStatus(userStatus));
+        // update game type
+        dispatch(updateGameType(roundName));
+
+        // TODO update the team's score
+        const { teamScore } = teams.find(
+          element => element.teamId === getState().user.team,
+        );
+
+        dispatch(updatePoints(teamScore.totalScore));
       }
 
       dispatch(ApplicationActions.updatePage(currentlyIn));
