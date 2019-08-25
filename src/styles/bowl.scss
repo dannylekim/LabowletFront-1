@@ -29,7 +29,7 @@
   }
   .word-submit {
     font-size: 20px;
-    height: 30px;
+    height: 40px;
     border-radius: 10px;
     box-shadow: $subtle-shadow;
     &.disabled-btn {
@@ -47,6 +47,15 @@
     line-height: 20px;
     // font-size: 20px;
   }
+
+  .foot-header > h3 {
+    margin: .75em .75em .75em 0em;
+  }
+}
+
+.add-word-options {
+  justify-content: center;
+  display: flex;
 }
 
 @keyframes slide-in-left{0%{transform:translateX(-1000px);opacity:0}100%{transform:translateX(0);opacity:1}}

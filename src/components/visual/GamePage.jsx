@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -76,8 +76,6 @@ class Spectator extends PureComponent {
         onMouseDown={() => this.setState({ pressed: true })}
         onMouseUp={() => this.setState({ pressed: false })}
       >
-        <h3>Sit back and relax!</h3>
-        <code>But pay attention!</code>
         <p>Press and hold me to see your score.</p>
         { this.state.pressed && (
           <div className="current-score">{this.props.score}</div>
@@ -133,7 +131,7 @@ class GamePage extends PureComponent {
           <div className="game-type">
             {gameType.replace(/_/gi, ' ')}
           </div>
-          <div className="game-timer">
+            <div className="game-timer" style={(currentTime <= 5) && {color: `#f57373`}}>
             <h2>
               <span className="game-time-seconds">{currentTime}</span>
               s

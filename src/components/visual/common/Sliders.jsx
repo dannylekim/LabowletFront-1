@@ -5,11 +5,11 @@ import '../../../styles/slider.scss';
 
 
 const handleStyle = {
-  transition: 'all 250ms cubic-bezier(0.42, -0.33, 0.63, 0.68) 0s',
+  transition: 'all 0ms linear 0s',
 };
 
 const trackStyle = {
-  transition: 'all 250ms cubic-bezier(0.42, -0.33, 0.63, 0.68) 0s',
+  transition: 'all 150ms linear 0s',
 }
 
 const dotStyle = {
