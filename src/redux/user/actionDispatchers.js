@@ -227,7 +227,6 @@ const connectUser = (code) => {
       });
 
       
-      dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
     });
 

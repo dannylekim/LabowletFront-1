@@ -17,7 +17,6 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     
-    // window.onbeforeunload = () => this.props.leaveRoom();
     
     if (this.props.application.debugMode) {
       this.props.toggleServer();
@@ -43,7 +42,6 @@ class App extends PureComponent {
       console.error('Uh oh houston, we have a prpblem while disconnect -> ', err.message);
     }
   }
-
 
   switchPages(pageKey) {
     switch(pageKey) {
