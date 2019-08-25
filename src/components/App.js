@@ -7,6 +7,7 @@ import LobbyPage from './visual/LobbyPage';
 import BowlPage from './visual/BowlPage';
 import GamePage from './visual/GamePage';
 import ScorePage from './visual/ScorePage';
+import SplashPage from './visual/SplashPage';
 
 import ReduxConnector from './ReduxConnector';
 
@@ -31,12 +32,16 @@ class App extends PureComponent {
       this.props.reconnect(token)
     }
 
+    setTimeout(() => {
+      this.props.updatePage('HOME');
+    },2000);
   }
 
   manuallyLeave = () => {
     try {
       // remove user from room.
       this.props.leaveRoom();
+
       // remove localstoarage
       localStorage.removeItem('labowless_token');
     } catch (err) {
@@ -77,14 +82,16 @@ class App extends PureComponent {
           component: <ScorePage />
         };
       default:
-        return null;
+        return {
+          component: <SplashPage />
+        };
     }
   }
   render() {
     const PageToRender = this.switchPages(this.props.application.page)
     return (
       <div className="page">
-      <div className='navbar' style={{ display: 'flex'}}>
+      {this.props.application.page !== '' && <div className='navbar' style={{ display: 'flex'}}>
         {this.props.application.page === 'CREATE' ?
             <div className="back-button" onClick={() => this.props.updatePage('HOME')}><i
                 className="fas fa-chevron-left fa-2x"/></div> : ''}
@@ -98,7 +105,7 @@ class App extends PureComponent {
           <p style={{ color: '#fff'}}>{this.props.application.server.label}</p>
           </span>}
           { this.props.application.page !== 'HOME' && <p style={{ color: '#fff'}}>{this.props.user.name}</p>}
-      </div>
+      </div>}
         {PageToRender.component}
       </div>
     );
