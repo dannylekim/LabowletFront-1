@@ -20,6 +20,7 @@ class App extends PureComponent {
     
     if (this.props.application.debugMode) {
       this.props.toggleServer();
+      this.props.toggleServer();
     }
   
     // check if token exists in  localstorage.
