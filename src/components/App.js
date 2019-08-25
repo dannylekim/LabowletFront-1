@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import Switch from 'rc-switch';
 
 import HomePage from './visual/HomePage';
@@ -66,10 +66,11 @@ class App extends PureComponent {
       <div className="page">
       <div className='navbar' style={{ display: 'flex'}}>
         {this.props.application.page === 'CREATE' ?
-         <div className="back-button" onClick={() => this.props.updatePage('HOME')}>Back</div>: ''}
+            <div className="back-button" onClick={() => this.props.updatePage('HOME')}><i
+                className="fas fa-chevron-left fa-2x"/></div> : ''}
         {this.props.application.page === 'LOBBY' ?
          <div className="back-button" onClick={() => this.props.leaveRoom()}>Back</div>: ''}
-        <h2>{PageToRender.title}</h2>
+        <div><h2>{PageToRender.title}</h2></div>
           {this.props.application.debugMode && <span><Switch
             className='can-skip-switch'
             onChange={(e) => this.props.toggleServer()}
