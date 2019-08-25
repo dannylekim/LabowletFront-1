@@ -63,6 +63,11 @@ const reducer = (state = initialState, action) => {
           word: action.status,
         },
       }
+    case actionTypes.OVERRIDE_GAME:
+      return {
+        ...state, 
+        ...action.game,
+      }
     default:
       return state;
   }

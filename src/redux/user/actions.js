@@ -42,6 +42,13 @@ const updateUserToken = (token) => {
   }
 }
 
+const overrideUser = (user) => {
+  return {
+    type: actionTypes.OVERRIDE_USER,
+    user,
+  }
+}
+
 export {
   updateUserName,
   updateUserId,
@@ -49,4 +56,5 @@ export {
   updateUserWords,
   connectUser,
   updateUserToken,
+  overrideUser
 };
