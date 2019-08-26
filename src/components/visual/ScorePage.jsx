@@ -8,6 +8,27 @@ import '../../styles/score.scss';
  * @class GamePage
  */
 class ScorePage extends PureComponent {
+  constructor(props) {
+    super(props);
+    window.onbeforeunload = () => this.manuallyLeave();
+  }
+
+  componentWillUnmount() {
+    window.onbeforeunload = () => {};
+  }
+
+  manuallyLeave = () => {
+    try {
+      // remove user from room.
+      this.props.leaveRoom();
+      this.props.updatePage('HOME');
+
+      // remove localstoarage
+      localStorage.removeItem('labowless_token');
+    } catch (err) {
+      console.error('Uh oh houston, we have a prpblem while disconnect -> ', err.message);
+    }
+  }
 
   formatData(teamContent) {
     return (
@@ -31,8 +52,8 @@ class ScorePage extends PureComponent {
             {result}
           </div>
           <div className="score-page__actionable">
-            <button onClick={() => this.props.updatePage('HOME')}>Take me home</button>
-            <button onClick={() => this.props.updatePage('CREATE')}>Create new game</button>
+            <button onClick={() => this.manuallyLeave()}>Take me home</button>
+            <button onClick={() => this.props.resetGame()}>Create new game</button>
           </div>
         </div>
     
@@ -42,7 +63,7 @@ class ScorePage extends PureComponent {
 
 const connectObject = {
   states: ['game', 'room'],
-  actions: ['sendWord', 'startStep'],
+  actions: ['resetGame','leaveRoom'],
 }
 
 export default connectToRedux(ScorePage, connectObject);

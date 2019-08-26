@@ -49,14 +49,16 @@ const startStep = () => {
 const resetGame = () => {
   return async (dispatch, getState) => {
     try {
-      const newSettings = await getState().user.socket.send(`/room/${getState().room.code}/game/resetGame`, {});
-      console.log(newSettings);
+      await getState().user.socket.send(`/server/room/${getState().room.code}/game/resetGame`, {});
     } catch (err) {
       throw new Error(`Error while starting new turn/round: ${err.message}`);
     }
   }
 }
 
+/**
+ * sock call to disconnect user from room session.
+ */
 const leaveRoom = () => {
   return async (dispatch, getState) => {
     try {
@@ -70,6 +72,15 @@ const leaveRoom = () => {
   }
 }
 
+const giveUpRound = () => {
+  return async (dispatch, getState) => {
+    try {
+      return await getState().user.socket.send(`/server/room/${getState().room.code}/game/endTurn`, {});
+    } catch (err) {
+      throw new Error(`Error while starting giving up: ${err.message}`);
+    }
+  }}
+
 export default { 
   updatePoints,
   updateStatus,
@@ -80,4 +91,5 @@ export default {
   startStep,
   resetGame,
   leaveRoom,
+  giveUpRound,
 };

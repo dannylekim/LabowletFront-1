@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-//import 
+import React, {PureComponent} from 'react';
+//import
 import connectToRedux from '../ReduxConnector';
 
 import PlayerIcon from './common/PlayerIcon';
@@ -25,7 +25,6 @@ class BowlPage extends PureComponent {
       alert('No empty string!');
       return;
     }
-    // TODO add insert word function
 
     const dupWords = this.state.wordList.find((myWord) => myWord === word);
     const newList = this.state.wordList;
@@ -66,7 +65,7 @@ class BowlPage extends PureComponent {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+      this.setState({value: event.target.value});
   }
 
   /**
@@ -85,23 +84,25 @@ class BowlPage extends PureComponent {
 
   render() {
     //const { roomSettings, benchPlayers } = this.props.room.settings;
-    const pendingPlayers = this.props.game.listOfWordsReady.map((player) => <PlayerIcon color={player.completed ? 'green' : 'red'} key={player.player.id} name={player.player.name}/>);
+    const pendingPlayers = this.props.game.listOfWordsReady.map((player) => <PlayerIcon
+        color={player.completed ? '#47f57b' : '#f57373'} key={player.player.id} name={player.player.name}
+        id={player.player.uniqueIconReference} fill={player.completed ? `#000` : `#fff`}/>);
     const maxWordsLimit = this.props.room.settings.roomSettings.wordsPerPerson;
 
     return (
       <div className="bowl">
         <div className="page-container">
-          <p>Bowl</p>
           <div className="words-container">
             {this._renderWords(this.state.wordList)}
           </div>
-          {(this.state.wordList.length < maxWordsLimit) && <div >
+          {(this.state.wordList.length < maxWordsLimit) && <div className="add-word-options">
             <input
-              className="word-input"
-              type="text"
-              value={this.state.value}
-              maxlength={20}
-              onChange={this.handleChange}
+                className="word-input"
+                type="text"
+                value={this.state.value}
+                maxLength={50}
+                onChange={this.handleChange}
+                onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
             />
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
           </div>}

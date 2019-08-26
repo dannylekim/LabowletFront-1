@@ -4,6 +4,7 @@ const state = {
   team: '',
   words: [],
   token: '',
+  iconId: '',
   socket: null,
 }
 

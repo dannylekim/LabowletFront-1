@@ -8,6 +8,13 @@ body {
   margin: 0;
   padding: 0;
   background-color: $background-color-third;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .navbar {
@@ -45,7 +52,7 @@ body {
 }
 
 .card {
-  color: $background-color-primary;
+  color: $text-color;
   // background-color: $background-color-third;
   margin: 10px;
 
@@ -70,4 +77,10 @@ body {
     padding-left: 10px;
     padding-bottom: 10px;
   }
+}
+
+.flex-icon-username {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

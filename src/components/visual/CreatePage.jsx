@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 import ReduxConnector from '../ReduxConnector';
 
@@ -26,7 +26,7 @@ class CreatePage extends PureComponent {
     this.state = {
       wordsPerPerson: 2,
       maxTeams: 2,
-      roundTimeInSeconds: 10,
+      roundTimeInSeconds: 30,
       allowSkips: false,
       rounds: RoundType,
     }
@@ -63,10 +63,11 @@ class CreatePage extends PureComponent {
 
   render() {
     const renderRoundList = [...this.state.rounds].map((value, i) => {
-      return (<li key={`round${value.round}`}>
+      return (<li key={`round${value.round}`} style={{ opacity: i === 0 ? 0.5 : 1}}>
         <span>{value.name}</span>
         <Checkbox
           className="round-checkbox"
+          disabled={i === 0}
           onChange={(e) => this.handleRoundToggle(e, value.round)}
           name={`round${value.round}`}
           checked={value.value}/>
@@ -85,7 +86,7 @@ class CreatePage extends PureComponent {
               default={2}
               name="maxTeams"
             />
-            <h3>Max number of words {this.state.wordsPerPerson}</h3>
+            <span><h3>Max number of words </h3><h2>{this.state.wordsPerPerson}</h2></span>
             <Slider
               handleChange={(value) => this.handleNumberOfWords(value)}
               min={1}
@@ -93,27 +94,30 @@ class CreatePage extends PureComponent {
               default={2}
               name="wordsPerPerson"
             />
-            <h3>Max time per round</h3>
-            <InputNumber
-              min={10}
-              step={10}
-              max={200}
-              defaultValue={this.state.roundTimeInSeconds}
-              style={{
-                width:100,
-              }}
-              onChange={(e) => this.setState({ roundTimeInSeconds: e})}
-              required
-            />
-            <hr />
-            <span style={{ textAlign: 'center'}}>
+            <br/>
+            <div className="separate-middle">
+              <h3>Max time per round:</h3>
+              <InputNumber
+                  min={10}
+                  step={10}
+                  max={200}
+                  defaultValue={this.state.roundTimeInSeconds}
+                  style={{
+                    width: 100,
+                  }}
+                  onChange={(e) => this.setState({roundTimeInSeconds: e})}
+                  required
+              />
+            </div>
+            <div className="separate-middle">
               <h3>Allow skip:</h3>
               <Switch
-                className='can-skip-switch'
-                onChange={(e) => this.handleSkippable(e)}
-                defaultChecked={false}
+                  className='can-skip-switch'
+                  onChange={(e) => this.handleSkippable(e)}
+                  defaultChecked={false}
               />
-            </span>
+            </div>
+
             <div className="create-select-rounds">
               <ol>
                 {renderRoundList}

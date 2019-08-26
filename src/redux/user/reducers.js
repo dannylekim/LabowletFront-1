@@ -10,6 +10,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_USER_ID:
       return Object.assign({}, state, {
         id: action.id,
+        iconId: action.uniqueIconReference
       });
     case actionTypes.UPDATE_USER_TEAM:
       return Object.assign({}, state, {
@@ -27,6 +28,11 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         token: action.token,
       });
+    case actionTypes.OVERRIDE_USER:
+      return {
+        ...state,
+        ...action.user,
+      };
     default:
       return state;
   }

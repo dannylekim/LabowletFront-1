@@ -7,10 +7,11 @@ const updateUserName = (name) => {
   }
 }
 
-const updateUserId = (id) => {
+const updateUserId = (id, uniqueIconReference) => {
   return {
     type: actionTypes.UPDATE_USER_ID,
     id,
+    uniqueIconReference
   }
 }
 
@@ -42,6 +43,13 @@ const updateUserToken = (token) => {
   }
 }
 
+const overrideUser = (user) => {
+  return {
+    type: actionTypes.OVERRIDE_USER,
+    user,
+  }
+}
+
 export {
   updateUserName,
   updateUserId,
@@ -49,4 +57,5 @@ export {
   updateUserWords,
   connectUser,
   updateUserToken,
+  overrideUser
 };

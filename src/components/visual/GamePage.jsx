@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -36,8 +36,11 @@ class Actor extends PureComponent {
               The word is
               <h2 className="game-container__word">{this.props.word}</h2>
               { (this.props.canSkip && this.props.maxWords === 1) && 'Last word! Can\'t skip anymore.'}
-              <div className="game-container__actions">
+              <div className="game-container__actions game-container__options">
                 {this.props.canSkip && <button disabled={this.props.maxWords === 1} onClick={() => this.props.handleSkip()}>Skip</button>}
+                <button onClick={() => this.props.handleGiveUp()}>Give up</button>
+              </div>
+              <div className="game-container__actions">
                 <button onClick={() => this.props.handleGotIt()}>Got it!</button>
               </div>
             </div>) : (
@@ -70,9 +73,9 @@ class Spectator extends PureComponent {
         className="game-container__content game-container__tappable"
         onTouchStart={() => this.setState({ pressed: true })}
         onTouchEnd={() => this.setState({ pressed: false })}
+        onMouseDown={() => this.setState({ pressed: true })}
+        onMouseUp={() => this.setState({ pressed: false })}
       >
-        <h3>Sit back and relax!</h3>
-        <code>But pay attention!</code>
         <p>Press and hold me to see your score.</p>
         { this.state.pressed && (
           <div className="current-score">{this.props.score}</div>
@@ -102,6 +105,7 @@ class GamePage extends PureComponent {
             word={this.props.game.currentWord}
             handleGotIt={() => this.props.sendWord(this.props.game.currentWord)}
             handleSkip={() => this.props.sendWord()}
+            handleGiveUp={() => this.props.giveUpRound()}
             start={() => this.props.startStep()}
           />
         );
@@ -121,14 +125,13 @@ class GamePage extends PureComponent {
   render() {
 
     const { status, gameType, currentTime } = this.props.game;
-
     return (
       <div className="game">
         <div className="page-container">
           <div className="game-type">
-            {gameType.replace('_', ' ')}
+            {gameType.replace(/_/gi, ' ')}
           </div>
-          <div className="game-timer">
+            <div className="game-timer" style={(currentTime <= 5) ? {color: `red`} : {}}>
             <h2>
               <span className="game-time-seconds">{currentTime}</span>
               s
@@ -146,7 +149,7 @@ class GamePage extends PureComponent {
 
 const connectObject = {
   states: ['game', 'room'],
-  actions: ['sendWord', 'startStep'],
+  actions: ['sendWord', 'startStep', 'giveUpRound'],
 }
 
 export default connectToRedux(GamePage, connectObject);

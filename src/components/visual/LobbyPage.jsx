@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import Modal from 'rmc-dialog';
 
 import connectToRedux from '../ReduxConnector';
@@ -17,7 +17,8 @@ class LobbyPage extends PureComponent {
     this.state = {
       isMaxed: false,
       createModalIsVisible: false,
-      myTeamName: ''
+        myTeamName: '',
+        copied: false
     };
     this._joinTeam = this._joinTeam.bind(this);
   }
@@ -109,14 +110,15 @@ class LobbyPage extends PureComponent {
   }
 
   copyToClip(code) {
-    navigator.clipboard.writeText(code).then(() => alert('copied code'));
+      navigator.clipboard.writeText(code).then(() => this.setState({copied: true}));
+      setTimeout(() => this.setState({copied: false}), 3000)
   }
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
     const { benchPlayers, teams } = this.props.room.settings;
     const benchPlayersIcons = benchPlayers.map(player => (
-      <PlayerIcon key={player.id} name={player.name} />
+        <PlayerIcon key={player.id} name={player.name} id={player.uniqueIconReference} fill={`#000`}/>
     ));
     // By default we render 0 teams, user will have to create them themselves
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
@@ -129,6 +131,7 @@ class LobbyPage extends PureComponent {
         <div className="page-container">
           <p>Code is</p>
           <h1 onClick={() => this.copyToClip(roomCode)}>{roomCode}</h1>
+            {this.state.copied && <p> Code copied to clipboard! </p>}
           {teamList}
           <div className="page-container__team-list">
             {this.state.isMaxed ? (
@@ -140,7 +143,8 @@ class LobbyPage extends PureComponent {
             )}
           </div>
         </div>
-        { isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`} onClick={() => this.props.lobbyReady()}>Start</button>}
+        {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`}
+                            style={{color: `white`}} onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>
@@ -148,17 +152,17 @@ class LobbyPage extends PureComponent {
           {benchPlayersIcons}
         </div>
         <Modal
-          title="Enter Team name"
-          className="team-name-modal"
-          visible={this.state.createModalIsVisible}
-          animation="zoom"
-          maskAnimation="fade"
-          maskClosable={true}
-          onClose={() => {
+            title="Create a new team"
+            className="team-name-modal"
+            visible={this.state.createModalIsVisible}
+            animation="zoom"
+            maskAnimation="fade"
+            maskClosable={true}
+            onClose={() => {
             this.setState({ createModalIsVisible: false });
           }}
         >
-          <input placeholder="Enter Team Name" onKeyPress={(e) => this.addTeam(e)} type="text"/>
+          <input className="team-input" placeholder="Enter Team Name" onKeyPress={(e) => this.addTeam(e)} type="text"/>
         </Modal>
       </div>
     );

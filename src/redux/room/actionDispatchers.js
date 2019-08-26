@@ -2,13 +2,11 @@ import * as actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
-import { RoomSettings } from '../../services/Adapters';
+import {RoomSettings} from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
-import {
-  updateUserToken,
-  updateUserTeam,
-} from '../user/actions'
+import {overrideUser, updateUserTeam, updateUserToken,} from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
+import {overrideGame, updateGameType, updatePoints, updateStatus} from '../game/actions';
 
 /**
  * @function createRoom
@@ -50,11 +48,14 @@ const createRoom = (newSetting) => {
         const formattedSettings = RoomSettings(newSetting);
         const authToken = userResponse.headers['x-auth-token'];
 
+        // store/update token to localstorage
+        localStorage.setItem('labowless_token', authToken);
         /**
          * Give user an id locally and update local settings
          */
         dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id))
+
+        dispatch(UserActions.updateUserId(userResponse.data.id, 99))
         dispatch(actions.updateSetting(formattedSettings));
         /**
          * Await create room request
@@ -69,12 +70,14 @@ const createRoom = (newSetting) => {
            */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
+          dispatch(UserActions.updateUserId(userResponse.data.id, roomResponse.data.host.uniqueIconReference));
+
 
           /**
            * socket events that on redux change go here
            */
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
-          //dispatch(ApplicationActions.updatePage('LOBBY'));
+          dispatch(ApplicationActions.updatePage('LOBBY'));
 
         } else {
           throw new Error('Must have at least one round');
@@ -113,8 +116,11 @@ const joinRoom = (code) => {
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
 
+        // store/update token to localstorage
+        localStorage.setItem('labowless_token', authToken);
+
         dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id));
+        dispatch(UserActions.updateUserId(userResponse.data.id, 99));
 
         /**
          * Await create room request
@@ -132,8 +138,12 @@ const joinRoom = (code) => {
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
+          const uniqueIconReference = roomResponse.data.benchPlayers.filter(benchPlayer => benchPlayer.id === userResponse.data.id)[0].uniqueIconReference;
+          dispatch(UserActions.updateUserId(userResponse.data.id, uniqueIconReference));
 
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
+          dispatch(ApplicationActions.updatePage('LOBBY'));
+
 
         } else {
           if (roomResponse.status === 404) {
@@ -157,9 +167,6 @@ const createTeam = (teamName) => {
       const body = {
         teamName,
       }
-      getState().user.socket.send(`/server/room/${getState().room.code}/addWords`, {
-        'X-Auth-Token': getState().user.token,
-      }, JSON.stringify(['tests', 'biotch', 'ass', 'niggaa']));
 
       // Post create Team req
       const createTeamResponse = await RoomRequests.createTeam(body, getState().user.token, (progress) => {
@@ -251,7 +258,86 @@ const wordReady = () => {
       console.error(errMessage);
       throw new Error(errMessage);
     }
-  }}
+  }
+}
+
+// currentlyIn: "LOBBY"
+// game: null
+// player: {name: "ddfs", id: "170132bf-753d-44ed-9e19-c709e4131e6c"}
+// room: {teams: Array(2), benchPlayers: Array(0), host: {…}, roomCode: "JQDS", roomSettings: {…}, …}
+// team: null
+// wordState:
+
+const reconnect = (token) => {
+  return async (dispatch, getState) => {
+    try {
+      const reconnectSession = await RoomRequests.reconnect(token,  getState().application.server.url);
+      const {
+        currentlyIn,
+        game,
+        player,
+        room,
+        team,
+      } = reconnectSession.data;
+      
+      if(player) {
+        dispatch(overrideUser(player));
+        dispatch(updateUserToken(token));
+      }
+      if (room) {
+        const { roomCode, ...rest } = room;
+        dispatch(actions.updateCode(roomCode));
+        dispatch(actions.updateSetting(rest));
+        dispatch(UserActions.connectUser(roomCode));
+      }
+
+      if (team) {
+        dispatch(updateUserTeam(team.teamId));
+      }
+      if (game) {
+        const {
+          // round
+          currentActor,
+          currentGuesser,
+          currentRound,
+          // teamScore,
+          teams,
+        } = game;
+        const { roundName } = currentRound;
+
+        dispatch(overrideGame(game));
+
+        if (currentlyIn === 'GAME') {
+          let userStatus = 'SPECTATOR';
+          if (currentActor.id === getState().user.id) {
+            userStatus = 'ACTOR';
+          } else if (currentGuesser.id === getState().user.id) {
+            userStatus = 'GUESSER';
+          }
+  
+          // update user's status
+          dispatch(updateStatus(userStatus));
+          // update game type
+          dispatch(updateGameType(roundName));
+          // TODO update the team's score
+          const { teamScore } = teams.find(
+            element => element.teamId === getState().user.team,
+          );
+  
+          dispatch(updatePoints(teamScore.totalScore));
+        }
+
+      }
+
+      dispatch(ApplicationActions.updatePage(currentlyIn));
+    } catch (err) {
+      const errMessage = `room::reconnect ${err.message}`
+      console.error(errMessage);
+      return null;
+    }
+  }
+}
+
 
 export default {
   createRoom,
@@ -261,4 +347,5 @@ export default {
   submitWords,
   lobbyReady,
   wordReady,
+  reconnect,
 };

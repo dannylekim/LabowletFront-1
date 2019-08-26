@@ -1,29 +1,28 @@
 import * as actions from './actions';
-import configs from '../../config/RESTurl.json'; 
+import configs from '../../config/RESTurl.json';
 import SockJS from 'sockjs-client';
 import STOMP from 'stompjs';
 
-import { updatePage } from '../application/actions';
-import { 
-  updateSetting
- } from '../room/actions';
+import {updatePage} from '../application/actions';
+import {updateSetting} from '../room/actions';
 import {
-  updateStatus,
-  updateGameTime,
-  updateGameWord,
-  updateGameType,
-  updatePoints,
-  updateWordReady,
+  resetGame,
   updateContent,
+  updateGameTime,
+  updateGameType,
+  updateGameWord,
+  updatePoints,
   updateRemainingWordCount,
+  updateStatus,
+  updateWordReady,
 } from '../game/actions'
 
 const updateUserName = (user) => {
   return (dispatch) => dispatch(actions.updateUserName(user));
 }
 
-const updateUserId = (id) => {
-  return (dispatch) => dispatch(actions.updateUserId(id));
+const updateUserId = (id, uniqueIconReference) => {
+  return (dispatch) => dispatch(actions.updateUserId(id, uniqueIconReference));
 }
 
 const updateUserTeam = (user) => {
@@ -226,8 +225,11 @@ const connectUser = (code) => {
         }
       });
 
+      socketClient.subscribe(`/client/room/${code}/game/reset`, function () {
+        dispatch(resetGame());
+        dispatch(updatePage('LOBBY'));
+      })
       
-      dispatch(updatePage('LOBBY'));
       dispatch(actions.connectUser(socketClient));
     });
 

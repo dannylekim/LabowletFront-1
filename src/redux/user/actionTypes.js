@@ -5,6 +5,7 @@ const actionTypes = {
   UPDATE_USER_WORDS: 'UPDATE_USER_WORDS',
   CONNECT_USER_TO: 'CONNECT_USER_TO',
   UPDATE_USER_TOKEN: 'UPDATE_USER_TOKEN',
+  OVERRIDE_USER: 'OVERRIDE_USER',
 }
 
 export default actionTypes;
