@@ -1,15 +1,9 @@
 {
   "short_name": "Labowless",
-  "name": "Labowless",
   "icons": [
     {
       "src": "appIcon.png",
       "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
-      "src": "appIcon_large.png",
-      "sizes": "512x512",
       "type": "image/png"
     }
   ],
