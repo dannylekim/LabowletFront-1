@@ -336,7 +336,7 @@ const reconnect = (token) => {
     } catch (err) {
       const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
-      throw new Error(errMessage);
+      return null;
     }
   }
 }

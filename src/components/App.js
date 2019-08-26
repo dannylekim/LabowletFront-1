@@ -28,7 +28,6 @@ class App extends PureComponent {
     // retrieve if it does and immediately test it to see if it's active, otherwise kill it.
     const token = localStorage.getItem('labowless_token');
     if (localStorage.getItem('labowless_token')) {
-      console.log('hey token', token);
       this.props.reconnect(token)
     }
 
