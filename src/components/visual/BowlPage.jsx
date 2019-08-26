@@ -85,7 +85,8 @@ class BowlPage extends PureComponent {
   render() {
     //const { roomSettings, benchPlayers } = this.props.room.settings;
     const pendingPlayers = this.props.game.listOfWordsReady.map((player) => <PlayerIcon
-        color={player.completed ? '#47f57b' : '#f57373'} key={player.player.id} name={player.player.name}/>);
+        color={player.completed ? '#47f57b' : '#f57373'} key={player.player.id} name={player.player.name}
+        id={player.player.uniqueIconReference} fill={player.completed ? `#000` : `#fff`}/>);
     const maxWordsLimit = this.props.room.settings.roomSettings.wordsPerPerson;
 
     return (
@@ -96,12 +97,12 @@ class BowlPage extends PureComponent {
           </div>
           {(this.state.wordList.length < maxWordsLimit) && <div className="add-word-options">
             <input
-              className="word-input"
-              type="text"
-              value={this.state.value}
-              maxlength={50}
-              onChange={this.handleChange}
-              onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
+                className="word-input"
+                type="text"
+                value={this.state.value}
+                maxLength={50}
+                onChange={this.handleChange}
+                onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
             />
             <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
           </div>}
