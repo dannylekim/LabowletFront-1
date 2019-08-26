@@ -19,7 +19,9 @@ import Icon from "./visual/common/Icon";
 class App extends PureComponent {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      prompt: null,
+    }
     
     if (this.props.application.debugMode) {
       this.props.toggleServer();
@@ -31,11 +33,24 @@ class App extends PureComponent {
     const token = localStorage.getItem('labowless_token');
     if (localStorage.getItem('labowless_token')) {
       this.props.reconnect(token)
+    }  else {
+      setTimeout(() => {
+        this.props.updatePage('HOME');
+      },2500);
     }
 
-    setTimeout(() => {
-      this.props.updatePage('HOME');
-    },2500);
+
+    window.addEventListener('appinstalled', (evt) => {
+      console.log('labowless already install');
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Stash the event so it can be triggered later.
+      this.setState({
+        prompt: e
+      });
+      alert('can install!');
+    });
   }
 
   manuallyLeave = () => {
