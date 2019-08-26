@@ -43,3 +43,16 @@
   justify-content: center;
   top: 30vh;
 }
+
+.team-input {
+  @extend %labowlet-input;
+  border-radius: 10px;
+  font-size: 20px;
+  line-height: 30px;
+  box-shadow: -1px 2px 7px 0 rgba(0, 0, 0, 0.300);
+
+  &:focus {
+    outline: none;
+    box-shadow: -1px 2px 7px 0 rgba(0, 0, 0, 0.450);
+  }
+}
