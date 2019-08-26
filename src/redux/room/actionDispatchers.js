@@ -2,20 +2,11 @@ import * as actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
 
-import { RoomSettings } from '../../services/Adapters';
+import {RoomSettings} from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
-import {
-  updateUserToken,
-  updateUserTeam,
-  overrideUser,
-} from '../user/actions';
+import {overrideUser, updateUserTeam, updateUserToken,} from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
-import {
-  overrideGame,
-  updateStatus,
-  updateGameType,
-  updatePoints
-} from '../game/actions';
+import {overrideGame, updateGameType, updatePoints, updateStatus} from '../game/actions';
 
 /**
  * @function createRoom
@@ -63,7 +54,8 @@ const createRoom = (newSetting) => {
          * Give user an id locally and update local settings
          */
         dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id))
+
+        dispatch(UserActions.updateUserId(userResponse.data.id, 99))
         dispatch(actions.updateSetting(formattedSettings));
         /**
          * Await create room request
@@ -78,6 +70,8 @@ const createRoom = (newSetting) => {
            */
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
+          dispatch(UserActions.updateUserId(userResponse.data.id, roomResponse.data.host.uniqueIconReference));
+
 
           /**
            * socket events that on redux change go here
@@ -126,7 +120,7 @@ const joinRoom = (code) => {
         localStorage.setItem('labowless_token', authToken);
 
         dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id));
+        dispatch(UserActions.updateUserId(userResponse.data.id, userResponse.data.uniqueIconReference));
 
         /**
          * Await create room request
@@ -274,7 +268,6 @@ const reconnect = (token) => {
   return async (dispatch, getState) => {
     try {
       const reconnectSession = await RoomRequests.reconnect(token,  getState().application.server.url);
-      console.log(reconnectSession.data);
       const {
         currentlyIn,
         game,

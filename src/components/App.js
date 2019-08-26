@@ -14,6 +14,8 @@ import ReduxConnector from './ReduxConnector';
 import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
+import Icon from "./visual/common/Icon";
+
 class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -45,6 +47,8 @@ class App extends PureComponent {
       localStorage.removeItem('labowless_token');
     } catch (err) {
       console.error('Uh oh houston, we have a prpblem while disconnect -> ', err.message);
+    } finally {
+      this.props.updatePage('HOME');
     }
   }
 
@@ -91,11 +95,9 @@ class App extends PureComponent {
     return (
       <div className="page">
       {this.props.application.page !== '' && <div className='navbar' style={{ display: 'flex'}}>
-        {this.props.application.page === 'CREATE' ?
-            <div className="back-button" onClick={() => this.props.updatePage('HOME')}><i
-                className="fas fa-chevron-left fa-2x"/></div> : ''}
-        {this.props.application.page === 'LOBBY' ?
-         <div className="back-button" onClick={() => this.manuallyLeave()}>Back</div>: ''}
+        {this.props.application.page === 'CREATE' || this.props.application.page === 'LOBBY' ?
+            <div className="back-button" onClick={() => this.manuallyLeave()}>
+              <i className="fas fa-chevron-left fa-2x"/></div> : ''}
         <h2>{PageToRender.title}</h2>
           {this.props.application.debugMode && <span><Switch
             className='can-skip-switch'
@@ -103,7 +105,12 @@ class App extends PureComponent {
           />
           <p style={{ color: '#fff'}}>{this.props.application.server.label}</p>
           </span>}
-          { this.props.application.page !== 'HOME' && <p style={{ color: '#fff'}}>{this.props.user.name}</p>}
+        {this.props.application.page !== 'HOME' && <div className="flex-icon-username">
+          <p style={{color: '#fff', marginRight: `10px`}}>
+            {this.props.user.name}
+          </p>
+          <Icon size={`40px`} fill={'#fff'} iconId={this.props.user.iconId}/>
+        </div>}
       </div>}
         {PageToRender.component}
       </div>

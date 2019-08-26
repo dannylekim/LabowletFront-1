@@ -7,10 +7,11 @@ const updateUserName = (name) => {
   }
 }
 
-const updateUserId = (id) => {
+const updateUserId = (id, uniqueIconReference) => {
   return {
     type: actionTypes.UPDATE_USER_ID,
     id,
+    uniqueIconReference
   }
 }
 

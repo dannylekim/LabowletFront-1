@@ -116,7 +116,7 @@ class LobbyPage extends PureComponent {
     const roomCode = this.props.room.code || 'UH OH';
     const { benchPlayers, teams } = this.props.room.settings;
     const benchPlayersIcons = benchPlayers.map(player => (
-      <PlayerIcon key={player.id} name={player.name} />
+        <PlayerIcon key={player.id} name={player.name} id={player.uniqueIconReference} fill={`#000`}/>
     ));
     // By default we render 0 teams, user will have to create them themselves
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);
