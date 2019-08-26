@@ -17,7 +17,8 @@ class LobbyPage extends PureComponent {
     this.state = {
       isMaxed: false,
       createModalIsVisible: false,
-      myTeamName: ''
+        myTeamName: '',
+        copied: false
     };
     this._joinTeam = this._joinTeam.bind(this);
   }
@@ -109,7 +110,8 @@ class LobbyPage extends PureComponent {
   }
 
   copyToClip(code) {
-    navigator.clipboard.writeText(code).then(() => alert('copied code'));
+      navigator.clipboard.writeText(code).then(() => this.setState({copied: true}));
+      setTimeout(() => this.setState({copied: false}), 3000)
   }
 
   render() {
@@ -129,6 +131,7 @@ class LobbyPage extends PureComponent {
         <div className="page-container">
           <p>Code is</p>
           <h1 onClick={() => this.copyToClip(roomCode)}>{roomCode}</h1>
+            {this.state.copied && <p> Code copied to clipboard! </p>}
           {teamList}
           <div className="page-container__team-list">
             {this.state.isMaxed ? (

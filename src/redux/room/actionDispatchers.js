@@ -120,7 +120,7 @@ const joinRoom = (code) => {
         localStorage.setItem('labowless_token', authToken);
 
         dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id, userResponse.data.uniqueIconReference));
+        dispatch(UserActions.updateUserId(userResponse.data.id, 99));
 
         /**
          * Await create room request
@@ -138,9 +138,13 @@ const joinRoom = (code) => {
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));
+          const uniqueIconReference = roomResponse.data.benchPlayers.filter(benchPlayer => benchPlayer.id === userResponse.data.id)[0].uniqueIconReference;
+          dispatch(UserActions.updateUserId(userResponse.data.id, uniqueIconReference));
 
           dispatch(UserActions.connectUser(roomResponse.data.roomCode));
           dispatch(ApplicationActions.updatePage('LOBBY'));
+
+
         } else {
           if (roomResponse.status === 404) {
             throw new Error('Invalid room code');          
