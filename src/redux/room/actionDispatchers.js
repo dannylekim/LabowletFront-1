@@ -281,7 +281,6 @@ const reconnect = (token) => {
         player,
         room,
         team,
-        wordState,
       } = reconnectSession.data;
       
       if(player) {
