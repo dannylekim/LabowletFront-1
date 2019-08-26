@@ -52,7 +52,7 @@ class App extends PureComponent {
     }
   }
 
-  switchPages(pageKey) {
+  static switchPages(pageKey) {
     switch(pageKey) {
       case 'HOME':
         return {
@@ -91,7 +91,7 @@ class App extends PureComponent {
     }
   }
   render() {
-    const PageToRender = this.switchPages(this.props.application.page)
+    const PageToRender = App.switchPages(this.props.application.page)
     return (
       <div className="page">
       {this.props.application.page !== '' && <div className='navbar' style={{ display: 'flex'}}>

@@ -149,17 +149,17 @@ class LobbyPage extends PureComponent {
           {benchPlayersIcons}
         </div>
         <Modal
-          title="Enter Team name"
-          className="team-name-modal"
-          visible={this.state.createModalIsVisible}
-          animation="zoom"
-          maskAnimation="fade"
-          maskClosable={true}
-          onClose={() => {
+            title="Create a new team"
+            className="team-name-modal"
+            visible={this.state.createModalIsVisible}
+            animation="zoom"
+            maskAnimation="fade"
+            maskClosable={true}
+            onClose={() => {
             this.setState({ createModalIsVisible: false });
           }}
         >
-          <input placeholder="Enter Team Name" onKeyPress={(e) => this.addTeam(e)} type="text"/>
+          <input className="team-input" placeholder="Enter Team Name" onKeyPress={(e) => this.addTeam(e)} type="text"/>
         </Modal>
       </div>
     );
