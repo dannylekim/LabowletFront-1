@@ -33,7 +33,7 @@ class App extends PureComponent {
 
     setTimeout(() => {
       this.props.updatePage('HOME');
-    },2000);
+    },2500);
   }
 
   manuallyLeave = () => {
