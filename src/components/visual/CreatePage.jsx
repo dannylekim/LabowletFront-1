@@ -63,10 +63,11 @@ class CreatePage extends PureComponent {
 
   render() {
     const renderRoundList = [...this.state.rounds].map((value, i) => {
-      return (<li key={`round${value.round}`}>
+      return (<li key={`round${value.round}`} style={{ opacity: i === 0 ? 0.5 : 1}}>
         <span>{value.name}</span>
         <Checkbox
           className="round-checkbox"
+          disabled={i === 0}
           onChange={(e) => this.handleRoundToggle(e, value.round)}
           name={`round${value.round}`}
           checked={value.value}/>
