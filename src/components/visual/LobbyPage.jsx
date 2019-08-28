@@ -42,10 +42,6 @@ class LobbyPage extends PureComponent {
    * @private
    */
   _renderTeam(teams) {
-    //const TeamCardArray = [];
-    // for(let i = 0; i< maxTeams; i++) {
-    //   TeamCardArray.push(<TeamCard index={i + 1} key={i+1} joinTeam={this._joinTeam} teamMates={'todo'}/>)
-    // }
     const TeamCardArray = teams
       .filter((value, index) => {
 
@@ -93,7 +89,7 @@ class LobbyPage extends PureComponent {
         const teamName = e.target.value;
         
         // send request
-        this.props.createTeam(teamName).catch(err => {
+        this.props.createTeam(`Team ` + teamName).catch(err => {
           console.error(err);
         }).finally(() => {
           this._checkMax();
@@ -118,7 +114,7 @@ class LobbyPage extends PureComponent {
     const roomCode = this.props.room.code || 'UH OH';
     const { benchPlayers, teams } = this.props.room.settings;
     const benchPlayersIcons = benchPlayers.map(player => (
-        <PlayerIcon key={player.id} name={player.name} id={player.uniqueIconReference} fill={`#000`}/>
+        <PlayerIcon key={player.id} id={player.uniqueIconReference} fill={`#000`}/>
     ));
     // By default we render 0 teams, user will have to create them themselves
     const teamList = this._renderTeam(teams); // (roomSettings.maxTeams);

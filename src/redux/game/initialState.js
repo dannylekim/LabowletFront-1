@@ -8,6 +8,7 @@ const state = {
   content: [], // final game result // ignore irrelavent name, too tired to fix
   currentWord: '', // word to guess
   currentTime: 0, // should be default to seconds until further notice
+  currentTeam: ' ',
   gameType: '', // round type
   remainingWords: 0,
 

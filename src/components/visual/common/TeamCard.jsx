@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import Proptypes from 'prop-types';
 import '../../../styles/teamCards.scss';
+import PlayerIcon from "./PlayerIcon";
 
 const ORIGINAL_STYLES = {
   opacity: '0',
@@ -57,10 +58,10 @@ class TeamCard extends PureComponent {
       return ['Empty', 'Empty'];
     }
 
-    const teamList = teamMates.map(value => value.name );
+    const teamList = teamMates;
 
     if (teamList.length === 1 ){
-      teamList.push('Empty');
+      teamList.push({name: 'Empty', uniqueIconReference: 99});
     } 
 
     return teamList;
@@ -68,7 +69,10 @@ class TeamCard extends PureComponent {
 
   render() {
     const { teamMates } = this.props;
-    const myTeamMates = this.renderTeamates(teamMates).map((member) => <p>{member}</p>);
+    const myTeamMates = this.renderTeamates(teamMates).map((member) => <div><p>{member.name}</p>       <PlayerIcon
+        color={(member.uniqueIconReference !== 99) ? `#47f57b` : `#f57373`} id={member.uniqueIconReference}
+        fill={`#000`}/>
+    </div>);
     return (
       <div className="team-card" onClick={() => this.props.joinTeam(this.props.key)} style={this.state.styles}>
         <div className="team-card-title">

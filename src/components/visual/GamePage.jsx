@@ -68,6 +68,8 @@ class Spectator extends PureComponent {
     }
   }
   render() {
+
+    console.log(this.props)
     return (
       <div
         className="game-container__content game-container__tappable"
@@ -76,7 +78,8 @@ class Spectator extends PureComponent {
         onMouseDown={() => this.setState({ pressed: true })}
         onMouseUp={() => this.setState({ pressed: false })}
       >
-        <p>Press and hold me to see your score.</p>
+        <p>The currently playing team is: <b> {this.props.currentTeam.teamName} </b></p>
+        <p style={{fontSize: `x-large`}}>Press and hold me to see your score.</p>
         { this.state.pressed && (
           <div className="current-score">{this.props.score}</div>
         )}
@@ -114,7 +117,8 @@ class GamePage extends PureComponent {
       case 'SPECTATOR':
         return (
           <Spectator
-            score={this.props.game.teamPoints}
+              score={this.props.game.teamPoints}
+              currentTeam={this.props.game.currentTeam}
           />
         );
       default:
