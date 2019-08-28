@@ -62,6 +62,14 @@ const updateRemainingWordCount = (count) => {
   }
 }
 
+const updateCurrentTeam = (team) => {
+  return {
+    type: actionTypes.UPDATE_CURRENT_TEAM,
+    team
+  }
+}
+
+
 const resetGame = (game) => {
   return {
     type: actionTypes.RESET_GAME,
@@ -83,6 +91,7 @@ export {
   updateWordReady,
   updateGameWord,
   updateGameTime,
+  updateCurrentTeam,
   updateRemainingWordCount,
   overrideGame,
   resetGame,

@@ -8,6 +8,7 @@ import {updateSetting} from '../room/actions';
 import {
   resetGame,
   updateContent,
+  updateCurrentTeam,
   updateGameTime,
   updateGameType,
   updateGameWord,
@@ -75,6 +76,7 @@ const connectUser = (code) => {
           currentActor,
           currentGuesser,
           currentRound,
+          currentTeam,
           // teamScore,
           teams,
         } = parsedBody;
@@ -100,6 +102,8 @@ const connectUser = (code) => {
         
         // update user's status
         dispatch(updateStatus(userStatus));
+
+        dispatch(updateCurrentTeam(currentTeam))
 
         // If we're not on  GAME page, go there
         // important that it must be AFTER the user has their status updated.

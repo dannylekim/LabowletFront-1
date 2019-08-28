@@ -6,7 +6,7 @@ const state = {
     label: '',
     url: '',
   },
-  debugMode: true,
-}
+  debugMode: (process.env.NODE_ENV !== 'production'),
+};
 
 export default state;
