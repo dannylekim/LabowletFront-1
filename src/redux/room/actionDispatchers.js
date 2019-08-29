@@ -4,7 +4,7 @@ import RoomRequests from '../../services/RoomHTTPRequests';
 
 import {RoomSettings} from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
-import {overrideUser, updateUserTeam, updateUserToken,} from '../user/actions';
+import {overrideUser, updateUserTeam, updateUserToken} from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
 import {overrideGame, updateGameType, updatePoints, updateStatus} from '../game/actions';
 
