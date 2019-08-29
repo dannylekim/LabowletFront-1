@@ -81,7 +81,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_MAX_TIME:
       return {
         ...state, 
-        maxTime,
+        maxTime: action.time,
       }
     default:
       return state;
