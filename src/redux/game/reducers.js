@@ -78,6 +78,11 @@ const reducer = (state = initialState, action) => {
         ...state, 
         ...initialState,
       }
+    case actionTypes.SET_MAX_TIME:
+      return {
+        ...state, 
+        maxTime: action.time,
+      }
     default:
       return state;
   }

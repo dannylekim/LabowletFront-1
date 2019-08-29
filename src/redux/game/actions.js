@@ -82,6 +82,12 @@ const overrideGame = (game) => {
     game,
   }
 }
+const setMaxTime = (time) => {
+  return {
+    type: actionTypes.SET_MAX_TIME,
+    time,
+  }
+}
 
 export { 
   updatePoints,
@@ -95,4 +101,5 @@ export {
   updateRemainingWordCount,
   overrideGame,
   resetGame,
+  setMaxTime,
 };

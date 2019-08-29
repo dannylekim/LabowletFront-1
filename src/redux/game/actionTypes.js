@@ -14,6 +14,7 @@ const actionTypes = {
   UPDATE_CURRENT_TEAM: 'UPDATE_CURRENT_TEAM',
   OVERRIDE_GAME: 'OVERRIDE_GAME',
   RESET_GAME: 'RESET_GAME',
+  SET_MAX_TIME: 'SET_MAX_TIME',
 }
 
 export default actionTypes;
