@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_USER_ID:
       return Object.assign({}, state, {
         id: action.id,
-        iconId: action.uniqueIconReference
+        uniqueIconReference: action.uniqueIconReference
       });
     case actionTypes.UPDATE_USER_TEAM:
       return Object.assign({}, state, {

@@ -124,7 +124,7 @@ class App extends PureComponent {
           <p style={{color: '#fff', marginRight: `10px`}}>
             {this.props.user.name}
           </p>
-          <Icon size={`40px`} fill={'#fff'} iconId={this.props.user.iconId}/>
+          <Icon size={`40px`} fill={'#fff'} iconId={this.props.user.uniqueIconReference}/>
         </div>}
       </div>}
         {PageToRender.component}
