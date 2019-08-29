@@ -16,6 +16,7 @@ import {
   updateRemainingWordCount,
   updateStatus,
   updateWordReady,
+  setMaxTime,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -83,7 +84,7 @@ const connectUser = (code) => {
         const { roundName } = currentRound;
         // First thing: reset time/word
         if (getState().game.currentTime <= 0) {
-          dispatch(updateGameTime(0));
+          dispatch(updateGameTime(getState().game.maxTime) || 0);
         }
         dispatch(updateGameWord(''));
 
@@ -192,6 +193,11 @@ const connectUser = (code) => {
         const { body } = payload;
         // const parsedBody = JSON.parse(body);
         if (body >= 0) {
+          // store maxTime
+          if (body > getState().game.maxTime) {
+            dispatch(setMaxTime(body));
+          }
+
           dispatch(updateGameTime(body));
         }
       });

@@ -17,7 +17,10 @@ const state = {
     room: false,
     word: false,
   },
-  listOfWordsReady: []
+  listOfWordsReady: [],
+
+  // global variable:
+  maxTime: 0,
 }
 
 export default state;
