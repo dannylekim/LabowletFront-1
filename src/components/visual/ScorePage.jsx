@@ -38,6 +38,7 @@ class ScorePage extends PureComponent {
       </div>
     )
   }
+  
   render() {
     const { content } = this.props.game;
     const result = content.sort((a, b) => b.totalScore - a.totalScore).map(this.formatData);

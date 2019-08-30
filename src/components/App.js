@@ -8,6 +8,7 @@ import BowlPage from './visual/BowlPage';
 import GamePage from './visual/GamePage';
 import ScorePage from './visual/ScorePage';
 import WelcomePage from './visual/WelcomePage';
+import SummaryPage from './visual/SummaryPage';
 
 import connectToRedux from './ReduxConnector';
 
@@ -98,6 +99,11 @@ class App extends PureComponent {
         return {
           title: 'GAME OVER',
           component: <ScorePage />
+        };
+      case 'SUMMARY':
+        return {
+          title: 'SUMMARY',
+          component: <SummaryPage />
         };
       default:
         return {

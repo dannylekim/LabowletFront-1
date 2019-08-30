@@ -89,6 +89,12 @@ const setMaxTime = (time) => {
   }
 }
 
+const setScoreSummary = (summary) => {
+  return {
+    type: actionTypes.SET_SCORE_SUMMARY,
+    summary,
+  }
+}
 export { 
   updatePoints,
   updateStatus,
@@ -102,4 +108,5 @@ export {
   overrideGame,
   resetGame,
   setMaxTime,
+  setScoreSummary,
 };

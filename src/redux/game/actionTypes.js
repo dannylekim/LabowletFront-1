@@ -15,6 +15,7 @@ const actionTypes = {
   OVERRIDE_GAME: 'OVERRIDE_GAME',
   RESET_GAME: 'RESET_GAME',
   SET_MAX_TIME: 'SET_MAX_TIME',
+  SET_SCORE_SUMMARY: 'SET_SCORE_SUMMARY',
 }
 
 export default actionTypes;

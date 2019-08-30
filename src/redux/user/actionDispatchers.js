@@ -17,6 +17,7 @@ import {
   updateStatus,
   updateWordReady,
   setMaxTime,
+  setScoreSummary,
 } from '../game/actions'
 
 const updateUserName = (user) => {
@@ -78,16 +79,17 @@ const connectUser = (code) => {
           currentGuesser,
           currentRound,
           currentTeam,
-          // teamScore,
+          currentScores,
           teams,
         } = parsedBody;
+        console.log(parsedBody)
         const { roundName } = currentRound;
         // First thing: reset time/word
         if (getState().game.currentTime <= 0) {
           dispatch(updateGameTime(getState().game.maxTime) || 0);
         }
         dispatch(updateGameWord(''));
-
+        dispatch(setScoreSummary([]));
         /**
          * currentActor: {name: "host", id: "8210aebc-9bef-4299-a717-a81e808e239f"}
          * currentGuesser: {name: "fast guy", id: "ee847daa-9c35-4bcc-91ff-f70690353147"}
@@ -105,20 +107,25 @@ const connectUser = (code) => {
         dispatch(updateStatus(userStatus));
 
         dispatch(updateCurrentTeam(currentTeam))
-
-        // If we're not on  GAME page, go there
-        // important that it must be AFTER the user has their status updated.
-        if (getState().application.page !== 'GAME') {
-          dispatch(updatePage('GAME'));
-        }
-
+        
         // update game type
         dispatch(updateGameType(roundName))
 
-        // TODO update the team's score
-        const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
-        
-        dispatch(updatePoints(teamScore.totalScore));
+        if(currentScores) {
+          const { scores } = currentScores;
+          dispatch(setScoreSummary(scores));
+          dispatch(updatePage('SUMMARY'));
+
+          console.log(scores)
+                  // TODO update the team's score
+          const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
+          
+          dispatch(updatePoints(teamScore.totalScore));
+        } else if (getState().application.page !== 'GAME') {
+        // If we're not on  GAME page, go there
+        // important that it must be AFTER the user has their status updated.
+          dispatch(updatePage('GAME'));
+        }
       });
       
       /**

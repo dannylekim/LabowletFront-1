@@ -1,0 +1,21 @@
+@import './variables';
+
+.summary__page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .team-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: $primary-font;
+    font-size: 26px;
+  }
+
+
+}
+
+.summary__content {
+  width: 450px;
+}
