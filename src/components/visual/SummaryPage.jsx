@@ -1,9 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useTransition, animated } from 'react-spring'
+
 import '../../styles/summary.scss';
 import connectToRedux from '../ReduxConnector';
 
+const DATA = [
+  {
+    previousScore: 5,
+    totalScore: 6,
+    team: {
+      teamId: '1234',
+      teamName: 'Im losing now',
+    }
+  },
+  {
+    previousScore: 0,
+    totalScore: 10,
+    team: {
+      teamId: '4321',
+      teamName: 'Im winning now',
+    }
+  }
+]
+
 const SummaryPage = (props) => {
-  const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
+  // const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
+  const resultTracker = DATA.sort((a, b) => b.previousScore - a.previousScore);
   const [result, setResult] = useState(resultTracker)
   const [canIncrement, setIncrementStatus] = useState(true);
   const [firstTime, setFirst] = useState(true);
@@ -52,17 +74,33 @@ const SummaryPage = (props) => {
     props.updatePage('GAME');
   }
 
-  const formatData = (teamContent) => {
+  const formatData = ({ team, previousScore, y}, index, total) => {
     return (
-      <div className="team-row">
-        <p>{teamContent.team.teamName}</p>
-        <p>{teamContent.previousScore}</p>
-      </div>
+      <animated.div
+        class="team-row"
+        style={{
+          zIndex: total.length - index,
+          transform: y.interpolate(y => `translate3d(0,${y}px,0)`),
+        }}
+      >
+        <p>{team.teamName}</p>
+        <p>{previousScore}</p>
+      </animated.div>
     )
   };
 
-  const isAdmin = props.user.id === props.room.settings.host.id;
+  let DEFAULT_HEIGHT = 0;
 
+  const dataAnimation = useTransition(
+    result.sort((a, b) => b.previousScore - a.previousScore).map(formatData => ({ ...formatData, y: (DEFAULT_HEIGHT += 75) - 75 })),
+    result => result.teamId,
+    {
+      enter: (data) => ({ ...data }),
+      update: (data) => ({ ...data })
+    }
+  )
+
+  const isAdmin = true//props.user.id === props.room.settings.host.id;
 
   return (
     <div className="summary__page">

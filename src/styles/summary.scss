@@ -11,11 +11,13 @@
     justify-content: space-between;
     font-family: $primary-font;
     font-size: 26px;
+    transition: 500ms;
   }
 
 
 }
 
 .summary__content {
+  position: relative;
   width: 300px;
 }
