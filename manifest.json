@@ -2,6 +2,11 @@
   "short_name": "Labowless",
   "icons": [
     {
+      "src": "favicon.ico",
+      "sizes": "12x12",
+      "type": "image/ico"
+    },
+    {
       "src": "appIcon.png",
       "sizes": "180x180",
       "type": "image/png"
