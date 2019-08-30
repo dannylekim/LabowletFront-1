@@ -1,16 +1,48 @@
+@import './basic';
 @import './variables';
 
 .splash__page {
   height: 100vh;
   background-color: $background-color-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: white;
+    text-align: center;
+    animation: fade-in 0.3s linear 2.5s both;
+  }
 }
 
-.splash__logo {
-  padding-top: 300px;
-  animation: bounce-in-top 0.6s ease-in-out 1s both;
+.splash__img {
+  animation: bounce-in-top 0.8s ease-out 1s both;
+  width: 300px;
+}
+
+.splash__inputs {
+  margin-top: 50px;
+  animation: fade-in 0.3s linear 2.5s both;
+  display: flex;
+  justify-content: space-evenly;
+
+  button {
+    @extend .generic-start-btn;
+  }
   
-  & > img {
-    width: 100%;
+  &.splash__disabled {
+    button {
+      @extend .disabled;
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

@@ -7,9 +7,9 @@ import LobbyPage from './visual/LobbyPage';
 import BowlPage from './visual/BowlPage';
 import GamePage from './visual/GamePage';
 import ScorePage from './visual/ScorePage';
-import SplashPage from './visual/SplashPage';
+import WelcomePage from './visual/WelcomePage';
 
-import ReduxConnector from './ReduxConnector';
+import connectToRedux from './ReduxConnector';
 
 import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
@@ -30,14 +30,14 @@ class App extends PureComponent {
   
     // check if token exists in  localstorage.
     // retrieve if it does and immediately test it to see if it's active, otherwise kill it.
-    const token = localStorage.getItem('labowless_token');
-    if (localStorage.getItem('labowless_token')) {
-      this.props.reconnect(token)
-    }  else {
-      setTimeout(() => {
-        this.props.updatePage('HOME');
-      },2500);
-    }
+    // const token = localStorage.getItem('labowless_token');
+    // if (localStorage.getItem('labowless_token')) {
+    //   this.props.reconnect(token)
+    // }  else {
+    //   setTimeout(() => {
+    //     this.props.updatePage('HOME');
+    //   },2500);
+    // }
 
 
     window.addEventListener('appinstalled', (evt) => {
@@ -67,7 +67,7 @@ class App extends PureComponent {
     }
   }
 
-  static switchPages(pageKey) {
+  switchPages(pageKey) {
     switch(pageKey) {
       case 'HOME':
         return {
@@ -101,12 +101,17 @@ class App extends PureComponent {
         };
       default:
         return {
-          component: <SplashPage />
+          component: (
+            <WelcomePage
+              id={localStorage.getItem('labowless_token')}
+              leave={() => this.manuallyLeave()}
+            />
+          ),
         };
     }
   }
   render() {
-    const PageToRender = App.switchPages(this.props.application.page)
+    const PageToRender = this.switchPages(this.props.application.page)
     return (
       <div className="page">
       {this.props.application.page !== '' && <div className='navbar' style={{ display: 'flex'}}>
@@ -138,4 +143,4 @@ const connectObject = {
   actions: ['leaveRoom','reconnect'],
 } 
 
-export default ReduxConnector(App, connectObject);
+export default connectToRedux(App, connectObject);
