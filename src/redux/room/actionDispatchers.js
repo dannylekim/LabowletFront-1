@@ -333,7 +333,7 @@ const reconnect = (token) => {
     } catch (err) {
       const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
-      return null;
+      throw err;
     }
   }
 }
