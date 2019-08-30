@@ -3,23 +3,25 @@ import '../../styles/summary.scss';
 import connectToRedux from '../ReduxConnector';
 
 const SummaryPage = (props) => {
-  console.log(props)
   const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
   const [result, setResult] = useState(resultTracker)
   const [canIncrement, setIncrementStatus] = useState(true);
-  const [myInterval, setMyInterval] = useState(null);
+  const [firstTime, setFirst] = useState(true);
 
   useEffect(() => {
-    if(canIncrement && !myInterval) {
-      setMyInterval(setInterval(handleTimer, 1000));
-    } else {
-      setMyInterval(null);
+    if(firstTime) {
+      setTimeout(() => {
+        setFirst(false);
+        handleTimer(result);
+      }, 1000)
+    } else if(!firstTime && canIncrement) {
+      handleTimer(result);
     }
   })
 
-  const handleTimer = () => {
+  const handleTimer = (currentResult) => {
     // update each team points by incrementing points by 1
-    const newResult = result.map((value) => {
+    const newResult = currentResult.map((value) => {
       if(value.previousScore < value.totalScore) {
         return {
           ...value,
@@ -31,14 +33,18 @@ const SummaryPage = (props) => {
 
     // super hacky trick. I loop through the new result list to verify if all the previousScore and totalScore are equal. If so, turn off interval
     const incrementVerifier = newResult.reduce((acc, value) => {
-      if ((value.previousScore < value.totalScore) || !acc) {
-        return false;
+      if ((value.previousScore < value.totalScore) && !acc) {
+        return true;
       }
       return acc;
-    }, true);
+    }, false);
 
-    setIncrementStatus(incrementVerifier);
-    setResult(newResult);
+    setTimeout(() => {
+      if (!incrementVerifier) {
+        setIncrementStatus(incrementVerifier);
+      }
+      setResult(newResult);
+    }, 100);
   }
 
   const handleClick = () => {
@@ -50,7 +56,7 @@ const SummaryPage = (props) => {
     return (
       <div className="team-row">
         <p>{teamContent.team.teamName}</p>
-        <p>{teamContent.totalScore}</p>
+        <p>{teamContent.previousScore}</p>
       </div>
     )
   };
