@@ -105,8 +105,8 @@ class App extends PureComponent {
           title: 'SUMMARY',
           component: <SummaryPage />
         };
-        default:
-          return {
+      default:
+        return {
           component: (
             <WelcomePage
               id={localStorage.getItem('labowless_token')}
