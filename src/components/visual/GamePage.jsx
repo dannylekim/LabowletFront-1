@@ -69,7 +69,6 @@ class Spectator extends PureComponent {
   }
   render() {
 
-    console.log(this.props)
     return (
       <div
         className="game-container__content game-container__tappable"

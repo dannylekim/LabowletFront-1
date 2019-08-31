@@ -123,7 +123,7 @@ class App extends PureComponent {
       {this.props.application.page !== '' && <div className='navbar' style={{ display: 'flex'}}>
         {this.props.application.page === 'CREATE' || this.props.application.page === 'LOBBY' ?
             <div className="back-button" onClick={() => this.manuallyLeave()}>
-              <i className="fas fa-chevron-left fa-2x"/></div> : ''}
+                <Icon iconId={100} size={35} fill={`#fff`}/></div> : ''}
         <h2>{PageToRender.title}</h2>
           {this.props.application.debugMode && <span><Switch
             className='can-skip-switch'
