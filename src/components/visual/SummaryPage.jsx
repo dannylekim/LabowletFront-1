@@ -6,26 +6,42 @@ import connectToRedux from '../ReduxConnector';
 
 const DATA = [
   {
-    previousScore: 5,
-    totalScore: 6,
+    previousScore: 0,
+    totalScore: 7,
     team: {
       teamId: '1234',
       teamName: 'Im losing now',
     }
   },
   {
-    previousScore: 0,
+    previousScore: 4,
     totalScore: 10,
     team: {
       teamId: '4321',
       teamName: 'Im winning now',
     }
+  },
+  {
+    previousScore: 5,
+    totalScore: 6,
+    team: {
+      teamId: '5-4321',
+      teamName: 'Im second now',
+    }
+  },
+  {
+    previousScore: 5,
+    totalScore: 5,
+    team: {
+      teamId: '1234-5',
+      teamName: 'I dont know',
+    }
   }
 ]
 
 const SummaryPage = (props) => {
-  // const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
   const resultTracker = DATA.sort((a, b) => b.previousScore - a.previousScore);
+    // const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
   const [result, setResult] = useState(resultTracker)
   const [canIncrement, setIncrementStatus] = useState(true);
   const [firstTime, setFirst] = useState(true);
@@ -34,14 +50,17 @@ const SummaryPage = (props) => {
     if(firstTime) {
       setTimeout(() => {
         setFirst(false);
-        handleTimer(result);
+        incrementPoints(result);
       }, 1000)
     } else if(!firstTime && canIncrement) {
-      handleTimer(result);
+      incrementPoints(result);
     }
   })
 
-  const handleTimer = (currentResult) => {
+  /**
+   * used to increment points and check if it should loop through teams to increment again
+   */
+  const incrementPoints = (currentResult) => {
     // update each team points by incrementing points by 1
     const newResult = currentResult.map((value) => {
       if(value.previousScore < value.totalScore) {
@@ -74,40 +93,43 @@ const SummaryPage = (props) => {
     props.updatePage('GAME');
   }
 
-  const formatData = ({ team, previousScore, y}, index, total) => {
+  const formatData = ({ item, key, props: { y } }, index, total) => {
     return (
       <animated.div
-        class="team-row"
+        key={key}
+        className="animate-team-row"
         style={{
           zIndex: total.length - index,
-          transform: y.interpolate(y => `translate3d(0,${y}px,0)`),
+          transform: y.interpolate(currentY => `translate3d(0,${currentY}px,0)`),
         }}
       >
-        <p>{team.teamName}</p>
-        <p>{previousScore}</p>
+        <div className="animate-row__content">
+          <p>{item.team.teamName}</p>
+          <p>{item.previousScore}</p>
+        </div>
       </animated.div>
     )
   };
-
-  let DEFAULT_HEIGHT = 0;
-
-  const dataAnimation = useTransition(
-    result.sort((a, b) => b.previousScore - a.previousScore).map(formatData => ({ ...formatData, y: (DEFAULT_HEIGHT += 75) - 75 })),
-    result => result.teamId,
+  
+  const transition = useTransition(
+    result.sort((a, b) => b.previousScore - a.previousScore).map((data, i) => ({ ...data, y: 75 * (i + 1) })),
+    result => result.team.teamId,
     {
-      enter: (data) => ({ ...data }),
-      update: (data) => ({ ...data })
+      enter: ({ y }) => ({ y }),
+      update: ({ y }) => (canIncrement ? {} : { y }),
     }
-  )
+  );
+
+  const dataAnimation = transition.map(formatData)
 
   const isAdmin = true//props.user.id === props.room.settings.host.id;
 
   return (
     <div className="summary__page">
-      <div className="summary__content">
-        {result.sort((a, b) => b.previousScore - a.previousScore).map(formatData)}
-        {(!canIncrement && isAdmin) && <button onClick={handleClick}>Next round!</button>}
-      </div>
+        <div className="summary__content">
+          {dataAnimation}
+        {(!canIncrement && isAdmin) && <button className="summary__continue-btn" onClick={handleClick}>Next round!</button>}
+        </div>
     </div>
   )
 }
