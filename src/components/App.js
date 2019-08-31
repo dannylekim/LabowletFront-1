@@ -103,17 +103,16 @@ class App extends PureComponent {
       case 'SUMMARY':
         return {
           title: 'SUMMARY',
-          // component: <SummaryPage />
+          component: <SummaryPage />
         };
         default:
           return {
-            component: <SummaryPage />
-          // component: (
-          //   <WelcomePage
-          //     id={localStorage.getItem('labowless_token')}
-          //     leave={() => this.manuallyLeave()}
-          //   />
-          // ),
+          component: (
+            <WelcomePage
+              id={localStorage.getItem('labowless_token')}
+              leave={() => this.manuallyLeave()}
+            />
+          ),
         };
     }
   }

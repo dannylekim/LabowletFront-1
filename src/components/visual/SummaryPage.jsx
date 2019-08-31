@@ -4,44 +4,8 @@ import { useTransition, animated } from 'react-spring'
 import '../../styles/summary.scss';
 import connectToRedux from '../ReduxConnector';
 
-const DATA = [
-  {
-    previousScore: 0,
-    totalScore: 7,
-    team: {
-      teamId: '1234',
-      teamName: 'Im losing now',
-    }
-  },
-  {
-    previousScore: 4,
-    totalScore: 10,
-    team: {
-      teamId: '4321',
-      teamName: 'Im winning now',
-    }
-  },
-  {
-    previousScore: 5,
-    totalScore: 6,
-    team: {
-      teamId: '5-4321',
-      teamName: 'Im second now',
-    }
-  },
-  {
-    previousScore: 5,
-    totalScore: 5,
-    team: {
-      teamId: '1234-5',
-      teamName: 'I dont know',
-    }
-  }
-]
-
 const SummaryPage = (props) => {
-  const resultTracker = DATA.sort((a, b) => b.previousScore - a.previousScore);
-    // const resultTracker = props.game.scoreSummary.sort((a, b) => b.previousScore - a.previousScore);
+  const resultTracker = [...props.game.scoreSummary].sort((a, b) => b.previousScore - a.previousScore);
   const [result, setResult] = useState(resultTracker)
   const [canIncrement, setIncrementStatus] = useState(true);
   const [firstTime, setFirst] = useState(true);
