@@ -115,9 +115,8 @@ const connectUser = (code) => {
           const { scores } = currentScores;
           dispatch(setScoreSummary(scores));
           dispatch(updatePage('SUMMARY'));
-
-          console.log(scores)
-                  // TODO update the team's score
+          
+          // TODO update the team's score
           const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
           
           dispatch(updatePoints(teamScore.totalScore));
