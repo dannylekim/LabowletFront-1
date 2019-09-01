@@ -30,11 +30,11 @@ class ScorePage extends PureComponent {
     }
   }
 
-  formatData(teamContent) {
+  formatData({ team, totalScore}) {
     return (
       <div className="team-row">
-        <div>{teamContent.teamName}</div>
-        <div>{teamContent.totalScore}</div>
+        <p>{team.teamName}</p>
+        <p>{totalScore}</p>
       </div>
     )
   }
@@ -50,12 +50,16 @@ class ScorePage extends PureComponent {
           <div className="title">
             Game Over
           </div>
-          <div className="score-page__results">
-            {result}
-          </div>
-          <div className="score-page__actionable">
-            <button onClick={() => this.manuallyLeave()}>Leave Session</button>
-            {isAdmin && <button onClick={() => this.props.resetGame()}>Play again</button>}
+          <div>
+            <div className="score-page__content">
+              <div className="score-page__results">
+                {result}
+              </div>
+            </div>
+            <div className="score-page__actionable">
+              <button onClick={() => this.manuallyLeave()}>Leave Session</button>
+              {isAdmin && <button onClick={() => this.props.resetGame()}>Play again</button>}
+            </div>
           </div>
         </div>
     
