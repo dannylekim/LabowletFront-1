@@ -30,11 +30,11 @@ class ScorePage extends PureComponent {
     }
   }
 
-  formatData(teamContent) {
+  formatData({ team, totalScore}) {
     return (
       <div className="team-row">
-        <div>{teamContent.teamName}</div>
-        <div>{teamContent.totalScore}</div>
+        <p>{team.teamName}</p>
+        <p>{totalScore}</p>
       </div>
     )
   }
@@ -42,6 +42,7 @@ class ScorePage extends PureComponent {
   render() {
     const { content } = this.props.game;
     const result = content.sort((a, b) => b.totalScore - a.totalScore).map(this.formatData);
+    const isAdmin = this.props.user.id === this.props.room.settings.host.id;
 
     return (
       
@@ -49,12 +50,16 @@ class ScorePage extends PureComponent {
           <div className="title">
             Game Over
           </div>
-          <div className="score-page__results">
-            {result}
-          </div>
-          <div className="score-page__actionable">
-            <button onClick={() => this.manuallyLeave()}>Take me home</button>
-            <button onClick={() => this.props.resetGame()}>Create new game</button>
+          <div>
+            <div className="score-page__content">
+              <div className="score-page__results">
+                {result}
+              </div>
+            </div>
+            <div className="score-page__actionable">
+              <button onClick={() => this.manuallyLeave()}>Leave Session</button>
+              {isAdmin && <button onClick={() => this.props.resetGame()}>Play again</button>}
+            </div>
           </div>
         </div>
     
@@ -63,7 +68,7 @@ class ScorePage extends PureComponent {
 }
 
 const connectObject = {
-  states: ['game', 'room'],
+  states: ['user','game', 'room'],
   actions: ['resetGame','leaveRoom'],
 }
 

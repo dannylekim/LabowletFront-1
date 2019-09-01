@@ -85,9 +85,9 @@ const connectUser = (code) => {
         console.log(parsedBody)
         const { roundName } = currentRound;
         // First thing: reset time/word
-        if (getState().game.currentTime <= 0) {
+        if ((getState().game.currentTime <= 0 )||(currentTeam !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
           dispatch(updateGameTime(getState().game.maxTime) || 0);
-        }
+        } 
         dispatch(updateGameWord(''));
         dispatch(setScoreSummary([]));
         /**
@@ -115,9 +115,8 @@ const connectUser = (code) => {
           const { scores } = currentScores;
           dispatch(setScoreSummary(scores));
           dispatch(updatePage('SUMMARY'));
-
-          console.log(scores)
-                  // TODO update the team's score
+          
+          // TODO update the team's score
           const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
           
           dispatch(updatePoints(teamScore.totalScore));
