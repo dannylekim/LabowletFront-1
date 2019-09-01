@@ -52,10 +52,6 @@ const SummaryPage = (props) => {
     }, 100);
   }
 
-  const handleClick = () => {
-    console.log('nice job admin')
-    props.updatePage('GAME');
-  }
 
   const formatData = ({ item, key, props: { y } }, index, total) => {
     return (
@@ -86,13 +82,13 @@ const SummaryPage = (props) => {
 
   const dataAnimation = transition.map(formatData)
 
-  const isAdmin = true//props.user.id === props.room.settings.host.id;
+  const isAdmin = props.user.id === props.room.settings.host.id;
 
   return (
     <div className="summary__page">
         <div className="summary__content">
           {dataAnimation}
-        {(!canIncrement && isAdmin) && <button className="summary__continue-btn" onClick={handleClick}>Next round!</button>}
+        {(!canIncrement && isAdmin) && <button className="summary__continue-btn" onClick={props.nextRound}>Next round!</button>}
         </div>
     </div>
   )
@@ -100,7 +96,7 @@ const SummaryPage = (props) => {
 
 const connectObject = {
   states: ['game', 'user', 'room'],
-  actions: ['updatePoints'],
+  actions: ['updatePoints', 'nextRound'],
 }
 
 export default connectToRedux(SummaryPage, connectObject);
