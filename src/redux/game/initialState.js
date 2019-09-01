@@ -21,6 +21,7 @@ const state = {
 
   // global variable:
   maxTime: 0,
+  scoreSummary: [],
 }
 
 export default state;

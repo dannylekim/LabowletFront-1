@@ -79,7 +79,23 @@ const giveUpRound = () => {
     } catch (err) {
       throw new Error(`Error while starting giving up: ${err.message}`);
     }
-  }}
+  }
+}
+
+/**
+ * to be used by host when users are on `SUMMARY` page. This will trigger the `/game/` call with currentPoints: null 
+ * which will ultimately redirect user to `GAME`
+ */
+const nextRound = () => {
+  return async (dispatch, getState) => {
+    try {
+      await getState().user.socket.send(`/server/room/${getState().room.code}/game/nextRound`, {});
+      
+    } catch (err) {
+      throw new Error(`Error while going to next round: ${err.message}`);
+    }
+  }
+}
 
 export default { 
   updatePoints,
@@ -92,4 +108,5 @@ export default {
   resetGame,
   leaveRoom,
   giveUpRound,
+  nextRound
 };

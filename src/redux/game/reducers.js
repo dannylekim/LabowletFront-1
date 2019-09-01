@@ -83,6 +83,11 @@ const reducer = (state = initialState, action) => {
         ...state, 
         maxTime: action.time,
       }
+    case actionTypes.SET_SCORE_SUMMARY:
+      return {
+        ...state, 
+        scoreSummary: action.summary,
+      }
     default:
       return state;
   }
