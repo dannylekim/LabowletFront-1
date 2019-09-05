@@ -6,7 +6,15 @@ import {RoomSettings} from '../../services/Adapters';
 import UserActions from '../user/actionDispatchers';
 import {overrideUser, updateUserTeam, updateUserToken} from '../user/actions';
 import ApplicationActions from '../application/actionDispatchers';
-import {overrideGame, updateGameType, updatePoints, updateStatus} from '../game/actions';
+import {
+  overrideGame,
+  updateGameType,
+  updatePoints,
+  updateStatus,
+  setMaxTime,
+  updateGameTime,
+  setScoreSummary,
+} from '../game/actions';
 
 /**
  * @function createRoom
@@ -279,15 +287,17 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
-      
+      console.log(reconnectSession.data);
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, ...rest } = room;
+        const { roomCode, roomSettings , host , ...rest } = room;
+        console.log(room)
         dispatch(actions.updateCode(roomCode));
-        dispatch(actions.updateSetting(rest));
+        dispatch(actions.updateSetting({ host, roomSettings, ...roomSettings }));
+        dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
         dispatch(UserActions.connectUser(roomCode));
       }
 
@@ -301,12 +311,24 @@ const reconnect = (token) => {
           currentGuesser,
           currentRound,
           // teamScore,
+          currentScores,
+          currentTeam,
           teams,
         } = game;
         const { roundName } = currentRound;
 
         dispatch(overrideGame(game));
 
+        if(currentScores) {
+          const { scores } = currentScores;
+          dispatch(setScoreSummary(scores));
+          dispatch(ApplicationActions.updatePage('SUMMARY'));
+          
+          // TODO update the team's score
+          const { teamScore } = teams.find((element) => element.teamId === getState().user.team);
+          
+          dispatch(updatePoints(teamScore.totalScore));
+        }
         if (currentlyIn === 'GAME') {
           let userStatus = 'SPECTATOR';
           if (currentActor.id === getState().user.id) {
@@ -323,6 +345,10 @@ const reconnect = (token) => {
           const { teamScore } = teams.find(
             element => element.teamId === getState().user.team,
           );
+
+          if ((getState().game.currentTime <= 0 )||(currentTeam.teamId !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
+            dispatch(updateGameTime(getState().game.maxTime) || 0);
+          } 
   
           dispatch(updatePoints(teamScore.totalScore));
         }

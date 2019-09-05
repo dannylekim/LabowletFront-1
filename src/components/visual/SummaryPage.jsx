@@ -87,7 +87,9 @@ const SummaryPage = (props) => {
   return (
     <div className="summary__page">
         <div className="summary__content">
+        <div className="summary__points_content">
           {dataAnimation}
+        </div>
         {(!canIncrement && isAdmin) && <button className="summary__continue-btn" onClick={props.nextRound}>Next round!</button>}
         </div>
     </div>

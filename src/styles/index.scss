@@ -41,6 +41,13 @@ body {
   padding-top: 10vh;
   position: relative;
   line-height: 20px;
+
+  @media only screen and (min-width: 600px) {
+    padding: 10vh 25vw 20px 25vw;
+  }
+  @media only screen and (min-width: 1000px) {
+    padding: 12vh 35vw 20px 35vw;
+  }
 }
 
 .page-footer {

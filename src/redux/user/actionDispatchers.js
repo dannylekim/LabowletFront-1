@@ -82,11 +82,14 @@ const connectUser = (code) => {
           currentScores,
           teams,
         } = parsedBody;
-        console.log(parsedBody)
         const { roundName } = currentRound;
         // First thing: reset time/word
         if ((getState().game.currentTime <= 0 )||(currentTeam !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
-          dispatch(updateGameTime(getState().game.maxTime) || 0);
+          if(getState().game.maxTime === 0) {
+            dispatch(updateGameTime(getState().room.settings.roomSettings.roundTimeInSeconds) || 0);
+          } else {
+            dispatch(updateGameTime(getState().game.maxTime) || 0);
+          }
         } 
         dispatch(updateGameWord(''));
         dispatch(setScoreSummary([]));
