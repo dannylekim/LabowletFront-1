@@ -315,7 +315,6 @@ const reconnect = (token) => {
           currentTeam,
           teams,
         } = game;
-        console.log(game);
         const { roundName } = currentRound;
 
         dispatch(overrideGame(game));
