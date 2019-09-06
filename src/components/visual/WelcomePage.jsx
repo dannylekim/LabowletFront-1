@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../styles/splash.scss';
-import Logo from '../../assets/images/labowless_logo_white.png';
+import Logo from '../../assets/images/labowless_logo.png';
 import connectToRedux from '../ReduxConnector';
 
 const WELCOME_TEXTS = {
