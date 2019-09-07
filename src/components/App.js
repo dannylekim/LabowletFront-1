@@ -11,7 +11,7 @@ import WelcomePage from './visual/WelcomePage';
 import SummaryPage from './visual/SummaryPage';
 
 import connectToRedux from './ReduxConnector';
-
+import logoImg from '../assets/images/labowless-logo.png';
 import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
@@ -39,19 +39,6 @@ class App extends PureComponent {
     //     this.props.updatePage('HOME');
     //   },2500);
     // }
-
-
-    window.addEventListener('appinstalled', (evt) => {
-      console.log('labowless already install');
-    });
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      // Stash the event so it can be triggered later.
-      this.setState({
-        prompt: e
-      });
-      alert('can install!');
-    });
   }
 
   manuallyLeave = () => {
@@ -72,7 +59,7 @@ class App extends PureComponent {
     switch(pageKey) {
       case 'HOME':
         return {
-          title: 'Labowless',
+          title: <img className="navbar_logo" src={logoImg} alt="logo"/>,
           component: <HomePage />
         };
       case 'CREATE':
