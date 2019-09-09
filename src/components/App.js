@@ -12,7 +12,7 @@ import WelcomePage from './visual/WelcomePage';
 import SummaryPage from './visual/SummaryPage';
 
 import connectToRedux from './ReduxConnector';
-import logoImg from '../assets/images/labowless-logo.png';
+import logoImg from '../assets/images/labowless_logo.png';
 import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
@@ -113,41 +113,41 @@ const App = props => {
   return (
     <div className="page">
       {props.application.page !== '' && (
-        <div>
-          <div className="navbar" style={{ display: 'flex' }}>
-            {props.application.page === 'CREATE' ||
-            props.application.page === 'LOBBY' ? (
-              <div className="back-button" onClick={() => manuallyLeave()}>
-                <Icon iconId={100} size={35} fill={`#fff`} />
-              </div>
-            ) : (
-              ''
-            )}
+        <div className="navbar" style={{ display: 'flex' }}>
+          {props.application.page === 'CREATE' ||
+          props.application.page === 'LOBBY' ? (
+            <div className="back-button" onClick={() => manuallyLeave()}>
+              <Icon iconId={100} size={35} fill={`#fff`} />
+            </div>
+          ) : (
+            ''
+          )}
+          {typeof PageToRender.title === 'string' ? (
             <h2>{PageToRender.title}</h2>
-            {props.application.debugMode && (
-              <span>
-                <Switch
-                  className="can-skip-switch"
-                  onChange={props.toggleServer}
-                />
-                <p style={{ color: '#fff' }}>
-                  {props.application.server.label}
-                </p>
-              </span>
-            )}
-            {props.application.page !== 'HOME' && (
-              <div className="flex-icon-username">
-                <p style={{ color: '#fff', marginRight: `10px` }}>
-                  {props.user.name}
-                </p>
-                <Icon
-                  size={`40px`}
-                  fill={'#fff'}
-                  iconId={props.user.uniqueIconReference}
-                />
-              </div>
-            )}
-          </div>
+          ) : (
+            PageToRender.title
+          )}
+          {props.application.debugMode && (
+            <span>
+              <Switch
+                className="can-skip-switch"
+                onChange={props.toggleServer}
+              />
+              <p style={{ color: '#fff' }}>{props.application.server.label}</p>
+            </span>
+          )}
+          {props.application.page !== 'HOME' && (
+            <div className="flex-icon-username">
+              <p style={{ color: '#fff', marginRight: `10px` }}>
+                {props.user.name}
+              </p>
+              <Icon
+                size={`40px`}
+                fill={'#fff'}
+                iconId={props.user.uniqueIconReference}
+              />
+            </div>
+          )}
         </div>
       )}
       <div>
