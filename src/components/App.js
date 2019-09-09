@@ -12,7 +12,7 @@ import WelcomePage from './visual/WelcomePage';
 import SummaryPage from './visual/SummaryPage';
 
 import connectToRedux from './ReduxConnector';
-
+import logoImg from '../assets/images/labowless-logo.png';
 import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
@@ -50,8 +50,8 @@ const App = props => {
     switch (pageKey) {
       case 'HOME':
         return {
-          title: 'Labowless',
-          component: <HomePage />,
+          title: <img className="navbar_logo" src={logoImg} alt="logo"/>,
+          component: <HomePage />
         };
       case 'CREATE':
         return {

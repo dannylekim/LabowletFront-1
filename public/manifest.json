@@ -3,13 +3,18 @@
   "name": "Labowless",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "labowless-favicon-sm.ico",
       "sizes": "12x12",
       "type": "image/ico"
     },
     {
-      "src": "appIcon.png",
-      "sizes": "180x180",
+      "src": "labowless-favicon-md.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "labowless-favicon-lg.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],
