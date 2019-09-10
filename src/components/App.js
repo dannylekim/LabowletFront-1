@@ -99,14 +99,13 @@ const App = props => {
   
   const transitions_slides = useTransition(props.application.page, p => p, {
     from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
-    enter: { opacity: 1, transform: 'translate3d(0%,0,0)', position: 'relative' },
-    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)', position: 'absolute' },
-    trail: 100
+    enter: { opacity: 1, transform: 'translate3d(0%,0,0)', height: '100%' },
+    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)', position: 'absolute', height: '0%' },
   });
   const transitions_swing = useTransition(props.application.page, p => p, {
     from: { opacity: 0, transform: 'rotateY(100deg)', transformOrigin: 'left' },
-    enter: { opacity: 1, transform: 'rotateY(0)', transformOrigin: 'left' },
-    leave: { opacity: 0, transform: 'rotateY(-100deg)', transformOrigin: 'right', position: 'absolute' },
+    enter: { opacity: 1, transform: 'rotateY(0)', transformOrigin: 'left', height: '100%' },
+    leave: { opacity: 0, transform: 'rotateY(-100deg)', transformOrigin: 'right', position: 'absolute', visibility: 'hidden' },
   });
 
   const transitions = transitions_swing;
@@ -151,10 +150,12 @@ const App = props => {
         </div>
       )}
       <div>
+      <div className="page__content">
         {transitions.map(({ item, props }) => {
           const { component } = switchPages(item);
           return <animated.div style={{ ...props }}>{component}</animated.div>;
         })}
+      </div>
       </div>
     </div>
   );
