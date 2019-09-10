@@ -40,6 +40,11 @@ body {
   }
 }
 
+.page__content {
+  position: relative;
+  height: 100vh;
+}
+
 .page-container {
   padding: 20px 30px;
   padding-top: 10vh;
