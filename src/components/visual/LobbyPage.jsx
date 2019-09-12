@@ -42,6 +42,9 @@ class LobbyPage extends PureComponent {
    * @private
    */
   _renderTeam(teams) {
+    if(teams === undefined) {
+      teams = [];
+    }
     const TeamCardArray = teams
       .filter((value, index) => {
 
@@ -112,7 +115,10 @@ class LobbyPage extends PureComponent {
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
-    const { benchPlayers, teams } = this.props.room.settings;
+    let { benchPlayers, teams } = this.props.room.settings;
+    if(benchPlayers === undefined){
+      benchPlayers = [];
+    }
     const benchPlayersIcons = benchPlayers.map(player => (
         <PlayerIcon key={player.id} id={player.uniqueIconReference} fill={`#000`}/>
     ));

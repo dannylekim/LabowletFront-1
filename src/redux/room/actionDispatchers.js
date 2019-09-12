@@ -269,13 +269,6 @@ const wordReady = () => {
   }
 }
 
-// currentlyIn: "LOBBY"
-// game: null
-// player: {name: "ddfs", id: "170132bf-753d-44ed-9e19-c709e4131e6c"}
-// room: {teams: Array(2), benchPlayers: Array(0), host: {…}, roomCode: "JQDS", roomSettings: {…}, …}
-// team: null
-// wordState:
-
 const reconnect = (token) => {
   return async (dispatch, getState) => {
     try {
@@ -287,13 +280,12 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
-      console.log(reconnectSession.data);
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, roomSettings , host , ...rest } = room;
+        const { roomCode, roomSettings , host } = room;
         console.log(room)
         dispatch(actions.updateCode(roomCode));
         dispatch(actions.updateSetting({ host, roomSettings, ...roomSettings }));
