@@ -280,15 +280,16 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
+      console.log(reconnectSession.data)
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, roomSettings , host } = room;
+        const { roomCode, roomSettings , host, benchPlayers, teams } = room;
         console.log(room)
         dispatch(actions.updateCode(roomCode));
-        dispatch(actions.updateSetting({ host, roomSettings, ...roomSettings }));
+        dispatch(actions.updateSetting({ host, roomSettings, benchPlayers, teams, ...roomSettings }));
         dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
         dispatch(UserActions.connectUser(roomCode));
       }
