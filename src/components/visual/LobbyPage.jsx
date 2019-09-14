@@ -144,7 +144,7 @@ class LobbyPage extends PureComponent {
               </div>
             )}
           </div>
-          {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`}
+          {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled'}`}
                               style={{color: `white`, margin: '10px'}} onClick={() => this.props.lobbyReady()}>Start</button>}
         </div>
         <div className="page-footer">
