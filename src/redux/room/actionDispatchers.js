@@ -273,6 +273,9 @@ const reconnect = (token) => {
   return async (dispatch, getState) => {
     try {
       const reconnectSession = await RoomRequests.reconnect(token,  getState().application.server.url);
+      if (reconnectSession.data === '') {
+        throw new Error('Token expired!');
+      }
       const {
         currentlyIn,
         game,
@@ -285,10 +288,10 @@ const reconnect = (token) => {
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, roomSettings , host } = room;
+        const { roomCode, roomSettings , host, canStart } = room;
         console.log(room)
         dispatch(actions.updateCode(roomCode));
-        dispatch(actions.updateSetting({ host, roomSettings, ...roomSettings }));
+        dispatch(actions.updateSetting({ canStart, host, roomSettings, ...roomSettings }));
         dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
         dispatch(UserActions.connectUser(roomCode));
       }
@@ -351,7 +354,7 @@ const reconnect = (token) => {
     } catch (err) {
       const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
-      throw err;
+      return Promise.reject(err);
     }
   }
 }
