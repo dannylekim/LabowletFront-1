@@ -283,15 +283,14 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
+      console.log(reconnectSession.data)
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, roomSettings , host, canStart } = room;
-        console.log(room)
-        dispatch(actions.updateCode(roomCode));
-        dispatch(actions.updateSetting({ canStart, host, roomSettings, ...roomSettings }));
+        const { roomCode, roomSettings , host, benchPlayers, teams, canStart } = room;
+        dispatch(actions.updateSetting({ canStart, host, roomSettings, benchPlayers, teams, ...roomSettings }));
         dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
         dispatch(UserActions.connectUser(roomCode));
       }
