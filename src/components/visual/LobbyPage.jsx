@@ -42,6 +42,9 @@ class LobbyPage extends PureComponent {
    * @private
    */
   _renderTeam(teams) {
+    if(teams === undefined) {
+      teams = [];
+    }
     const TeamCardArray = teams
       .filter((value, index) => {
 
@@ -112,7 +115,10 @@ class LobbyPage extends PureComponent {
 
   render() {
     const roomCode = this.props.room.code || 'UH OH';
-    const { benchPlayers, teams } = this.props.room.settings;
+    let { benchPlayers, teams } = this.props.room.settings;
+    if(benchPlayers === undefined){
+      benchPlayers = [];
+    }
     const benchPlayersIcons = benchPlayers.map(player => (
         <PlayerIcon key={player.id} id={player.uniqueIconReference} fill={`#000`}/>
     ));
@@ -138,9 +144,9 @@ class LobbyPage extends PureComponent {
               </div>
             )}
           </div>
+          {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled'}`}
+                              style={{color: `white`, margin: '10px'}} onClick={() => this.props.lobbyReady()}>Start</button>}
         </div>
-        {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled-btn'}`}
-                            style={{color: `white`}} onClick={() => this.props.lobbyReady()}>Start</button>}
         <div className="page-footer">
           <div className="foot-header">
             <h3>Players waiting: </h3>

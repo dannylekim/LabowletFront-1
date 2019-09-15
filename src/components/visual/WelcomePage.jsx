@@ -23,6 +23,7 @@ const WelcomePage = (props) => {
   const [isLogged] = useState(!!props.id)
   const [canNavigate, setNavigate] = useState(true)
   const [hasError, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleClick = async () => {
     if (isLogged) {
@@ -31,11 +32,16 @@ const WelcomePage = (props) => {
       } catch (err) {
         setNavigate(false);
         setError(true);
-        console.log(err);
+        setErrorMessage(err.message);
 
         // display error for 1.5s
         setTimeout(() => {
           setError(false);
+          // This is used for known errors i.e. token expired.
+          if (errorMessage !== '') {
+            props.leave();
+          }
+          setErrorMessage('');
           setNavigate(true);
         }, 1500 );
         console.error('Welcome page error. If you\'re this, that means an error occured -> ', err.message);
@@ -47,7 +53,12 @@ const WelcomePage = (props) => {
     let texts = [];
 
     if(hasError) {
-      texts = WELCOME_TEXTS.error;
+      // This is used for known errors i.e. token expired.
+      if (errorMessage !== '') {
+        texts = [errorMessage];
+      } else {
+        texts = WELCOME_TEXTS.error;
+      }
     } else {
       texts = isLogged ? WELCOME_TEXTS.logged : WELCOME_TEXTS.new;
     }

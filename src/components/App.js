@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Switch from 'rc-switch';
 import { useTransition, animated } from 'react-spring';
 
@@ -17,7 +17,6 @@ import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
 import Icon from './visual/common/Icon';
-import { styles } from 'ansi-colors';
 
 const App = props => {
   useEffect(() => {
@@ -95,11 +94,6 @@ const App = props => {
   
   const PageToRender = switchPages(props.application.page);
   
-  const transitions_slides = useTransition(props.application.page, p => p, {
-    from: { opacity: 0, transform: 'translate3d(100%,0,0)' },
-    enter: { opacity: 1, transform: 'translate3d(0%,0,0)', height: '100%' },
-    leave: { opacity: 0, transform: 'translate3d(-50%,0,0)', position: 'absolute', height: '0%' },
-  });
   const transitions_swing = useTransition(props.application.page, p => p, {
     from: { opacity: 0, transform: 'rotateY(100deg)', transformOrigin: 'left' },
     enter: { opacity: 1, transform: 'rotateY(0)', transformOrigin: 'left', height: '100%' },

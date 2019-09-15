@@ -90,6 +90,7 @@ const SummaryPage = (props) => {
         <div className="summary__points_content">
           {dataAnimation}
         </div>
+        {!isAdmin && <p>Waiting on host to continue round.</p> }
         {(!canIncrement && isAdmin) && <button className="summary__continue-btn" onClick={props.nextRound}>Next round!</button>}
         </div>
     </div>

@@ -269,17 +269,13 @@ const wordReady = () => {
   }
 }
 
-// currentlyIn: "LOBBY"
-// game: null
-// player: {name: "ddfs", id: "170132bf-753d-44ed-9e19-c709e4131e6c"}
-// room: {teams: Array(2), benchPlayers: Array(0), host: {…}, roomCode: "JQDS", roomSettings: {…}, …}
-// team: null
-// wordState:
-
 const reconnect = (token) => {
   return async (dispatch, getState) => {
     try {
       const reconnectSession = await RoomRequests.reconnect(token,  getState().application.server.url);
+      if (reconnectSession.data === '') {
+        throw new Error('Token expired!');
+      }
       const {
         currentlyIn,
         game,
@@ -287,16 +283,14 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
-      console.log(reconnectSession.data);
+      console.log(reconnectSession.data)
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
       }
       if (room) {
-        const { roomCode, roomSettings , host , ...rest } = room;
-        console.log(room)
-        dispatch(actions.updateCode(roomCode));
-        dispatch(actions.updateSetting({ host, roomSettings, ...roomSettings }));
+        const { roomCode, roomSettings , host, benchPlayers, teams, canStart } = room;
+        dispatch(actions.updateSetting({ canStart, host, roomSettings, benchPlayers, teams, ...roomSettings }));
         dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
         dispatch(UserActions.connectUser(roomCode));
       }
@@ -359,7 +353,7 @@ const reconnect = (token) => {
     } catch (err) {
       const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
-      throw err;
+      return Promise.reject(err);
     }
   }
 }

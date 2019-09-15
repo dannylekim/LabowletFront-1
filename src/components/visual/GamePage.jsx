@@ -36,11 +36,11 @@ class Actor extends PureComponent {
               The word is
               <h2 className="game-container__word">{this.props.word}</h2>
               { (this.props.canSkip && this.props.maxWords === 1) && 'Last word! Can\'t skip anymore.'}
-              <div className="game-container__actions game-container__options">
+              <div className="game-container__actions game-container__options  game-container__actions-giveup">
                 {this.props.canSkip && <button disabled={this.props.maxWords === 1} onClick={() => this.props.handleSkip()}>Skip</button>}
                 <button onClick={() => this.props.handleGiveUp()}>Give up</button>
               </div>
-              <div className="game-container__actions">
+              <div className="game-container__actions game-container__actions-gotit">
                 <button onClick={() => this.props.handleGotIt()}>Got it!</button>
               </div>
             </div>) : (
@@ -78,7 +78,7 @@ class Spectator extends PureComponent {
         onMouseUp={() => this.setState({ pressed: false })}
       >
         <p>The currently playing team is: <b> {this.props.currentTeam.teamName} </b></p>
-        <p style={{fontSize: `x-large`}}>Press and hold me to see your score.</p>
+        <p style={{fontSize: `x-large`}}>Press and hold me to see your previous total score.</p>
         { this.state.pressed && (
           <div className="current-score">{this.props.score}</div>
         )}

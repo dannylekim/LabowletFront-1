@@ -42,6 +42,13 @@
     .game-container__actions {
       display: flex;
       height: 100px;
+      &.game-container__actions-gotit > button {
+        color: limegreen;
+      }
+      &.game-container__actions-giveup > button {
+        color: red;
+      }
+
       & > button {
         @extend %clear-button;
         border:none;
