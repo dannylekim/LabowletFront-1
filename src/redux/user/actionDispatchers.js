@@ -50,7 +50,7 @@ const connectUser = (code) => {
 
     socketClient.reconnect_delay = 5000;
 
-    if (getState().application.debugMode) {
+    if (!getState().application.debugMode) {
       socketClient.debug = null;
     }
 
