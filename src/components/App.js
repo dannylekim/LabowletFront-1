@@ -20,8 +20,6 @@ import Icon from './visual/common/Icon';
 import { styles } from 'ansi-colors';
 
 const App = props => {
-  const [prompt, setPrompt] = useState(null);
-
   useEffect(() => {
     if (props.application.debugMode && props.application.server.url.length === 0) {
       props.toggleServer();
