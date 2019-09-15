@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/LabowletFront/static/css/main.a627df4f.chunk.css",
-    "main.js": "/LabowletFront/static/js/main.42067bf1.chunk.js",
-    "main.js.map": "/LabowletFront/static/js/main.42067bf1.chunk.js.map",
+    "main.css": "/LabowletFront/static/css/main.8305197f.chunk.css",
+    "main.js": "/LabowletFront/static/js/main.6854839d.chunk.js",
+    "main.js.map": "/LabowletFront/static/js/main.6854839d.chunk.js.map",
     "runtime~main.js": "/LabowletFront/static/js/runtime~main.78529cff.js",
     "runtime~main.js.map": "/LabowletFront/static/js/runtime~main.78529cff.js.map",
-    "static/css/2.c2b906c8.chunk.css": "/LabowletFront/static/css/2.c2b906c8.chunk.css",
-    "static/js/2.d0677cdb.chunk.js": "/LabowletFront/static/js/2.d0677cdb.chunk.js",
-    "static/js/2.d0677cdb.chunk.js.map": "/LabowletFront/static/js/2.d0677cdb.chunk.js.map",
+    "static/css/2.97dbe31c.chunk.css": "/LabowletFront/static/css/2.97dbe31c.chunk.css",
+    "static/js/2.86350096.chunk.js": "/LabowletFront/static/js/2.86350096.chunk.js",
+    "static/js/2.86350096.chunk.js.map": "/LabowletFront/static/js/2.86350096.chunk.js.map",
     "index.html": "/LabowletFront/index.html",
-    "precache-manifest.0308f919c857d8b5a043ff21288af980.js": "/LabowletFront/precache-manifest.0308f919c857d8b5a043ff21288af980.js",
+    "precache-manifest.e9b1dbcdb51f83f981af3b56c3f74ba9.js": "/LabowletFront/precache-manifest.e9b1dbcdb51f83f981af3b56c3f74ba9.js",
     "service-worker.js": "/LabowletFront/service-worker.js",
-    "static/css/2.c2b906c8.chunk.css.map": "/LabowletFront/static/css/2.c2b906c8.chunk.css.map",
-    "static/css/main.a627df4f.chunk.css.map": "/LabowletFront/static/css/main.a627df4f.chunk.css.map",
+    "static/css/2.97dbe31c.chunk.css.map": "/LabowletFront/static/css/2.97dbe31c.chunk.css.map",
+    "static/css/main.8305197f.chunk.css.map": "/LabowletFront/static/css/main.8305197f.chunk.css.map",
     "static/media/index.scss": "/LabowletFront/static/media/leafy.387e7e35.woff"
   }
 }
