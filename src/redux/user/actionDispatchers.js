@@ -50,6 +50,10 @@ const connectUser = (code) => {
 
     socketClient.reconnect_delay = 5000;
 
+    if (!getState().application.debugMode) {
+      socketClient.debug = null;
+    }
+
     socketClient.connect({
       'x-auth-token': getState().user.token,
     }, async (frame) => {

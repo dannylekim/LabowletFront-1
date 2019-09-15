@@ -291,6 +291,7 @@ const reconnect = (token) => {
         const { roomCode, roomSettings , host, benchPlayers, teams, canStart } = room;
         dispatch(actions.updateSetting({ canStart, host, roomSettings, benchPlayers, teams, ...roomSettings }));
         dispatch(setMaxTime(roomSettings.roundTimeInSeconds));
+        dispatch(actions.updateCode(roomCode));
         dispatch(UserActions.connectUser(roomCode));
       }
 
