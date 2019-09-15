@@ -283,7 +283,6 @@ const reconnect = (token) => {
         room,
         team,
       } = reconnectSession.data;
-      console.log(reconnectSession.data)
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));

@@ -11,6 +11,8 @@ import  './index.css';
 // init sentry
 Sentry.init({dsn: "https://bdb01d178cd04ff8aea41f6ecc513dbb@sentry.io/1727680"});
 
+console.log('0.9.0');
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
