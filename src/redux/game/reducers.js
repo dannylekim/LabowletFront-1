@@ -42,10 +42,10 @@ const reducer = (state = initialState, action) => {
         ...state,
         listOfWordsReady: action.list,
       };
-    case actionTypes.UPDATE_CURRENT_TEAM_NAME:
+    case actionTypes.UPDATE_CURRENT_TEAM:
       return {
         ...state,
-        currentTeam: action.currentTeam,
+        currentTeam: action.team,
       };
     case actionTypes.UPDATE_WORD_COUNT:
       return {
