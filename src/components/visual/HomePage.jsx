@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Swal from 'sweetalert2'
+import * as Sentry from '@sentry/browser';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -65,6 +66,7 @@ class Home extends PureComponent {
         throw new Error('Must have a name')
       }
     } catch (err) {
+      Sentry.captureException(err);
       Swal.fire({
         type:'error',
         title: 'Something went wrong..',
@@ -77,6 +79,7 @@ class Home extends PureComponent {
       this.props.joinRoom(inputCode.toUpperCase())
       .then(() => this.props.updateUserName(this.state.name))
       .catch((err) => {
+        Sentry.captureException(err);
         Swal.fire({
           type:'error',
           title: 'woops!',

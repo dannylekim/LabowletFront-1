@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Swal from 'sweetalert2';
+import * as Sentry from '@sentry/browser';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -27,6 +28,7 @@ class ScorePage extends PureComponent {
       // remove localstoarage
       localStorage.removeItem('labowless_token');
     } catch (err) {
+      Sentry.captureException(err);
       Swal.fire({
         type: 'error',
         title: 'woops',

@@ -1,4 +1,6 @@
 import url from '../config/RESTurl.json';
+import * as Sentry from '@sentry/browser';
+
 const axios = require('axios');
 const REST_URL = url.prod;
 
@@ -31,7 +33,7 @@ async function createRoom(roomSetting, TokenId, loading, server) {
 
     return response;
   } catch (error) {
-    //console.error('RoomHTTPRequests::createRoom:', error);
+    Sentry.captureException(error);
     return error;
   }
 }
@@ -62,6 +64,7 @@ async function joinRoom(roomCode, TokenId, loading, server) {
 
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     return { status: 404 };
   }
 }
@@ -93,6 +96,7 @@ async function joinTeam(teamId, team, TokenId, loading, server) {
 
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     return error;
   }
 }
@@ -124,6 +128,7 @@ async function createTeam(team, TokenId, loading, server) {
 
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     return error;
   }
 }
@@ -155,6 +160,7 @@ async function stageReady(TokenId, state, data = {}, server) {
 
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     throw error;
   }
 }
@@ -185,6 +191,7 @@ async function reconnect(TokenId, server) {
 
     return response;
   } catch (error) {
+    Sentry.captureException(error);
     throw error;
   }
 }

@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/browser';
 import * as actions from './actions';
 import UserRequests from '../../services/UserHTTPRequests';
 import RoomRequests from '../../services/RoomHTTPRequests';
@@ -94,6 +95,7 @@ const createRoom = (newSetting) => {
         throw new Error(`There was an issue creating user: ${getState().user.name}`);
       }
     } catch (e) {
+      Sentry.captureException(e);
       throw e;
     }
   };
@@ -164,6 +166,7 @@ const joinRoom = (code) => {
         throw new Error(`There was an issue creating user: ${getState().user.name}`);
       }
     } catch (e) {
+      Sentry.captureException(e);
       throw e;
     }
   };
@@ -196,6 +199,7 @@ const createTeam = (teamName) => {
         throw createTeamResponse;
       }
     } catch (err) {
+      Sentry.captureException(err);
       throw err;
     }
   }
@@ -216,6 +220,7 @@ const joinTeam = (teamId, teamName) => {
         throw joinTeamResponse;
       }
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`room::joinTeam dipatcher: ${err.message}`);
     }
   }
@@ -231,8 +236,8 @@ const lobbyReady = () => {
     try {
       await RoomRequests.stageReady(getState().user.token,'setupGame' , null, getState().application.server.url);
     } catch (err) {
+      Sentry.captureException(err);
       const errMessage = `room::lobbyReady ${err.message}`
-      console.error(errMessage);
       throw new Error(errMessage);
     }
   }
@@ -247,6 +252,7 @@ const submitWords = (words) => {
         words
       ))
     } catch (err) {
+      Sentry.captureException(err);
       const errMessage = `room::addWord ${err.message}`
       console.error(errMessage);
       throw new Error(errMessage);
@@ -262,6 +268,7 @@ const wordReady = () => {
       await RoomRequests.stageReady(getState().user.token, 'startGame' , null, getState().application.server.url);
 
     } catch (err) {
+      Sentry.captureException(err);
       const errMessage = `room::wordReady ${err.message}`
       console.error(errMessage);
       throw new Error(errMessage);
@@ -351,6 +358,7 @@ const reconnect = (token) => {
 
       dispatch(ApplicationActions.updatePage(currentlyIn));
     } catch (err) {
+      Sentry.captureException(err);
       const errMessage = `room::reconnect ${err.message}`
       console.error(errMessage);
       return Promise.reject(err);

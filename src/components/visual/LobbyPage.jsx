@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import Swal from 'sweetalert2';
+import * as Sentry from '@sentry/browser';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -68,7 +69,7 @@ class LobbyPage extends PureComponent {
 		this.props
 			.joinTeam(teamId, teamName, this.props.user.token)
 			.catch(err => {
-				console.error(err);
+        Sentry.captureException(err);
 			})
 			.finally(() => {
 				this._checkMax();
@@ -79,6 +80,7 @@ class LobbyPage extends PureComponent {
 		this.props
 			.createTeam(`Team ` + teamName)
 			.catch(err => {
+        Sentry.captureException(err);
 				Swal.fire({
 					type: 'error',
 					title: 'woops',

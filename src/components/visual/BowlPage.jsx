@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import Swal from 'sweetalert2'
+import * as Sentry from '@sentry/browser';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -54,6 +55,7 @@ class BowlPage extends PureComponent {
     try {
       this.props.submitWords(this.state.wordList)
     } catch (err) {
+      Sentry.captureException(err);
       Swal.fire({
         type: 'error',
         text: `${err.message}`
