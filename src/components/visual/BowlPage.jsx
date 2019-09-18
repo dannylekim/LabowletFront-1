@@ -1,5 +1,7 @@
 import React, {PureComponent} from 'react';
-//import
+import Swal from 'sweetalert2'
+import * as Sentry from '@sentry/browser';
+
 import connectToRedux from '../ReduxConnector';
 
 import PlayerIcon from './common/PlayerIcon';
@@ -22,14 +24,20 @@ class BowlPage extends PureComponent {
   
   addWord(word) {
     if (word === '') {
-      alert('No empty string!');
+      Swal.fire({
+        type: 'error',
+        text: 'No empty string!'
+      });
       return;
     }
 
     const dupWords = this.state.wordList.find((myWord) => myWord === word);
     const newList = this.state.wordList;
     if(dupWords) {
-      alert(`${word} already exist in your list. try something else`);
+      Swal.fire({
+        type: 'warning',
+        text: `${word} already exist in your list. try something else`
+      });
     } else {
       newList.push(word);
     }
@@ -47,7 +55,11 @@ class BowlPage extends PureComponent {
     try {
       this.props.submitWords(this.state.wordList)
     } catch (err) {
-      console.error(err.message)
+      Sentry.captureException(err);
+      Swal.fire({
+        type: 'error',
+        text: `${err.message}`
+      });
     }
   }
 

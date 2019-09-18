@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'
+
 import '../../styles/splash.scss';
 import Logo from '../../assets/images/labowless_logo.png';
 import connectToRedux from '../ReduxConnector';
@@ -28,7 +30,7 @@ const WelcomePage = (props) => {
   const handleClick = async () => {
     if (isLogged) {
       try {
-        await props.reconnect(props.id)//.catch(() => Promise.reject('Server sleeping, give me second'));
+        await props.reconnect(props.id);
       } catch (err) {
         setNavigate(false);
         setError(true);
@@ -66,6 +68,21 @@ const WelcomePage = (props) => {
     return texts.map((text) => <p>{text}</p>)
   }
 
+  const showCredit = () => {
+    Swal.fire({
+      title: 'credits',
+      animation: false,
+      customClass: {
+        popup: 'animated lightSpeedIn'
+      },
+      background: '#EEEEEE',
+      html:'<b>Developer</b></br>' 
+        + '<p>Kenny Nguyen</p>'
+        + '<p>Danny Le Kim</p>'
+        + '<b>Graphic Designer</b>'
+        + '<p>Melisa Tran</p>',
+    });
+  }
   return (
     <div className="splash__page">
       <div>
@@ -86,13 +103,17 @@ const WelcomePage = (props) => {
           }
         </div>
         { determineStatus() }
+        <div className="splash__footer">
+          <p style={{ alignSelf: 'end' }}>{process.env.REACT_APP_VERSION}</p>
+          <button onClick={showCredit}><p>credits</p></button>
+        </div>
       </div>
     </div>
   )
 }
 
 const connectObject = {
-  actions: ['leaveRoom', 'reconnect'],
+  actions: ['reconnect'],
 }
 
 export default connectToRedux(WelcomePage, connectObject);

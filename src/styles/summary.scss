@@ -23,7 +23,6 @@
 }
 
 .summary__content {
-  margin-top: 100px;
   position: relative;
   text-align: center;
   width: 300px;
@@ -32,13 +31,20 @@
 
 .summary__points_content {
   width: inherit;
-  height: 50%;
+  height: 70vh;
+  @media screen and (max-height: 700px) {
+    height: 85vh;
+  }
 }
 
 .summary__continue-btn {
   @extend .generic-start-btn;
   text-align: center;
   width: 120px;
+  animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.2s both;
+}
+
+.summary__text {
   animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.2s both;
 }
 

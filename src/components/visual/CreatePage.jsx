@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react';
+import Swal from 'sweetalert2'
+import * as Sentry from '@sentry/browser';
 
 import ReduxConnector from '../ReduxConnector';
 
@@ -35,7 +37,12 @@ class CreatePage extends PureComponent {
   _handleSubmit(e) {
     e.preventDefault();
     this.props.createRoom(this.state).catch(err => {
-      alert(`Error: ${err.message}`)
+      Sentry.captureException(err);
+      Swal.fire({
+        type: 'error',
+        title: 'Error',
+        text: `${err.message}`
+      })
     });
   }
   

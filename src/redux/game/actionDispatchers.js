@@ -1,4 +1,6 @@
 import * as action from './actions';
+import * as Sentry from '@sentry/browser';
+
 import { updatePage } from '../application/actions'; 
 
 const updatePoints = (points) => {
@@ -35,6 +37,7 @@ const startStep = () => {
     try {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/startStep`, {});
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`Error while starting new turn/round: ${err.message}`);
     }
   }
@@ -51,6 +54,7 @@ const resetGame = () => {
     try {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/resetGame`, {});
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`Error while starting new turn/round: ${err.message}`);
     }
   }
@@ -67,6 +71,7 @@ const leaveRoom = () => {
       }
       dispatch(updatePage('HOME'));
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`Error while starting new turn/round: ${err.message}`);
     }
   }
@@ -77,6 +82,7 @@ const giveUpRound = () => {
     try {
       return await getState().user.socket.send(`/server/room/${getState().room.code}/game/endTurn`, {});
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`Error while starting giving up: ${err.message}`);
     }
   }
@@ -90,8 +96,8 @@ const nextRound = () => {
   return async (dispatch, getState) => {
     try {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/nextRound`, {});
-      
     } catch (err) {
+      Sentry.captureException(err);
       throw new Error(`Error while going to next round: ${err.message}`);
     }
   }

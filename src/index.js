@@ -9,9 +9,9 @@ import * as serviceWorker from './serviceWorker';
 import  './index.css';
 
 // init sentry
-Sentry.init({dsn: "https://bdb01d178cd04ff8aea41f6ecc513dbb@sentry.io/1727680"});
-
-console.log('0.9.1');
+if (process.env.NODE_ENV !== 'development') {
+  Sentry.init({dsn: "https://bdb01d178cd04ff8aea41f6ecc513dbb@sentry.io/1727680"});
+}
 
 ReactDOM.render(
   <Provider store={store}>

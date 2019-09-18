@@ -2,6 +2,7 @@ import * as actions from './actions';
 import configs from '../../config/RESTurl.json';
 import SockJS from 'sockjs-client';
 import STOMP from 'stompjs';
+import * as Sentry from '@sentry/browser';
 
 import {updatePage} from '../application/actions';
 import {updateSetting} from '../room/actions';
@@ -47,8 +48,6 @@ const connectUser = (code) => {
 
     const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
     const socketClient = STOMP.over(socket);
-
-    socketClient.reconnect_delay = 5000;
 
     if (!getState().application.debugMode) {
       socketClient.debug = null;
@@ -194,6 +193,7 @@ const connectUser = (code) => {
           dispatch(updateGameWord(word));
           dispatch(updateRemainingWordCount(remainingWordCount));
         } catch (err) {
+          Sentry.captureException(err);
           throw new Error(`/game/word/ error: `, err.message);
         }
       })
@@ -227,6 +227,7 @@ const connectUser = (code) => {
           dispatch(updateGameTime(0));
           dispatch(updatePage('SCOREBOARD'));
         } catch (err) {
+          Sentry.captureException(err);
           throw new Error(`WTF HAPPEND ${err.message}`)
         }
       });
