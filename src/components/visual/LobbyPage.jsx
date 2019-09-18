@@ -25,18 +25,10 @@ class LobbyPage extends PureComponent {
 
 	/**
 	 * @function _checkMax
-	 * @description
+	 * @description Check if we reach max team creation
 	 */
-	_checkMax() {
-		let isMaxed = false;
-		// Checked if we reach max team creation
-		if (
-			!!this.props.room.settings.teams.find(
-				value => value.name === 'Empty Slot',
-			)
-		) {
-			isMaxed = true;
-		}
+  _checkMax() {
+		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.name === 'Empty Slot'));
 		this.setState({ isMaxed });
 	}
 
