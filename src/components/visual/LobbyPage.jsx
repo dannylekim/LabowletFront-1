@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import Modal from 'rmc-dialog';
+import Swal from 'sweetalert2'
 
 import connectToRedux from '../ReduxConnector';
 
@@ -85,23 +86,16 @@ class LobbyPage extends PureComponent {
       });
   }
 
-  addTeam(e) {
-    // Hacky way to do On submit
-    if(e.key === 'Enter'){
-      if (!this.state.isMaxed) {
-        const teamName = e.target.value;
-        
-        // send request
-        this.props.createTeam(`Team ` + teamName).catch(err => {
-          console.error(err);
-        }).finally(() => {
-          this._checkMax();
-          this.setState({
-            createModalIsVisible: false,
-          });
-        });
-      }
-    }
+  addTeam = (teamName) => {
+    this.props.createTeam(`Team ` + teamName).catch(err => {
+      Swal.fire({
+        type: 'error',
+        title: 'woops',
+        text: err.message
+      });
+    }).finally(() => {
+      this._checkMax();
+    });
   }
 
   startGame() {
@@ -111,6 +105,23 @@ class LobbyPage extends PureComponent {
   copyToClip(code) {
       navigator.clipboard.writeText(code).then(() => this.setState({copied: true}));
       setTimeout(() => this.setState({copied: false}), 3000)
+  }
+
+  handleCreateTeam = () => {
+    return Swal.fire({
+      title: 'Create a new team',
+      input: 'text',
+      preConfirm: this.addTeam,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!'
+        }
+        if (this.state.isMaxed) {
+          return 'Reached maximum team!'
+        }
+      }
+    });
   }
 
   render() {
@@ -139,9 +150,9 @@ class LobbyPage extends PureComponent {
             {this.state.isMaxed ? (
               ''
             ) : (
-              <div className="add-team-btn" onClick={() => this.setState({ createModalIsVisible: true })}>
+              <button className="add-team-btn" onClick={this.handleCreateTeam}>
                 +
-              </div>
+              </button>
             )}
           </div>
           {isAdmin && <button disabled={!canStart} className={`generic-start-btn ${canStart ? '' : 'disabled'}`}
