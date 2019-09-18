@@ -1,6 +1,6 @@
 {
   "name": "labowless",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": true,
   "homepage": "https://alphakennyn.github.io/LabowletFront/",
   "dependencies": {
@@ -23,7 +23,8 @@
     "rmc-dialog": "^1.1.1",
     "sockjs-client": "^1.4.0",
     "sockjs-rooms": "^1.0.3",
-    "stompjs": "^2.3.3"
+    "stompjs": "^2.3.3",
+    "sweetalert2": "^8.17.4"
   },
   "scripts": {
     "start": "react-scripts start",
