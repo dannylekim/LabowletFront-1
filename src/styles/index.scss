@@ -4,6 +4,12 @@ p, h1, h2, h3, h4, b {
   font-family: $game-font;
 }
 
+.swal2-popup{
+  .swal2-input, button {
+    font-family: $game-font;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -83,6 +89,9 @@ body {
   width: 90%;
   box-shadow: $subtle-shadow;
   background-color: $font-color-bright;
+  &:focus, :active {
+    outline: none;
+  }
 }
 
 .rmc-dialog-body {
