@@ -11,7 +11,9 @@
   border-color: $background-color-secondary;
   color: white;
   font-size: x-large;
-
+  &:focus, :active {
+    outline: none;
+  }
 }
 
 .disabled {
