@@ -30,7 +30,7 @@ const WelcomePage = (props) => {
   const handleClick = async () => {
     if (isLogged) {
       try {
-        await props.reconnect(props.id)//.catch(() => Promise.reject('Server sleeping, give me second'));
+        await props.reconnect(props.id);
       } catch (err) {
         setNavigate(false);
         setError(true);
@@ -113,7 +113,7 @@ const WelcomePage = (props) => {
 }
 
 const connectObject = {
-  actions: ['leaveRoom', 'reconnect'],
+  actions: ['reconnect'],
 }
 
 export default connectToRedux(WelcomePage, connectObject);
