@@ -54,7 +54,10 @@ class BowlPage extends PureComponent {
     try {
       this.props.submitWords(this.state.wordList)
     } catch (err) {
-      console.error(err.message)
+      Swal.fire({
+        type: 'error',
+        text: `${err.message}`
+      });
     }
   }
 

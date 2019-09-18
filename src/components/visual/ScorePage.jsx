@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Swal from 'sweetalert2';
 
 import connectToRedux from '../ReduxConnector';
 
@@ -26,7 +27,11 @@ class ScorePage extends PureComponent {
       // remove localstoarage
       localStorage.removeItem('labowless_token');
     } catch (err) {
-      console.error('Uh oh houston, we have a prpblem while disconnect -> ', err.message);
+      Swal.fire({
+        type: 'error',
+        title: 'woops',
+        text: err.message,
+      });
     }
   }
 
