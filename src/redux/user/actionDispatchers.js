@@ -48,8 +48,6 @@ const connectUser = (code) => {
     const socket = new SockJS(`${getState().application.server.url || configs.prod}${LABOWLET_PATH}`);
     const socketClient = STOMP.over(socket);
 
-    socketClient.reconnect_delay = 5000;
-
     if (!getState().application.debugMode) {
       socketClient.debug = null;
     }
