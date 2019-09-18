@@ -1,5 +1,5 @@
-@import './variables.scss';
-@import './basic.scss';
+@import './variables';
+@import './basic';
 
 .lobby {
   text-align: center;
@@ -9,7 +9,6 @@
 .add-team-btn {
   @extend .generic-start-btn;
   background-color: $font-color-bright;
-  // border: 1px solid black;
   align-items: center;
   justify-content: center;
   display: flex;
