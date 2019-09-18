@@ -124,12 +124,6 @@ const joinRoom = (code) => {
       if (userResponse.status === 200) {
         const authToken = userResponse.headers['x-auth-token'];
 
-        // store/update token to localstorage
-        localStorage.setItem('labowless_token', authToken);
-
-        dispatch(updateUserToken(authToken));
-        dispatch(UserActions.updateUserId(userResponse.data.id, 99));
-
         /**
          * Await create room request
          */
@@ -143,6 +137,12 @@ const joinRoom = (code) => {
         );
 
         if (roomResponse.status < 400 && roomResponse.status >= 200) {
+          // Room exist so we'll save user credentials
+          // store/update token to localstorage
+          localStorage.setItem('labowless_token', authToken);
+          dispatch(updateUserToken(authToken));
+          dispatch(UserActions.updateUserId(userResponse.data.id, 99));
+          // end of user creation
 
           dispatch(actions.updateCode(roomResponse.data.roomCode));
           dispatch(actions.updateSetting(roomResponse.data));

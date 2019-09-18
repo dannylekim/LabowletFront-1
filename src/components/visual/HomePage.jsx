@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
+import Swal from 'sweetalert2'
 
 import connectToRedux from '../ReduxConnector';
-import Modal from 'rmc-dialog';
-
 
 import '../../styles/home.scss';
-import 'rmc-dialog/assets/index.css';
 
 
 const MAX_LENGTH_CODE = 4;
@@ -33,8 +31,24 @@ class Home extends PureComponent {
    * Handles modal visibility
    * @private
    */
-  _handleJoinClick() {
-    this.setState({ joinModalIsVisible: true })
+  _handleJoinClick = () => {
+    return Swal.fire({
+      title: 'Enter room code',
+      input: 'text',
+      preConfirm: this._handleJoin,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to write something!'
+        }    
+        if (value.length !== MAX_LENGTH_CODE) {
+          return 'Code should be only 4 characters'
+        } 
+        if (this.state.name.length === 0) {
+          return 'You must have a name!'
+        }
+      }
+    })
   }
 
   /**
@@ -51,65 +65,49 @@ class Home extends PureComponent {
         throw new Error('Must have a name')
       }
     } catch (err) {
-      alert('Something went wrong..', err)
+      Swal.fire({
+        type:'error',
+        title: 'Something went wrong..',
+        text: err.message
+      });
     }
   }
 
-  _handleJoin(e) {
-    const inputCode = e.target.value;
-    if (inputCode.length === MAX_LENGTH_CODE && this.state.name.length > 0) {
-      this.props.updateUserName(this.state.name);
-      this.props.joinRoom(inputCode.toUpperCase()).catch((err) => {
-        alert(`Error: ${err.message}`)
-      })
-    }
+  _handleJoin = (inputCode) => {
+      this.props.joinRoom(inputCode.toUpperCase())
+      .then(() => this.props.updateUserName(this.state.name))
+      .catch((err) => {
+        Swal.fire({
+          type:'error',
+          title: 'woops!',
+          text: err.message
+        });
+      });
+    // }
   }
 
   render() {
-    const buttonClass = this.state.name !== '' ? 'visible' : 'invisible';
+    const hasName = this.state.name !== '';
     return (
       <div className="home">
         <div className="page-container">
           <input className="name-input" onChange={(e) => this._handleNameChange(e.target.value)} placeholder="Enter your name" />
-          <div className='button-group'>
-            <button
-              className={`generic-button create-btn ${buttonClass}`}
-              onClick={() => this.handleCreateClick()}
-            >
-              <p>Create</p>
-            </button>
-            <button
-              className={`generic-button join-btn ${buttonClass}`}
-              onClick={() => this._handleJoinClick()}
-            >
-              <p>Join</p>
-            </button>
-          </div>
-          <Modal
-            title='Enter Room Code'
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              top: '30vh',
-            }}
-            visible={this.state.joinModalIsVisible}
-            animation="zoom"
-            maskAnimation="fade"
-            maskClosable={true}
-            onClose={() => {
-              this.setState({
-                joinModalIsVisible: false,
-              });
-            }}
-          >
-            <input
-              className="code-input"
-              onChange={(e) => this._handleJoin(e)}
-              placeholder="XXXX"
-              maxLength="4"
-            />
-          </Modal>
+          {hasName && 
+            <div className='button-group'>
+                <button
+                  className={`generic-button create-btn`}
+                  onClick={() => this.handleCreateClick()}
+                >
+                  <p>Create</p>
+                </button>
+                <button
+                  className={`generic-button join-btn`}
+                  onClick={() => this._handleJoinClick()}
+                >
+                  <p>Join</p>
+                </button>
+            </div>
+          }
         </div>
       </div>
     );
