@@ -23,13 +23,21 @@ class LobbyPage extends PureComponent {
 		};
 		this._joinTeam = this._joinTeam.bind(this);
 	}
+	
+	componentDidMount() {
+		this._checkMax();
+	}
+	componentDidUpdate() {
+		this._checkMax();
+	}
 
 	/**
 	 * @function _checkMax
 	 * @description Check if we reach max team creation
 	 */
   _checkMax() {
-		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.name === 'Empty Slot'));
+		// check if any team has empty name
+		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.teamName === 'Empty Slot'));
 		this.setState({ isMaxed });
 	}
 
@@ -55,13 +63,13 @@ class LobbyPage extends PureComponent {
 				/>
 			));
 
-		if (
-			TeamCardArray.length === this.props.room.settings.roomSettings.maxTeams
-		) {
-			this.setState({
-				isMaxed: true,
-			});
-		}
+		// if (
+		// 	TeamCardArray.length === this.props.room.settings.roomSettings.maxTeams
+		// ) {
+		// 	this.setState({
+		// 		isMaxed: true,
+		// 	});
+		// }
 		return TeamCardArray;
 	}
 
@@ -135,7 +143,6 @@ class LobbyPage extends PureComponent {
 
 		const isAdmin = this.props.user.id === this.props.room.settings.host.id;
 		const canStart = this.props.room.settings.canStart;
-
 		return (
 			<div className="lobby">
 				<div className="page-container">
@@ -146,16 +153,14 @@ class LobbyPage extends PureComponent {
 							{this.state.copied && <p> Code copied to clipboard! </p>}
 							{teamList}
 							<div className="page-container__team-list">
-								{this.state.isMaxed ? (
-									''
-								) : (
+								{!this.state.isMaxed &&
 									<button
 										className="add-team-btn"
 										onClick={this.handleCreateTeam}
 									>
 										+
 									</button>
-								)}
+								}
 							</div>
 							{isAdmin && (
 								<button
