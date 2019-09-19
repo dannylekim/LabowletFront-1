@@ -76,8 +76,8 @@ class Home extends PureComponent {
   }
 
   _handleJoin = (inputCode) => {
+      this.props.updateUserName(this.state.name)
       this.props.joinRoom(inputCode.toUpperCase())
-      .then(() => this.props.updateUserName(this.state.name))
       .catch((err) => {
         Sentry.captureException(err);
         Swal.fire({
