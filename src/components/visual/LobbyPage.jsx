@@ -28,7 +28,7 @@ class LobbyPage extends PureComponent {
 	 * @function _checkMax
 	 * @description Check if we reach max team creation
 	 */
-  _checkMax() {
+  	_checkMax() {
 		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.name === 'Empty Slot'));
 		this.setState({ isMaxed });
 	}
@@ -38,7 +38,7 @@ class LobbyPage extends PureComponent {
 	 * @private
 	 */
 	_renderTeam(teams) {
-		const TeamCardArray = teams
+		return teams
 			.filter((value, index) => {
 				if (value.teamMembers.length === 0) {
 					return false;
@@ -54,15 +54,6 @@ class LobbyPage extends PureComponent {
 					teamMates={value.teamMembers}
 				/>
 			));
-
-		if (
-			TeamCardArray.length === this.props.room.settings.roomSettings.maxTeams
-		) {
-			this.setState({
-				isMaxed: true,
-			});
-		}
-		return TeamCardArray;
 	}
 
 	_joinTeam(teamId, teamName) {
@@ -80,7 +71,7 @@ class LobbyPage extends PureComponent {
 		this.props
 			.createTeam(`Team ` + teamName)
 			.catch(err => {
-        Sentry.captureException(err);
+        		Sentry.captureException(err);
 				Swal.fire({
 					type: 'error',
 					title: 'woops',
