@@ -15,6 +15,7 @@ import {
   setMaxTime,
   updateGameTime,
   setScoreSummary,
+  updateGameWord,
 } from '../game/actions';
 
 /**
@@ -288,8 +289,9 @@ const reconnect = (token) => {
         game,
         player,
         room,
-        team,
+        team
       } = reconnectSession.data;
+
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
@@ -307,17 +309,14 @@ const reconnect = (token) => {
       }
       if (game) {
         const {
-          // round
           currentActor,
           currentGuesser,
           currentRound,
-          // teamScore,
           currentScores,
           currentTeam,
           teams,
         } = game;
         const { roundName } = currentRound;
-
         dispatch(overrideGame(game));
 
         if(currentScores) {
@@ -349,9 +348,10 @@ const reconnect = (token) => {
 
           if ((getState().game.currentTime <= 0 )||(currentTeam.teamId !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
             dispatch(updateGameTime(getState().game.maxTime) || 0);
-          } 
-  
+          }
+
           dispatch(updatePoints(teamScore.totalScore));
+          dispatch(updateGameWord(currentRound.currentWord));
         }
 
       }
