@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
   const logger = createLogger({
       // You may have the logger point to a SINGLE action if you want.
       // Logs every actions by default.
-      predicate: (getState, action) => action.type === 'SET_MAX_TIME',
+      // predicate: (getState, action) => action.type === '',
       duration: true,
       timestamp: true,
   });
