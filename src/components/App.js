@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Switch from 'rc-switch';
 import { useTransition, animated } from 'react-spring';
 import * as Sentry from '@sentry/browser';
+import Swal from 'sweetalert2';
 
 import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
@@ -36,10 +37,11 @@ const App = props => {
       localStorage.removeItem('labowless_token');
     } catch (err) {
       Sentry.captureException(err);
-      console.error(
-        'Uh oh houston, we have a prpblem while disconnect -> ',
-        err.message,
-      );
+      Swal.fire({
+        type: 'error',
+        title: 'Uh oh houston',
+        text: 'we have a problem while disconnecting'
+      });
     } finally {
       props.updatePage('HOME');
     }
