@@ -2,7 +2,7 @@ import * as action from './actions';
 import * as Sentry from '@sentry/browser';
 
 import { updatePage } from '../application/actions'; 
-
+import { connectUser } from '../user/actions';
 const updatePoints = (points) => {
   return (dispatch) => dispatch(action.updatePoints(points));
 }
@@ -68,6 +68,8 @@ const leaveRoom = () => {
     try {
       if (getState().user.socket) {
         await getState().user.socket.send(`/server/room/${getState().room.code}/leaveRoom`, {});
+        // kill socket
+        dispatch(connectUser(null));
       }
       dispatch(updatePage('HOME'));
     } catch (err) {
