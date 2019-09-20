@@ -18,6 +18,7 @@ class BowlPage extends PureComponent {
     this.state = {
       value: '',
       wordList: [],
+      ready: false,
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -54,6 +55,9 @@ class BowlPage extends PureComponent {
   submitWords() {
     try {
       this.props.submitWords(this.state.wordList)
+      this.setState({
+        ready: true,
+      })
     } catch (err) {
       Sentry.captureException(err);
       Swal.fire({
@@ -73,6 +77,7 @@ class BowlPage extends PureComponent {
 
     this.setState({
       wordList: copyList,
+      ready: false,
     });
   }
 
@@ -107,20 +112,23 @@ class BowlPage extends PureComponent {
           <div className="words-container">
             {this._renderWords(this.state.wordList)}
           </div>
-          {(this.state.wordList.length < maxWordsLimit) ?
+          {!this.state.ready ?
             (<div className="add-word__container">
-              <div className="add-word-options">
-                <input
-                    className="word-input"
-                    type="text"
-                    value={this.state.value}
-                    maxLength={50}
-                    onChange={this.handleChange}
-                    onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
-                />
-                <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
-              </div>
+              {(this.state.wordList.length < maxWordsLimit) &&
+                <div className="add-word-options">
+                  <input
+                      className="word-input"
+                      type="text"
+                      value={this.state.value}
+                      maxLength={50}
+                      onChange={this.handleChange}
+                      onKeyPress={(event) => event.key === 'Enter' ? this.addWord(this.state.value): ''}
+                  />
+                  <button className="word-submit" onClick={() => this.addWord(this.state.value)}>Add</button>
+                </div>
+              }
               <p>Enter {maxWordsLimit} words for the game! Think of something original! 😃</p>
+              <p>Heads up! Your list of words won't be updated until you click 'submit'</p>
             </div>)
           :
             (
