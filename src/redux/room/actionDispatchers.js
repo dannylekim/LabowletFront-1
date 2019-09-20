@@ -16,6 +16,7 @@ import {
   updateGameTime,
   setScoreSummary,
   updateGameWord,
+  updateWordReady,
 } from '../game/actions';
 
 /**
@@ -289,7 +290,8 @@ const reconnect = (token) => {
         game,
         player,
         room,
-        team
+        team,
+        wordState,
       } = reconnectSession.data;
 
       if(player) {
@@ -329,9 +331,7 @@ const reconnect = (token) => {
           
           dispatch(updatePoints(teamScore.totalScore));
         }
-        if ( currentlyIn === 'BOWL' ) {
-          // TODO load listOfWordsReady from game obj
-        }
+
 
         if (currentlyIn === 'GAME') {
           let userStatus = 'SPECTATOR';
@@ -359,6 +359,17 @@ const reconnect = (token) => {
         }
 
       }
+      if (wordState && currentlyIn === 'BOWL') {
+				const { usersStatus, ready } = wordState;
+
+				dispatch({
+					type: 'UPDATE_READY_WORD',
+					status: ready,
+				});
+
+				// Init/reset word list here
+				dispatch(updateWordReady(usersStatus));
+			}
 
       dispatch(ApplicationActions.updatePage(currentlyIn));
     } catch (err) {
