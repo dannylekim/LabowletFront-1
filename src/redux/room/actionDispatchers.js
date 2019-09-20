@@ -97,7 +97,7 @@ const createRoom = (newSetting) => {
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw e;
+      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
     }
   };
 };
@@ -168,7 +168,7 @@ const joinRoom = (code) => {
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw e;
+      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
     }
   };
 }
