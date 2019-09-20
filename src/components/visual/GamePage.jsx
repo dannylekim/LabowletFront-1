@@ -12,8 +12,10 @@ class Actor extends PureComponent {
     }
   }
 
-  componentDidMount() {
-
+  componentWillMount() {
+    if (this.props.gameStarted) {
+      this.setState({ ready: true });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -113,7 +115,7 @@ class GamePage extends PureComponent {
             handleSkip={() => this.props.sendWord()}
             handleGiveUp={() => this.props.giveUpRound()}
             start={() => this.props.startStep()}
-            // gameStarted={currentTime < }
+            gameStarted={this.props.game.currentTime < this.props.game.maxTime && 0 < this.props.game.currentTime}
           />
         );
       case 'GUESSER':
