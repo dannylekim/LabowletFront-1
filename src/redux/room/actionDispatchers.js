@@ -329,6 +329,10 @@ const reconnect = (token) => {
           
           dispatch(updatePoints(teamScore.totalScore));
         }
+        if ( currentlyIn === 'BOWL' ) {
+          // TODO load listOfWordsReady from game obj
+        }
+
         if (currentlyIn === 'GAME') {
           let userStatus = 'SPECTATOR';
           if (currentActor.id === getState().user.id) {
