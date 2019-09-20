@@ -12,11 +12,10 @@ class Actor extends PureComponent {
     }
   }
 
-  handleReady(e) {
-    this.setState({
-      ready: true,
-    });
-    this.props.start();
+  componentWillMount() {
+    if (this.props.gameStarted) {
+      this.setState({ ready: true });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -25,6 +24,13 @@ class Actor extends PureComponent {
         ready: false,
       })
     }
+  }
+
+  handleReady(e) {
+    this.setState({
+      ready: true,
+    });
+    this.props.start();
   }
 
   render() {
@@ -109,6 +115,7 @@ class GamePage extends PureComponent {
             handleSkip={() => this.props.sendWord()}
             handleGiveUp={() => this.props.giveUpRound()}
             start={() => this.props.startStep()}
+            gameStarted={this.props.game.currentTime < this.props.game.maxTime && 0 < this.props.game.currentTime}
           />
         );
       case 'GUESSER':

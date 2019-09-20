@@ -14,7 +14,11 @@ const updateCode = (code) => {
   }
 }
 
+const clearRoom = () => updateSetting({});
+
+
 export { 
   updateSetting,
   updateCode,
+  clearRoom,
 };

@@ -23,13 +23,21 @@ class LobbyPage extends PureComponent {
 		};
 		this._joinTeam = this._joinTeam.bind(this);
 	}
+	
+	componentDidMount() {
+		this._checkMax();
+	}
+	componentDidUpdate() {
+		this._checkMax();
+	}
 
 	/**
 	 * @function _checkMax
 	 * @description Check if we reach max team creation
 	 */
-  _checkMax() {
-		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.name === 'Empty Slot'));
+  	_checkMax() {
+		// check if any team has empty name
+		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.teamName === 'Empty Slot'));
 		this.setState({ isMaxed });
 	}
 
@@ -38,7 +46,7 @@ class LobbyPage extends PureComponent {
 	 * @private
 	 */
 	_renderTeam(teams) {
-		const TeamCardArray = teams
+		return teams
 			.filter((value, index) => {
 				if (value.teamMembers.length === 0) {
 					return false;
@@ -54,15 +62,6 @@ class LobbyPage extends PureComponent {
 					teamMates={value.teamMembers}
 				/>
 			));
-
-		if (
-			TeamCardArray.length === this.props.room.settings.roomSettings.maxTeams
-		) {
-			this.setState({
-				isMaxed: true,
-			});
-		}
-		return TeamCardArray;
 	}
 
 	_joinTeam(teamId, teamName) {
@@ -80,7 +79,7 @@ class LobbyPage extends PureComponent {
 		this.props
 			.createTeam(`Team ` + teamName)
 			.catch(err => {
-        Sentry.captureException(err);
+        		Sentry.captureException(err);
 				Swal.fire({
 					type: 'error',
 					title: 'woops',
@@ -135,7 +134,6 @@ class LobbyPage extends PureComponent {
 
 		const isAdmin = this.props.user.id === this.props.room.settings.host.id;
 		const canStart = this.props.room.settings.canStart;
-
 		return (
 			<div className="lobby">
 				<div className="page-container">
@@ -146,16 +144,14 @@ class LobbyPage extends PureComponent {
 							{this.state.copied && <p> Code copied to clipboard! </p>}
 							{teamList}
 							<div className="page-container__team-list">
-								{this.state.isMaxed ? (
-									''
-								) : (
+								{!this.state.isMaxed &&
 									<button
 										className="add-team-btn"
 										onClick={this.handleCreateTeam}
 									>
 										+
 									</button>
-								)}
+								}
 							</div>
 							{isAdmin && (
 								<button

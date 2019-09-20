@@ -15,6 +15,8 @@ import {
   setMaxTime,
   updateGameTime,
   setScoreSummary,
+  updateGameWord,
+  updateWordReady,
 } from '../game/actions';
 
 /**
@@ -96,7 +98,7 @@ const createRoom = (newSetting) => {
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw e;
+      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
     }
   };
 };
@@ -167,7 +169,7 @@ const joinRoom = (code) => {
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw e;
+      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
     }
   };
 }
@@ -289,7 +291,9 @@ const reconnect = (token) => {
         player,
         room,
         team,
+        wordState,
       } = reconnectSession.data;
+
       if(player) {
         dispatch(overrideUser(player));
         dispatch(updateUserToken(token));
@@ -307,17 +311,14 @@ const reconnect = (token) => {
       }
       if (game) {
         const {
-          // round
           currentActor,
           currentGuesser,
           currentRound,
-          // teamScore,
           currentScores,
           currentTeam,
           teams,
         } = game;
         const { roundName } = currentRound;
-
         dispatch(overrideGame(game));
 
         if(currentScores) {
@@ -330,6 +331,8 @@ const reconnect = (token) => {
           
           dispatch(updatePoints(teamScore.totalScore));
         }
+
+
         if (currentlyIn === 'GAME') {
           let userStatus = 'SPECTATOR';
           if (currentActor.id === getState().user.id) {
@@ -349,12 +352,24 @@ const reconnect = (token) => {
 
           if ((getState().game.currentTime <= 0 )||(currentTeam.teamId !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
             dispatch(updateGameTime(getState().game.maxTime) || 0);
-          } 
-  
+          }
+
           dispatch(updatePoints(teamScore.totalScore));
+          dispatch(updateGameWord(currentRound.currentWord));
         }
 
       }
+      if (wordState && currentlyIn === 'BOWL') {
+				const { usersStatus, ready } = wordState;
+
+				dispatch({
+					type: 'UPDATE_READY_WORD',
+					status: ready,
+				});
+
+				// Init/reset word list here
+				dispatch(updateWordReady(usersStatus));
+			}
 
       dispatch(ApplicationActions.updatePage(currentlyIn));
     } catch (err) {

@@ -204,14 +204,14 @@ const connectUser = (code) => {
        */
       socketClient.subscribe(`/client/room/${code}/game/timer`, (payload) => {
         const { body } = payload;
-        // const parsedBody = JSON.parse(body);
-        if (body >= 0) {
+        const parsedBody = JSON.parse(body);
+        if (parsedBody >= 0) {
           // store maxTime
-          if (body > getState().game.maxTime) {
-            dispatch(setMaxTime(body));
+          if (parsedBody > getState().game.maxTime) {
+            dispatch(setMaxTime(parsedBody));
           }
 
-          dispatch(updateGameTime(body));
+          dispatch(updateGameTime(parsedBody));
         }
       });
 
