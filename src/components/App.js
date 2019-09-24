@@ -47,6 +47,14 @@ const App = props => {
     }
   };
 
+  const getTeamName = (id) => {
+    if (props.room.settings.teams && props.room.settings.teams.length) {
+      const { teamName } = props.room.settings.teams.filter(({teamId}) => teamId === id)[0];
+      return teamName;
+    }
+    return '';
+  };
+
   const switchPages = (pageKey) => {
     switch (pageKey) {
       case 'HOME':
@@ -71,7 +79,7 @@ const App = props => {
         };
       case 'GAME':
         return {
-          title: 'Game Time',
+          title: getTeamName(props.user.team),
           component: <GamePage />,
         };
       case 'SCOREBOARD':
@@ -158,7 +166,7 @@ const App = props => {
 };
 
 const connectObject = {
-  states: ['user'],
+  states: ['user', 'room'],
   actions: ['leaveRoom', 'reconnect'],
 };
 
