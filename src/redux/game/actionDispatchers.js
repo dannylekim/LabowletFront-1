@@ -72,11 +72,9 @@ const leaveRoom = () => {
         await getState().user.socket.send(`/server/room/${getState().room.code}/leaveRoom`, {});
         // kill socket
         dispatch(connectUser(null));
-        dispatch(updatePage('HOME'));
         dispatch(clearRoom({}));
-      } else {
-        dispatch(updatePage('HOME'));
       }
+      dispatch(updatePage('HOME'));
     } catch (err) {
       Sentry.captureException(err);
       // throw new Error(`leaving room error: ${err.message}`);

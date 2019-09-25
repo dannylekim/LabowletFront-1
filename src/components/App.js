@@ -42,8 +42,6 @@ const App = props => {
         title: 'Uh oh houston',
         text: 'we have a problem while disconnecting'
       });
-    } finally {
-      props.updatePage('HOME');
     }
   };
 
