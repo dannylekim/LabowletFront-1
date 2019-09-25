@@ -3,7 +3,6 @@ import React, {PureComponent} from 'react';
 import connectToRedux from '../ReduxConnector';
 
 import '../../styles/game.scss';
-import { consoleSandbox } from '@sentry/utils';
 
 class Actor extends PureComponent {
   constructor(props) {
