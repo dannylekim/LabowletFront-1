@@ -9,6 +9,7 @@ class Actor extends PureComponent {
     super(props);
     this.state = {
       ready: !!this.props.word,
+      pressed: false,
     }
   }
 
@@ -35,7 +36,15 @@ class Actor extends PureComponent {
           this.state.ready ?
             (<div className="game-container__actor-area">
               The word is
-              <h2 className="game-container__word">{this.props.word}</h2>
+              <h2
+                className={`game-container__word ${this.state.pressed ? '' : 'word_press'}`}
+                onTouchStart={() => this.setState({ pressed: true })}
+                onTouchEnd={() => this.setState({ pressed: false })}
+                onMouseDown={() => this.setState({ pressed: true })}
+                onMouseUp={() => this.setState({ pressed: false })}
+              >
+                {this.state.pressed ? this.props.word : 'press to see word'}
+              </h2>
               { (this.props.canSkip && this.props.maxWords === 1) && 'Last word! Can\'t skip anymore.'}
               <div className="game-container__actions game-container__options  game-container__actions-giveup">
                 {this.props.canSkip && <button disabled={this.props.maxWords === 1} onClick={() => this.props.handleSkip()}>Skip</button>}
