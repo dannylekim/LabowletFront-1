@@ -28,14 +28,16 @@ class LobbyPage extends PureComponent {
 		this._checkMax();
 	}
 	componentDidUpdate() {
-		this._checkMax();
+		if (Object.keys(this.props.room.settings).length > 0) {
+			this._checkMax();
+		}
 	}
 
 	/**
 	 * @function _checkMax
 	 * @description Check if we reach max team creation
 	 */
-  	_checkMax() {
+	_checkMax() {
 		// check if any team has empty name
 		const isMaxed = !(!!this.props.room.settings.teams.find(value => value.teamName === 'Empty Slot'));
 		this.setState({ isMaxed });
@@ -120,8 +122,8 @@ class LobbyPage extends PureComponent {
 	};
 
 	render() {
-		const roomCode = this.props.room.code || 'UH OH';
-		const { benchPlayers = [], teams = [] } = this.props.room.settings;
+		let { code = 'UH OH', settings } = this.props.room;
+		const { benchPlayers = [], teams = [], host = { id: null }, canStart } = settings;
 		const benchPlayersIcons = benchPlayers.map(player => (
 			<PlayerIcon
 				key={player.id}
@@ -131,16 +133,15 @@ class LobbyPage extends PureComponent {
 		));
 		// By default we render 0 teams, user will have to create them themselves
 		const teamList = this._renderTeam(teams);
+		const isAdmin = this.props.user.id === host.id;
 
-		const isAdmin = this.props.user.id === this.props.room.settings.host.id;
-		const canStart = this.props.room.settings.canStart;
 		return (
 			<div className="lobby">
 				<div className="page-container">
 					<div className="lobby__content">
 						<div className="lobby__content-container">
 							<p>Code is</p>
-							<h1 onClick={() => this.copyToClip(roomCode)}>{roomCode}</h1>
+							<h1 onClick={() => this.copyToClip(code)}>{code}</h1>
 							{this.state.copied && <p> Code copied to clipboard! </p>}
 							{teamList}
 							<div className="page-container__team-list">
