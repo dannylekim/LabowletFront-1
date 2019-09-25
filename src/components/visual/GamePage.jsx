@@ -115,7 +115,7 @@ class GamePage extends PureComponent {
             handleSkip={() => this.props.sendWord()}
             handleGiveUp={() => this.props.giveUpRound()}
             start={() => this.props.startStep()}
-            gameStarted={this.props.game.currentTime < this.props.game.maxTime && 0 < this.props.game.currentTime}
+            gameStarted={this.props.game.currentTime < this.props.game.maxTime && 0 < this.props.game.currentTime && this.props.game.currentWord}
           />
         );
       case 'GUESSER':
