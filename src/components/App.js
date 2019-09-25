@@ -40,7 +40,7 @@ const App = props => {
       Swal.fire({
         type: 'error',
         title: 'Uh oh houston',
-        text: 'we have a problem while disconnecting'
+        text: err.message
       });
     }
   };

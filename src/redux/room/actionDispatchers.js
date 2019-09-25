@@ -94,11 +94,11 @@ const createRoom = (newSetting) => {
           throw new Error('Must have at least one round');
         }
       } else {
-        throw new Error(`There was an issue creating user: ${getState().user.name}`);
+        throw new Error(`${userResponse.message}`);
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
+      throw e;
     }
   };
 };
@@ -165,11 +165,11 @@ const joinRoom = (code) => {
           }
         }
       } else {
-        throw new Error(`There was an issue creating user: ${getState().user.name}`);
+        throw new Error(`${userResponse.message}`);
       }
     } catch (e) {
       Sentry.captureException(e);
-      throw new Error('👷‍♂️Woops give us a few seconds...🔨');
+      throw e;
     }
   };
 }
@@ -223,7 +223,7 @@ const joinTeam = (teamId, teamName) => {
       }
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`room::joinTeam dipatcher: ${err.message}`);
+      throw err;
     }
   }
 }
@@ -239,8 +239,7 @@ const lobbyReady = () => {
       await RoomRequests.stageReady(getState().user.token,'setupGame' , null, getState().application.server.url);
     } catch (err) {
       Sentry.captureException(err);
-      const errMessage = `room::lobbyReady ${err.message}`
-      throw new Error(errMessage);
+      throw err;
     }
   }
 }

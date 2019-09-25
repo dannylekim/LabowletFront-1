@@ -17,15 +17,13 @@ async function createUser(user, server) {
     });
 
     if (response.status >= 300 && response.status < 200) {
-      throw new Error(`Error ${response.status} creating new User: ${response.message}`);
+      throw new Error(`${response.data}`);
     }
 
     return response
   } catch (error) {
     Sentry.captureException(error);
-    const errMessage = `UserHTTPRequests::createUser: ${error.message}`;
-    console.error(errMessage);
-    throw new Error(errMessage);
+    throw error;
   }
 }
 
