@@ -8,15 +8,10 @@ class Actor extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      ready: false,
+      ready: !!this.props.word,
     }
   }
 
-  componentWillMount() {
-    if (this.props.gameStarted) {
-      this.setState({ ready: true });
-    }
-  }
 
   componentDidUpdate(prevProps) {
     if (this.props.gameType !== prevProps.gameType ) {
@@ -115,7 +110,6 @@ class GamePage extends PureComponent {
             handleSkip={() => this.props.sendWord()}
             handleGiveUp={() => this.props.giveUpRound()}
             start={() => this.props.startStep()}
-            gameStarted={this.props.game.currentTime < this.props.game.maxTime && 0 < this.props.game.currentTime}
           />
         );
       case 'GUESSER':

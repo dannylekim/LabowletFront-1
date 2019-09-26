@@ -87,7 +87,7 @@ const connectUser = (code) => {
         } = parsedBody;
         const { roundName } = currentRound;
         // First thing: reset time/word
-        if ((getState().game.currentTime <= 0 )||(currentTeam !== getState().game.currentTeam && getState().game.currentTime < getState().game.maxTime)) {
+        if ((getState().game.currentTime <= 0 )||(currentTeam.teamId !== getState().game.currentTeam.teamId && getState().game.currentTime < getState().game.maxTime)) {
           if(getState().game.maxTime === 0) {
             dispatch(updateGameTime(getState().room.settings.roomSettings.roundTimeInSeconds) || 0);
           } else {

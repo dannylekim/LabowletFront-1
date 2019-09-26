@@ -48,8 +48,9 @@ class ScorePage extends PureComponent {
   
   render() {
     const { content } = this.props.game;
+    let { host = { id: null } } = this.props.room.settings;
     const result = content.sort((a, b) => b.totalScore - a.totalScore).map(this.formatData);
-    const isAdmin = this.props.user.id === this.props.room.settings.host.id;
+    const isAdmin = this.props.user.id === host.id;
 
     return (
       

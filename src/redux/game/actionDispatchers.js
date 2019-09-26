@@ -2,7 +2,7 @@ import * as action from './actions';
 import * as Sentry from '@sentry/browser';
 
 import { updatePage } from '../application/actions'; 
-import { connectUser } from '../user/actions';
+import { clearUser } from '../user/actions';
 import { clearRoom } from '../room/actions';
 
 const updatePoints = (points) => {
@@ -68,16 +68,19 @@ const resetGame = () => {
 const leaveRoom = () => {
   return async (dispatch, getState) => {
     try {
-      if (getState().user.socket) {
-        await getState().user.socket.send(`/server/room/${getState().room.code}/leaveRoom`, {});
-        // kill socket
-        dispatch(connectUser(null));
-        dispatch(clearRoom({}));
-      }
       dispatch(updatePage('HOME'));
+
+      if (getState().user.socket) {
+        getState().user.socket.send(`/server/room/${getState().room.code}/leaveRoom`, {});
+        getState().user.socket.disconnect(() => {
+          dispatch(clearUser());
+          dispatch(clearRoom({}));
+        });
+      }
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`leaving room error: ${err.message}`);
+      // throw new Error(`leaving room error: ${err.message}`);
+      throw err;
     }
   }
 }

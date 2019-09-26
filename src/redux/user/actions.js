@@ -50,6 +50,21 @@ const overrideUser = (user) => {
   }
 }
 
+const clearUser = () => {
+  return {
+    type: actionTypes.OVERRIDE_USER,
+    user: {
+      name: '',
+      id: '',
+      team: '',
+      words: [],
+      token: '',
+      uniqueIconReference: '',
+      socket: null,
+    }
+  }
+}
+
 export {
   updateUserName,
   updateUserId,
@@ -57,5 +72,6 @@ export {
   updateUserWords,
   connectUser,
   updateUserToken,
-  overrideUser
+  overrideUser,
+  clearUser
 };

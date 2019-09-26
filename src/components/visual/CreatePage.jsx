@@ -41,7 +41,7 @@ class CreatePage extends PureComponent {
       Swal.fire({
         type: 'error',
         title: 'Error',
-        text: 'Woops, seems like something went wrong on our end. Try again!'
+        text: err.message
       })
     });
   }
