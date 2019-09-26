@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4a56873c692e568cb199913eb82397bc",
+    "revision": "3e8b779eed61f2b2892f80fe35edb5c6",
     "url": "/LabowletFront/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LabowletFront/static/css/2.c0fb76e0.chunk.css"
   },
   {
-    "revision": "c5d296dfa6a144c785d4",
+    "revision": "a0d1ea29b47bc826abfd",
     "url": "/LabowletFront/static/css/main.e7b3caeb.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/LabowletFront/static/js/2.df771b9e.chunk.js"
   },
   {
-    "revision": "c5d296dfa6a144c785d4",
-    "url": "/LabowletFront/static/js/main.403de9f5.chunk.js"
+    "revision": "a0d1ea29b47bc826abfd",
+    "url": "/LabowletFront/static/js/main.f976900a.chunk.js"
   },
   {
     "revision": "731deab278f454184ad7",
