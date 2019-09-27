@@ -122,6 +122,8 @@ class LobbyPage extends PureComponent {
 	};
 
 	render() {
+		// Feature toggles
+		const { createTeamUiToggle } = this.props.application;
 		let { code = 'UH OH', settings } = this.props.room;
 		const { benchPlayers = [], teams = [], host = { id: null }, canStart } = settings;
 		const benchPlayersIcons = benchPlayers.map(player => (
@@ -143,22 +145,22 @@ class LobbyPage extends PureComponent {
 							<p>Code is</p>
 							<h1 onClick={() => this.copyToClip(code)}>{code}</h1>
 							{this.state.copied && <p> Code copied to clipboard! </p>}
-							{teamList}
 							<div className="page-container__team-list">
 								{!this.state.isMaxed &&
 									<button
-										className="add-team-btn"
+										className={`add-team-btn${createTeamUiToggle ? '' : '-legacy'}`}
 										onClick={this.handleCreateTeam}
 									>
-										+
+										{ createTeamUiToggle ? 'create team' : '+'}
 									</button>
 								}
 							</div>
+							{teamList}
 							{isAdmin && (
 								<button
 									disabled={!canStart}
 									className={`generic-start-btn ${canStart ? '' : 'disabled'}`}
-									style={{ color: `white`, margin: '40px' }}
+									style={{ color: `white`, margin: '20px' }}
 									onClick={() => this.props.lobbyReady()}
 								>
 									Start

@@ -2,12 +2,13 @@
 
 .team-card {
   background-color: $font-color-bright;
-  box-shadow: 0px 2px 3px 0px;
+  box-shadow: 3px 3px 7px 0px rgba(0, 0, 0, 0.185);
   margin: 40px 10px;
   padding: 5px;
   // transition: $bouncing-transition-slow;
   position: relative;
 	animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+  border-radius: 10px;
 
   .team-card-title {
     line-height: 30px;
