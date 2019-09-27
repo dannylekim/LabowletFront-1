@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/LabowletFront/static/css/main.e7b3caeb.chunk.css",
-    "main.js": "/LabowletFront/static/js/main.f976900a.chunk.js",
-    "main.js.map": "/LabowletFront/static/js/main.f976900a.chunk.js.map",
-    "runtime~main.js": "/LabowletFront/static/js/runtime~main.78529cff.js",
-    "runtime~main.js.map": "/LabowletFront/static/js/runtime~main.78529cff.js.map",
-    "static/css/2.c0fb76e0.chunk.css": "/LabowletFront/static/css/2.c0fb76e0.chunk.css",
-    "static/js/2.df771b9e.chunk.js": "/LabowletFront/static/js/2.df771b9e.chunk.js",
-    "static/js/2.df771b9e.chunk.js.map": "/LabowletFront/static/js/2.df771b9e.chunk.js.map",
-    "index.html": "/LabowletFront/index.html",
-    "precache-manifest.e18815f849178155aa6dc755aee9c51a.js": "/LabowletFront/precache-manifest.e18815f849178155aa6dc755aee9c51a.js",
-    "service-worker.js": "/LabowletFront/service-worker.js",
-    "static/css/2.c0fb76e0.chunk.css.map": "/LabowletFront/static/css/2.c0fb76e0.chunk.css.map",
-    "static/css/main.e7b3caeb.chunk.css.map": "/LabowletFront/static/css/main.e7b3caeb.chunk.css.map",
-    "static/media/index.scss": "/LabowletFront/static/media/leafy.387e7e35.woff"
+    "main.css": "/static/css/main.5ad9207e.chunk.css",
+    "main.js": "/static/js/main.03797721.chunk.js",
+    "main.js.map": "/static/js/main.03797721.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.49b52def.js",
+    "runtime~main.js.map": "/static/js/runtime~main.49b52def.js.map",
+    "static/css/2.c0fb76e0.chunk.css": "/static/css/2.c0fb76e0.chunk.css",
+    "static/js/2.df771b9e.chunk.js": "/static/js/2.df771b9e.chunk.js",
+    "static/js/2.df771b9e.chunk.js.map": "/static/js/2.df771b9e.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.a97d677f670fcda11bdd8806263f300d.js": "/precache-manifest.a97d677f670fcda11bdd8806263f300d.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.c0fb76e0.chunk.css.map": "/static/css/2.c0fb76e0.chunk.css.map",
+    "static/css/main.5ad9207e.chunk.css.map": "/static/css/main.5ad9207e.chunk.css.map",
+    "static/media/index.scss": "/static/media/leafy.387e7e35.woff"
   }
 }
