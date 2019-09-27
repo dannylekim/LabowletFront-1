@@ -2,7 +2,7 @@
   "name": "labowless",
   "version": "0.9.2",
   "private": true,
-  "homepage": "https://alphakennyn.github.io/LabowletFront/",
+  "homepage": "https://labowless.com",
   "dependencies": {
     "@sentry/browser": "^5.6.3",
     "axios": "^0.19.0",
