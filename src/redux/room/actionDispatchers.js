@@ -254,6 +254,8 @@ const submitWords = (words) => {
       ))
     } catch (err) {
       Sentry.captureException(err);
+      const errMessage = `room::addWord ${err.message}`
+      console.error(errMessage);
       return Promise.reject(err);
     }
   }
