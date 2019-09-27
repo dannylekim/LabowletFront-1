@@ -6,7 +6,12 @@ const state = {
     label: '',
     url: '',
   },
-    debugMode: (process.env.NODE_ENV !== 'production'),
+  debugMode: (process.env.NODE_ENV !== 'production'),
+
+  /**
+   * Feature toggles
+   */
+  createTeamUiToggle: false,
 };
 
 export default state;

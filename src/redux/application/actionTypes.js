@@ -5,6 +5,7 @@ const actionTypes = {
   LOAD_PROGRESS: 'LOAD_PROGRESS',
   RESET_LOAD: 'RESET_LOAD',
   TOGGLE_SERVER: 'TOGGLE_SERVER',
+  SET_FEATURE_TOGGLE: 'SET_FEATURE_TOGGLE',
 }
 
 export default actionTypes;

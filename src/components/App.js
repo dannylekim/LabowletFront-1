@@ -3,6 +3,7 @@ import Switch from 'rc-switch';
 import { useTransition, animated } from 'react-spring';
 import * as Sentry from '@sentry/browser';
 import Swal from 'sweetalert2';
+import * as configcat from "configcat-js";
 
 import HomePage from './visual/HomePage';
 import CreatePage from './visual/CreatePage';
@@ -19,14 +20,21 @@ import '../styles/index.scss';
 import 'rc-switch/assets/index.css';
 
 import Icon from './visual/common/Icon';
+const configCatClient = configcat.createClient("m0PXCEsowy8sKKRXCvxdNw/IU1e1ZWbqUGi-ziFzB364Q");
 
 const App = props => {
+  const { toggleFeature } = props;
   useEffect(() => {
     if (props.application.debugMode && props.application.server.url.length === 0) {
       props.toggleServer();
       props.toggleServer();
     }
   });
+  useEffect(() => {
+    configCatClient.getValue("createTeamUiToggle",  false, value => {
+      toggleFeature('createTeamUiToggle', value);
+    });
+  }, [toggleFeature]);
 
   const manuallyLeave = () => {
     try {
