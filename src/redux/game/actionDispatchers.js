@@ -15,7 +15,7 @@ const updateStatus = (status) => {
 
 const updateContent = (content) => {
   return (dispatch) => dispatch(action.updateContent(content));
-} 
+}
 
 const sendWord = (word = null) => {
   return async (dispatch, getState) => {
@@ -25,7 +25,8 @@ const sendWord = (word = null) => {
       }
       return await getState().user.socket.send(`/server/room/${getState().room.code}/game/skipWord`, {});
     } catch (err) {
-      throw new Error(`Error while guessing word: ${err.message}`);
+      console.error(`Error while guessing word: ${err.message}`);
+      return Promise.reject(err);
     }
     
   }
@@ -40,7 +41,8 @@ const startStep = () => {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/startStep`, {});
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`Error while starting new turn/round: ${err.message}`);
+      console.error(`Error while starting new turn/round: ${err.message}`);
+      return Promise.reject(err);
     }
   }
 }
@@ -57,7 +59,8 @@ const resetGame = () => {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/resetGame`, {});
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`Error while starting new turn/round: ${err.message}`);
+      console.error(`Error while starting new turn/round: ${err.message}`);
+      return Promise.reject(err);
     }
   }
 }
@@ -79,8 +82,8 @@ const leaveRoom = () => {
       }
     } catch (err) {
       Sentry.captureException(err);
-      // throw new Error(`leaving room error: ${err.message}`);
-      throw err;
+      console.error(`Error: leaving room error: ${err.message}`);
+      return Promise.reject(err);
     }
   }
 }
@@ -91,7 +94,8 @@ const giveUpRound = () => {
       return await getState().user.socket.send(`/server/room/${getState().room.code}/game/endTurn`, {});
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`Error while starting giving up: ${err.message}`);
+      console.error(`Error while starting giving up: ${err.message}`);
+      return Promise.reject(err);
     }
   }
 }
@@ -106,7 +110,8 @@ const nextRound = () => {
       await getState().user.socket.send(`/server/room/${getState().room.code}/game/nextRound`, {});
     } catch (err) {
       Sentry.captureException(err);
-      throw new Error(`Error while going to next round: ${err.message}`);
+      console.error(`Error while going to next round: ${err.message}`);
+      return Promise.reject(err);
     }
   }
 }

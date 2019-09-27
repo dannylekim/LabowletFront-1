@@ -202,7 +202,7 @@ const createTeam = (teamName) => {
       }
     } catch (err) {
       Sentry.captureException(err);
-      throw err;
+      return Promise.reject(err);
     }
   }
 }
@@ -223,7 +223,7 @@ const joinTeam = (teamId, teamName) => {
       }
     } catch (err) {
       Sentry.captureException(err);
-      throw err;
+      return Promise.reject(err);
     }
   }
 }
@@ -239,7 +239,7 @@ const lobbyReady = () => {
       await RoomRequests.stageReady(getState().user.token,'setupGame' , null, getState().application.server.url);
     } catch (err) {
       Sentry.captureException(err);
-      throw err;
+      return Promise.reject(err);
     }
   }
 }
@@ -256,7 +256,7 @@ const submitWords = (words) => {
       Sentry.captureException(err);
       const errMessage = `room::addWord ${err.message}`
       console.error(errMessage);
-      throw new Error(errMessage);
+      return Promise.reject(err);
     }
   }
 }
@@ -272,7 +272,7 @@ const wordReady = () => {
       Sentry.captureException(err);
       const errMessage = `room::wordReady ${err.message}`
       console.error(errMessage);
-      throw new Error(errMessage);
+      return Promise.reject(err);
     }
   }
 }
