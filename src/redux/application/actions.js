@@ -19,8 +19,17 @@ const resetLoad = () => {
   }
 }
 
+const setFeatureToggle = (key, value) => {
+  return {
+    type: actionTypes.SET_FEATURE_TOGGLE,
+    value,
+    key,
+  }
+}
+
 export { 
   updatePage,
   loadTo,
   resetLoad,
+  setFeatureToggle,
 };

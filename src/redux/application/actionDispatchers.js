@@ -2,6 +2,7 @@ import {
   updatePage,
   loadTo,
   resetLoad,
+  setFeatureToggle,
 } from './actions';
 import { prod, dev} from '../../config/RESTurl.json';
 
@@ -45,10 +46,13 @@ const toggleServer = () => {
   };
 }
 
+/** 2 - Dynamic Toggle **/
+const toggleFeature = (key, value) => (dispatch) => dispatch(setFeatureToggle(key, value));
 
 export default { 
   updatePage: _updatePage,
   loadTo: _loadTo,
   resetLoad: _resetLoad,
   toggleServer,
+  toggleFeature,
 };
