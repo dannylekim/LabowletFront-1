@@ -39,6 +39,7 @@ export default function (ComposedComponent, connectObject) {
     }, { 
       updatePage: actionDispatchers.updatePage,
       toggleServer: actionDispatchers.toggleServer, 
+      toggleFeature: actionDispatchers.toggleFeature, 
     });
   };
 

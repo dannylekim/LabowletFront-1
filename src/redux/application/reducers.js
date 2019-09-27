@@ -21,8 +21,12 @@ const reducer = (state = initialState, action) => {
           url: action.newServer,
           label: action.serverName
         }
-
       });
+    case actionTypes.SET_FEATURE_TOGGLE:
+      return {
+        ...state,
+        [action.key]: action.value,
+      };
     default:
       return state;
   }

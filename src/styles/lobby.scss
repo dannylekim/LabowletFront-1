@@ -17,6 +17,9 @@
     button {
       border: none;
     }
+    h1 {
+      margin-bottom: 50px;
+    }
   }
 }
 
@@ -24,14 +27,16 @@
   @extend .generic-start-btn;
   background-color: $font-color-bright;
   justify-content: center;
-  border-radius: 100%;
-  width: 50px;
   box-shadow: $subtle-shadow;
   font-weight: bold;
   font-size: medium;
   cursor: pointer;
   padding: 0px;
   color: $text-color;
+  &-legacy{
+    border-radius: 100%;
+    width: 50px;
+  }
 }
 
 .page-footer {
