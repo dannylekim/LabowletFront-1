@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.79946de4.chunk.css",
-    "main.js": "/static/js/main.375069cc.chunk.js",
-    "main.js.map": "/static/js/main.375069cc.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.49b52def.js",
-    "runtime~main.js.map": "/static/js/runtime~main.49b52def.js.map",
-    "static/css/2.c0fb76e0.chunk.css": "/static/css/2.c0fb76e0.chunk.css",
-    "static/js/2.bd2201f1.chunk.js": "/static/js/2.bd2201f1.chunk.js",
-    "static/js/2.bd2201f1.chunk.js.map": "/static/js/2.bd2201f1.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.a61cf53c8ae6683a457a9f5f9c06cbf0.js": "/precache-manifest.a61cf53c8ae6683a457a9f5f9c06cbf0.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.c0fb76e0.chunk.css.map": "/static/css/2.c0fb76e0.chunk.css.map",
-    "static/css/main.79946de4.chunk.css.map": "/static/css/main.79946de4.chunk.css.map",
-    "static/media/index.scss": "/static/media/leafy.387e7e35.woff"
+    "main.css": "/LabowletFront/static/css/main.12cc71aa.chunk.css",
+    "main.js": "/LabowletFront/static/js/main.ebd78d95.chunk.js",
+    "main.js.map": "/LabowletFront/static/js/main.ebd78d95.chunk.js.map",
+    "runtime~main.js": "/LabowletFront/static/js/runtime~main.78529cff.js",
+    "runtime~main.js.map": "/LabowletFront/static/js/runtime~main.78529cff.js.map",
+    "static/css/2.f9fe787b.chunk.css": "/LabowletFront/static/css/2.f9fe787b.chunk.css",
+    "static/js/2.6f99a06c.chunk.js": "/LabowletFront/static/js/2.6f99a06c.chunk.js",
+    "static/js/2.6f99a06c.chunk.js.map": "/LabowletFront/static/js/2.6f99a06c.chunk.js.map",
+    "index.html": "/LabowletFront/index.html",
+    "precache-manifest.344f5d38dd8364dec8d4f73967d72bb8.js": "/LabowletFront/precache-manifest.344f5d38dd8364dec8d4f73967d72bb8.js",
+    "service-worker.js": "/LabowletFront/service-worker.js",
+    "static/css/2.f9fe787b.chunk.css.map": "/LabowletFront/static/css/2.f9fe787b.chunk.css.map",
+    "static/css/main.12cc71aa.chunk.css.map": "/LabowletFront/static/css/main.12cc71aa.chunk.css.map",
+    "static/media/index.scss": "/LabowletFront/static/media/leafy.387e7e35.woff"
   }
 }
