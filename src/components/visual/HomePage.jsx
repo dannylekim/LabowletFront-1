@@ -111,6 +111,7 @@ class Home extends PureComponent {
                 </button>
             </div>
           }
+          <button onClick={() => this.props.updatePage('HOWTOPLAY')}>How to play</button>
         </div>
       </div>
     );

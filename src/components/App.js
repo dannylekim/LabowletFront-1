@@ -13,6 +13,7 @@ import GamePage from './visual/GamePage';
 import ScorePage from './visual/ScorePage';
 import WelcomePage from './visual/WelcomePage';
 import SummaryPage from './visual/SummaryPage';
+import HowToPage from './visual/HowToPage';
 
 import connectToRedux from './ReduxConnector';
 import logoImg from '../assets/images/labowless_logo.png';
@@ -98,6 +99,11 @@ const App = props => {
           title: 'SUMMARY',
           component: <SummaryPage />,
         };
+      case 'HOWTOPLAY':
+        return {
+          title: 'How to play',
+          component: <HowToPage />,
+        };
       default:
         return {
           component: (
@@ -118,13 +124,21 @@ const App = props => {
     leave: { opacity: 0, transform: 'rotateY(-100deg)', transformOrigin: 'right', position: 'absolute', visibility: 'hidden' },
   });
 
+  const displayBack = (page) => {
+    const pageWithBackOption = [
+      'CREATE',
+      'LOBBY',
+      'HOWTOPLAY'
+    ]
+    return pageWithBackOption.includes(page);
+  }
+
   const transitions = transitions_swing;
   return (
     <div className="page">
       {props.application.page !== '' && (
         <div className="navbar" style={{ display: 'flex' }}>
-          {props.application.page === 'CREATE' ||
-          props.application.page === 'LOBBY' ? (
+          {displayBack(props.application.page) ? (
             <div className="back-button" onClick={() => manuallyLeave()}>
               <Icon iconId={100} size={35} fill={`#fff`} />
             </div>
