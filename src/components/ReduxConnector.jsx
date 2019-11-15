@@ -12,6 +12,16 @@ import actionDispatchers from '../redux/actionDispatchers';
  * @param {Object} connectObject
  * @param {Object} connectObject.states - Array of states to map
  * @param {Object} connectObject.actions - Array of actions to map
+ *
+ * @example 
+ *
+ * // states and actionsDispatchers are imported via names for simplicity
+ * const connectObject = {
+ *   states: ['user', 'room'],
+ *   actions: ['leaveRoom', 'reconnect'], 
+ * };
+ *
+ * export default connectToRedux(App, connectObject);
  */
 export default function (ComposedComponent, connectObject) {
 
